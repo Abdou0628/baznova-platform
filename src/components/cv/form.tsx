@@ -317,7 +317,7 @@ export default function CVForm() {
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <div className="flex flex-col items-center">
-              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png?v=3" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">{t(language, 'poweredByIa')}</span>
             </div>
             <span className="font-semibold text-foreground hidden sm:inline">{t(language, 'siteTitle')}</span>

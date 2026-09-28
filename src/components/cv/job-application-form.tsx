@@ -146,7 +146,7 @@ export default function JobApplicationForm() {
               <ArrowLeft className="w-4 h-4" />
               {t(language, 'jaBackPreview')}
             </Button>
-            <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
+            <Image src="/baznova-logo.png?v=3" alt="BazNova" width={32} height={32} className="rounded-lg" />
           </div>
         </header>
         <main className="flex-1 flex items-center justify-center px-4">
@@ -186,7 +186,7 @@ export default function JobApplicationForm() {
               <span className="hidden sm:inline">{t(language, 'jaBackPreview')}</span>
             </Button>
             <div className="flex items-center gap-2">
-              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png?v=3" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <span className="font-semibold text-foreground text-sm">{t(language, 'siteTitle')}</span>
             </div>
           </div>

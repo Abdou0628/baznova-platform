@@ -361,7 +361,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex flex-col items-center">
-              <Image src="/baznova-logo-new.png" alt="BazNova" width={36} height={36} className="rounded-lg" />
+              <Image src="/baznova-logo-new.png?v=3" alt="BazNova" width={36} height={36} className="rounded-lg" />
               <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">POWERED BY IA</span>
             </div>
             <span className="text-lg font-bold text-foreground">{t(language, 'siteTitle')}</span>
@@ -487,7 +487,7 @@ export default function Landing() {
                 className="mb-6"
               >
                 <div className="flex flex-col items-center">
-                  <Image src="/baznova-logo-new.png" alt="BazNova" width={96} height={96} className="rounded-2xl shadow-lg shadow-emerald-600/20 mx-auto ring-2 ring-emerald-200/50" />
+                  <Image src="/baznova-logo-new.png?v=3" alt="BazNova" width={96} height={96} className="rounded-2xl shadow-lg shadow-emerald-600/20 mx-auto ring-2 ring-emerald-200/50" />
                   <Badge className="mt-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 px-3 py-0.5 text-[10px] font-bold tracking-wider">SaaS + SaaS LABOUR</Badge>
                 </div>
               </motion.div>
