@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withAuth } from '@/lib/hnsa'
-import { getAvailableProviders, PLAN_PRICES, formatCents, type Currency, type HireNovaPlan } from '@/lib/stripe'
+import { getAvailableProviders, PLAN_PRICES, formatCents, type Currency, type BazNovaPlan } from '@/lib/stripe'
 import { isPaymobConfigured } from '@/lib/paymob'
 import { STORE_ID } from '@/lib/lemonsqueezy'
 
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const pricing: Record<string, Record<string, { amount: number; label: string; available: boolean; provider: string }>> = {}
     for (const currency of ['eur', 'usd', 'gbp', 'mad'] as Currency[]) {
       pricing[currency] = {}
-      for (const plan of ['starter', 'pro', 'career_plus', 'employer', 'annual'] as HireNovaPlan[]) {
+      for (const plan of ['starter', 'pro', 'career_plus', 'employer', 'annual'] as BazNovaPlan[]) {
         const price = PLAN_PRICES[currency]?.[plan]
         if (price) {
           let available = true

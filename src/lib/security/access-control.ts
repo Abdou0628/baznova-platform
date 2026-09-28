@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Zero Trust Access Control
+ * BazNova Security Architecture (HNSA) — Zero Trust Access Control
  *
  * Implements CTO Pillar #2: Zero Trust
  *

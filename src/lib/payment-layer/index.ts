@@ -5,9 +5,9 @@
  *
  * Usage:
  * ```ts
- * import { hirenovaCheckout, type CheckoutRequest, type CheckoutResponse } from '@/lib/payment-layer';
+ * import { baznovaCheckout, type CheckoutRequest, type CheckoutResponse } from '@/lib/payment-layer';
  *
- * const result = await hirenovaCheckout({
+ * const result = await baznovaCheckout({
  *   userId: 'user_123',
  *   planId: 'pro',
  *   amount: 1900,
@@ -23,7 +23,7 @@
  */
 
 // ── Core Functions ──────────────────────────────────────────────────────────
-export { hirenovaCheckout, hirenovaVerifyPayment, hirenovaWebhook, hirenovaRefund } from './checkout';
+export { baznovaCheckout, baznovaVerifyPayment, baznovaWebhook, baznovaRefund } from './checkout';
 
 // ── Types ───────────────────────────────────────────────────────────────────
 export type {

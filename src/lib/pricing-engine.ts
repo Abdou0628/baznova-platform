@@ -1,4 +1,4 @@
-// ─── HireNova Centralized Pricing Engine ──────────────────────────────────
+// ─── BazNova Centralized Pricing Engine ──────────────────────────────────
 // Single source of truth for ALL prices (B2C bundles, modules, B2B tiers).
 // This file is server-only — the frontend consumes it via /api/pricing.
 
@@ -102,25 +102,25 @@ export const ANNUAL_SAVINGS_PERCENT = 17
 
 const B2C_BUNDLES: B2CBundle[] = [
   {
-    id: 'hirenova_start',
+    id: 'baznova_start',
     name: 'HIRENOVA START',
     monthlyEur: 9.90,
     modules: ['CV', 'ATS'],
   },
   {
-    id: 'hirenova_career',
+    id: 'baznova_career',
     name: 'HIRENOVA CAREER',
     monthlyEur: 19.90,
     modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'INTERVIEW', 'LINKEDIN', 'CAREER'],
   },
   {
-    id: 'hirenova_professional',
+    id: 'baznova_professional',
     name: 'HIRENOVA PROFESSIONNEL',
     monthlyEur: 29.90,
     modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE'],
   },
   {
-    id: 'hirenova_ai_power',
+    id: 'baznova_ai_power',
     name: 'HIRENOVA AI POWER',
     monthlyEur: 39.90,
     modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE', 'Intelligence'],

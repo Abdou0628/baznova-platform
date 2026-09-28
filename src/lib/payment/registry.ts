@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — Provider Registry
+ * BazNova Payment Orchestrator — Provider Registry
  *
  * Manages available payment providers and routing logic.
  * Seeds the database with default providers and selects the best

@@ -1,4 +1,4 @@
-// ─── HireNova Conversion Engine ──────────────────────────────────────
+// ─── BazNova Conversion Engine ──────────────────────────────────────
 // Goal-based bundle recommender + Value Calculator.
 // Maps user goals → optimal bundle → value proposition.
 // ──────────────────────────────────────────────────────────────────────────────
@@ -70,25 +70,25 @@ export interface GoalOption {
 
 const B2C_BUNDLES = [
   {
-    id: 'hirenova_start',
+    id: 'baznova_start',
     name: 'HIRENOVA START',
     monthlyEur: 9.90,
     modules: ['CV', 'ATS'],
   },
   {
-    id: 'hirenova_career',
+    id: 'baznova_career',
     name: 'HIRENOVA CAREER',
     monthlyEur: 19.90,
     modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'INTERVIEW', 'LINKEDIN', 'CAREER'],
   },
   {
-    id: 'hirenova_professional',
+    id: 'baznova_professional',
     name: 'HIRENOVA PROFESSIONNEL',
     monthlyEur: 29.90,
     modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE'],
   },
   {
-    id: 'hirenova_ai_power',
+    id: 'baznova_ai_power',
     name: 'HIRENOVA AI POWER',
     monthlyEur: 39.90,
     modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE', 'Intelligence'],
@@ -117,13 +117,13 @@ const GOAL_BUNDLE_MAP: Record<UserGoal, GoalRecommendation> = {
   create_cv: {
     goal: 'create_cv',
     primaryBundle: {
-      id: 'hirenova_start',
+      id: 'baznova_start',
       name: 'HIRENOVA START',
       monthlyEur: 9.90,
       reason: 'Le bundle idéal pour créer un CV professionnel et vérifier sa compatibilité ATS.',
     },
     alternativeBundle: {
-      id: 'hirenova_career',
+      id: 'baznova_career',
       name: 'HIRENOVA CAREER',
       monthlyEur: 19.90,
       reason: 'Ajoutez la recherche d\'emploi, les entretiens et l\'optimisation LinkedIn.',
@@ -141,13 +141,13 @@ const GOAL_BUNDLE_MAP: Record<UserGoal, GoalRecommendation> = {
   find_job: {
     goal: 'find_job',
     primaryBundle: {
-      id: 'hirenova_career',
+      id: 'baznova_career',
       name: 'HIRENOVA CAREER',
       monthlyEur: 19.90,
       reason: 'Le bundle recommandé pour maximiser vos chances de trouver un emploi.',
     },
     alternativeBundle: {
-      id: 'hirenova_professional',
+      id: 'baznova_professional',
       name: 'HIRENOVA PROFESSIONNEL',
       monthlyEur: 29.90,
       reason: 'Accédez au coaching, à la formation et à la marketplace freelance.',
@@ -166,13 +166,13 @@ const GOAL_BUNDLE_MAP: Record<UserGoal, GoalRecommendation> = {
   prepare_interview: {
     goal: 'prepare_interview',
     primaryBundle: {
-      id: 'hirenova_career',
+      id: 'baznova_career',
       name: 'HIRENOVA CAREER',
       monthlyEur: 19.90,
       reason: 'Préparez-vous aux entretiens avec le simulateur IA et la coaching.',
     },
     alternativeBundle: {
-      id: 'hirenova_professional',
+      id: 'baznova_professional',
       name: 'HIRENOVA PROFESSIONNEL',
       monthlyEur: 29.90,
       reason: 'Ajoutez un coach IA dédié et des formations ciblées.',
@@ -190,13 +190,13 @@ const GOAL_BUNDLE_MAP: Record<UserGoal, GoalRecommendation> = {
   develop_career: {
     goal: 'develop_career',
     primaryBundle: {
-      id: 'hirenova_professional',
+      id: 'baznova_professional',
       name: 'HIRENOVA PROFESSIONNEL',
       monthlyEur: 29.90,
       reason: 'Best Value — Tous les outils pour développer votre carrière au maximum.',
     },
     alternativeBundle: {
-      id: 'hirenova_ai_power',
+      id: 'baznova_ai_power',
       name: 'HIRENOVA AI POWER',
       monthlyEur: 39.90,
       reason: 'Ajoutez l\'IA avancée et le Job Copilot pour une expérience premium.',
@@ -215,13 +215,13 @@ const GOAL_BUNDLE_MAP: Record<UserGoal, GoalRecommendation> = {
   freelance: {
     goal: 'freelance',
     primaryBundle: {
-      id: 'hirenova_professional',
+      id: 'baznova_professional',
       name: 'HIRENOVA PROFESSIONNEL',
       monthlyEur: 29.90,
       reason: 'Accédez à la marketplace freelance, au coaching et aux formations.',
     },
     alternativeBundle: {
-      id: 'hirenova_career',
+      id: 'baznova_career',
       name: 'HIRENOVA CAREER',
       monthlyEur: 19.90,
       reason: 'Si vous avez juste besoin des outils de base pour vos missions.',
@@ -239,13 +239,13 @@ const GOAL_BUNDLE_MAP: Record<UserGoal, GoalRecommendation> = {
   international: {
     goal: 'international',
     primaryBundle: {
-      id: 'hirenova_professional',
+      id: 'baznova_professional',
       name: 'HIRENOVA PROFESSIONNEL',
       monthlyEur: 29.90,
       reason: 'Accédez aux offres mondiales, à la mobilité internationale et au coaching.',
     },
     alternativeBundle: {
-      id: 'hirenova_career',
+      id: 'baznova_career',
       name: 'HIRENOVA CAREER',
       monthlyEur: 19.90,
       reason: 'Pour les offres internationales sans les outils de mobilité avancés.',

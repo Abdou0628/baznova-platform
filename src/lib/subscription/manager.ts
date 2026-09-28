@@ -1,5 +1,5 @@
 /**
- * HireNova Subscription Manager
+ * BazNova Subscription Manager
  *
  * Core subscription lifecycle: activate, cancel, process webhooks,
  * query subscription info and history.
@@ -8,7 +8,7 @@
 import { db } from '@/lib/db'
 import { resolveGateway } from '@/lib/payment-gateway'
 import type { Currency, GatewayId } from '@/lib/payment-gateway'
-import type { HireNovaPlan, SubscriptionEvent } from './types'
+import type { BazNovaPlan, SubscriptionEvent } from './types'
 import { getPlanFeatures } from './plans'
 
 // ─── In-memory event log (until Prisma model exists) ───
@@ -43,13 +43,13 @@ function currentMonthKey(): number {
  * Determine the event type from the plan transition.
  */
 function eventTypeForTransition(
-  previousPlan: HireNovaPlan,
-  newPlan: HireNovaPlan,
+  previousPlan: BazNovaPlan,
+  newPlan: BazNovaPlan,
 ): SubscriptionEvent['type'] {
   if (previousPlan === newPlan) return 'activation'
   if (newPlan === 'free') return 'cancellation'
   // Very rough tier ordering for upgrade/downgrade detection
-  const tierOrder: Record<HireNovaPlan, number> = {
+  const tierOrder: Record<BazNovaPlan, number> = {
     free: 0,
     api: 0,
     starter: 1,
@@ -72,7 +72,7 @@ function eventTypeForTransition(
 export async function activateSubscription(params: {
   userId: string
   email: string
-  planId: HireNovaPlan
+  planId: BazNovaPlan
   currency: Currency
   gatewayId?: string
   transactionId?: string
@@ -85,7 +85,7 @@ export async function activateSubscription(params: {
     return { success: false, error: 'User not found' }
   }
 
-  const previousPlan = user.plan as HireNovaPlan
+  const previousPlan = user.plan as BazNovaPlan
   const eventType = eventTypeForTransition(previousPlan, planId)
 
   // Determine if we should reset counters (upgrading)
@@ -156,7 +156,7 @@ export async function cancelSubscription(
   }
 
   // Downgrade to free
-  const previousPlan = user.plan as HireNovaPlan
+  const previousPlan = user.plan as BazNovaPlan
   await db.user.update({
     where: { id: userId },
     data: {
@@ -190,7 +190,7 @@ export async function cancelSubscription(
  */
 export async function processPaymentConfirmation(params: {
   userId: string
-  planId: HireNovaPlan
+  planId: BazNovaPlan
   gatewayId: string
   transactionId: string
 }): Promise<{ success: boolean; error?: string }> {
@@ -237,7 +237,7 @@ export async function processPaymentFailure(params: {
     return { success: false, error: 'User not found' }
   }
 
-  const currentPlan = user.plan as HireNovaPlan
+  const currentPlan = user.plan as BazNovaPlan
 
   const event: SubscriptionEvent = {
     id: generateEventId(),
@@ -263,7 +263,7 @@ export async function processPaymentFailure(params: {
  * Get full subscription info for a user.
  */
 export async function getSubscriptionInfo(userId: string): Promise<{
-  planId: HireNovaPlan
+  planId: BazNovaPlan
   planFeatures: ReturnType<typeof getPlanFeatures>
   isActive: boolean
   products: string[]
@@ -271,7 +271,7 @@ export async function getSubscriptionInfo(userId: string): Promise<{
   const user = await db.user.findUnique({ where: { id: userId } })
   if (!user) return null
 
-  const planId = user.plan as HireNovaPlan
+  const planId = user.plan as BazNovaPlan
   const planFeatures = getPlanFeatures(planId)
 
   return {

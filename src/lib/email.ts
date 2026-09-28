@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import { t, type CVLanguage } from './i18n'
 
 /**
- * HireNova Email Service
+ * BazNova Email Service
  * 
  * Sends transactional emails via SMTP (nodemailer).
  * Configure via env vars:
@@ -16,8 +16,8 @@ const SMTP_HOST = process.env.SMTP_HOST || ''
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10)
 const SMTP_USER = process.env.SMTP_USER || ''
 const SMTP_PASS = process.env.SMTP_PASS || ''
-const EMAIL_FROM = process.env.EMAIL_FROM || 'HireNova <noreply@hirenova.com>'
-const APP_URL = process.env.NEXTAUTH_URL || 'https://hirenova.com'
+const EMAIL_FROM = process.env.EMAIL_FROM || 'BazNova <noreply@baznova.com>'
+const APP_URL = process.env.NEXTAUTH_URL || 'https://baznova.com'
 
 let transporter: nodemailer.Transporter | null = null
 
@@ -85,7 +85,7 @@ function emailWrapper(content: string, previewText: string, lang: string = 'fr')
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="preview" content="${previewText}">
-  <title>HireNova</title>
+  <title>BazNova</title>
 </head>
 <body style="margin:0;padding:0;background:#f8fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#1e293b;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafb;min-height:100vh;">
@@ -95,7 +95,7 @@ function emailWrapper(content: string, previewText: string, lang: string = 'fr')
           <!-- Header -->
           <tr>
             <td style="background:linear-gradient(135deg,#10b981 0%,#059669 100%);padding:32px 40px;text-align:center;">
-              <h1 style="color:#ffffff;font-size:28px;font-weight:800;margin:0;letter-spacing:-0.5px;">HireNova</h1>
+              <h1 style="color:#ffffff;font-size:28px;font-weight:800;margin:0;letter-spacing:-0.5px;">BazNova</h1>
               <p style="color:#d1fae5;font-size:13px;margin:4px 0 0 0;font-weight:500;">by E-Society 2050</p>
             </td>
           </tr>
@@ -109,19 +109,19 @@ function emailWrapper(content: string, previewText: string, lang: string = 'fr')
           <tr>
             <td style="padding:24px 40px;background:#f8fafb;border-top:1px solid #e2e8f0;">
               <p style="font-size:12px;color:#64748b;margin:0 0 8px 0;line-height:1.6;">
-                ${lang === 'en' ? 'You are receiving this email because you have a HireNova account.' :
-                  lang === 'ar' ? 'تتلقى هذا البريد الإلكتروني لأن لديك حسابًا على HireNova.' :
-                  lang === 'es' ? 'Recibes este email porque tienes una cuenta HireNova.' :
-                  'Vous recevez cet email car vous avez un compte HireNova.'}<br>
-                <a href="${APP_URL}" style="color:#059669;">${lang === 'en' ? 'Visit HireNova' : lang === 'ar' ? 'زيارة HireNova' : lang === 'es' ? 'Visitar HireNova' : 'Visiter HireNova'}</a> · 
+                ${lang === 'en' ? 'You are receiving this email because you have a BazNova account.' :
+                  lang === 'ar' ? 'تتلقى هذا البريد الإلكتروني لأن لديك حسابًا على BazNova.' :
+                  lang === 'es' ? 'Recibes este email porque tienes una cuenta BazNova.' :
+                  'Vous recevez cet email car vous avez un compte BazNova.'}<br>
+                <a href="${APP_URL}" style="color:#059669;">${lang === 'en' ? 'Visit BazNova' : lang === 'ar' ? 'زيارة BazNova' : lang === 'es' ? 'Visitar BazNova' : 'Visiter BazNova'}</a> · 
                 <a href="${APP_URL}/?support=1" style="color:#059669;">${lang === 'en' ? 'Support' : lang === 'ar' ? 'الدعم' : lang === 'es' ? 'Soporte' : 'Support'}</a> · 
                 <a href="${APP_URL}/?unsubscribe=1" style="color:#94a3b8;">${lang === 'en' ? 'Unsubscribe' : lang === 'ar' ? 'إلغاء الاشتراك' : lang === 'es' ? 'Darse de baja' : 'Se désabonner'}</a>
               </p>
               <p style="font-size:11px;color:#94a3b8;margin:0;">
-                ${lang === 'en' ? '© 2026 E-Society 2050 — HireNova. All rights reserved.' :
-                  lang === 'ar' ? '© 2026 E-Society 2050 — HireNova. جميع الحقوق محفوظة.' :
-                  lang === 'es' ? '© 2026 E-Society 2050 — HireNova. Todos los derechos reservados.' :
-                  '© 2026 E-Society 2050 — HireNova. Tous droits réservés.'}
+                ${lang === 'en' ? '© 2026 E-Society 2050 — BazNova. All rights reserved.' :
+                  lang === 'ar' ? '© 2026 E-Society 2050 — BazNova. جميع الحقوق محفوظة.' :
+                  lang === 'es' ? '© 2026 E-Society 2050 — BazNova. Todos los derechos reservados.' :
+                  '© 2026 E-Society 2050 — BazNova. Tous droits réservés.'}
               </p>
             </td>
           </tr>
@@ -148,7 +148,7 @@ function ctaButton(label: string, url: string): string {
 export const emailTemplates = {
   // Day 0 — Welcome
   welcome: (name: string) => ({
-    subject: '🎉 Bienvenue sur HireNova — Votre carrière démarre ici !',
+    subject: '🎉 Bienvenue sur BazNova — Votre carrière démarre ici !',
     html: emailWrapper(`
       <h2 style="font-size:22px;font-weight:700;margin:0 0 12px 0;color:#0f172a;">Bonjour ${name} 👋</h2>
       <p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">
@@ -163,13 +163,13 @@ export const emailTemplates = {
         <li>📄 <strong>Créer votre CV professionnel</strong> en 60 secondes avec l'IA</li>
         <li>🎯 <strong>Analyser votre score ATS</strong> pour passer les filtres de recrutement</li>
         <li>💼 <strong>Explorer les offres d'emploi</strong> locales et internationales</li>
-        <li>🌍 <strong>Découvrir HireNova IA Global</strong> — 40+ pays avec visa & relocation</li>
+        <li>🌍 <strong>Découvrir BazNova IA Global</strong> — 40+ pays avec visa & relocation</li>
       </ul>
       ${ctaButton('Créer mon CV maintenant', `${APP_URL}`)}
       <p style="font-size:13px;color:#94a3b8;margin:16px 0 0 0;">
         Astuce : choisissez votre persona (Étudiant, Professionnel, Expatrié...) pour un CV personnalisé.
       </p>
-    `, 'Bienvenue sur HireNova — créez votre CV IA en 60 secondes'),
+    `, 'Bienvenue sur BazNova — créez votre CV IA en 60 secondes'),
   }),
 
   // Day 1 — First CV guidance
@@ -219,7 +219,7 @@ export const emailTemplates = {
         <li><strong>Acronymes dévelopés</strong> — "CRM (Customer Relationship Management)"</li>
       </ol>
       <p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">
-        Avec HireNova IA ATS, obtenez un <strong>score sur 100</strong> et des suggestions personnalisées
+        Avec BazNova IA ATS, obtenez un <strong>score sur 100</strong> et des suggestions personnalisées
         pour améliorer votre CV.
       </p>
       ${ctaButton('Analyser mon score ATS', `${APP_URL}`)}
@@ -231,24 +231,24 @@ export const emailTemplates = {
 
   // Day 7 — Discover ecosystem
   ecosystem: (name: string) => ({
-    subject: '🌍 Découvrez tout l\u2019écosystème HireNova',
+    subject: '🌍 Découvrez tout l\u2019écosystème BazNova',
     html: emailWrapper(`
       <h2 style="font-size:22px;font-weight:700;margin:0 0 12px 0;color:#0f172a;">${name}, explorez nos 6 modules 🚀</h2>
       <p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">
-        HireNova n'est pas qu'un générateur de CV. C'est un <strong>écosystème complet</strong>
+        BazNova n'est pas qu'un générateur de CV. C'est un <strong>écosystème complet</strong>
         pour gérer votre carrière à l'international :
       </p>
       <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0;">
         <tr>
           <td width="50%" style="padding:8px;vertical-align:top;">
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;">
-              <strong style="color:#15803d;font-size:14px;">📄 HireNova IA CV</strong>
+              <strong style="color:#15803d;font-size:14px;">📄 BazNova IA CV</strong>
               <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">CV IA en 60 secondes, 4 langues</p>
             </div>
           </td>
           <td width="50%" style="padding:8px;vertical-align:top;">
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;">
-              <strong style="color:#15803d;font-size:14px;">🎯 HireNova IA ATS</strong>
+              <strong style="color:#15803d;font-size:14px;">🎯 BazNova IA ATS</strong>
               <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">Score ATS sur 100 + conseils</p>
             </div>
           </td>
@@ -256,13 +256,13 @@ export const emailTemplates = {
         <tr>
           <td width="50%" style="padding:8px;vertical-align:top;">
             <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:16px;">
-              <strong style="color:#0e7490;font-size:14px;">💼 HireNova IA Jobs</strong>
+              <strong style="color:#0e7490;font-size:14px;">💼 BazNova IA Jobs</strong>
               <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">Marketplace d'emplois</p>
             </div>
           </td>
           <td width="50%" style="padding:8px;vertical-align:top;">
             <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:16px;">
-              <strong style="color:#0e7490;font-size:14px;">🌍 HireNova IA Global</strong>
+              <strong style="color:#0e7490;font-size:14px;">🌍 BazNova IA Global</strong>
               <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">40+ pays, visa & relocation</p>
             </div>
           </td>
@@ -270,13 +270,13 @@ export const emailTemplates = {
         <tr>
           <td width="50%" style="padding:8px;vertical-align:top;">
             <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:16px;">
-              <strong style="color:#7e22ce;font-size:14px;">✈️ HireNova IA MOBILITY</strong>
+              <strong style="color:#7e22ce;font-size:14px;">✈️ BazNova IA MOBILITY</strong>
               <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">OCR + adaptation CV par pays</p>
             </div>
           </td>
           <td width="50%" style="padding:8px;vertical-align:top;">
             <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:16px;">
-              <strong style="color:#7e22ce;font-size:14px;">🔌 HireNova IA API</strong>
+              <strong style="color:#7e22ce;font-size:14px;">🔌 BazNova IA API</strong>
               <p style="font-size:12px;color:#475569;margin:4px 0 0 0;">Intégration développeur REST</p>
             </div>
           </td>
@@ -284,18 +284,18 @@ export const emailTemplates = {
       </table>
       ${ctaButton('Explorer l\'écosystème', `${APP_URL}`)}
       <p style="font-size:13px;color:#94a3b8;margin:12px 0 0 0;">
-        💡 Astuce : pour la mobilité internationale, HireNova IA MOBILITY adapte votre CV aux standards de 12 pays.
+        💡 Astuce : pour la mobilité internationale, BazNova IA MOBILITY adapte votre CV aux standards de 12 pays.
       </p>
-    `, 'Découvrez les 6 modules de l\'écosystème HireNova'),
+    `, 'Découvrez les 6 modules de l\'écosystème BazNova'),
   }),
 
   // Day 14 — Pro upgrade offer
   proOffer: (name: string) => ({
     subject: '⭐ Passez Pro : -30% sur votre abonnement (offre de bienvenue)',
     html: emailWrapper(`
-      <h2 style="font-size:22px;font-weight:700;margin:0 0 12px 0;color:#0f172a;">${name}, débloquez HireNova Pro ⚡</h2>
+      <h2 style="font-size:22px;font-weight:700;margin:0 0 12px 0;color:#0f172a;">${name}, débloquez BazNova Pro ⚡</h2>
       <p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">
-        Vous avez testé HireNova ? Passez au niveau supérieur avec <strong>HireNova Pro</strong>
+        Vous avez testé BazNova ? Passez au niveau supérieur avec <strong>BazNova Pro</strong>
         et profitez de <strong style="color:#dc2626;">-30% sur votre premier mois</strong> (offre de bienvenue).
       </p>
       <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0;background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border-radius:12px;">
@@ -313,7 +313,7 @@ export const emailTemplates = {
         <li>✅ 4 langues : FR, EN, AR, ES</li>
         <li>✅ 3 templates premium</li>
         <li>✅ Analyses ATS illimitées</li>
-        <li>✅ HireNova IA Global complet (40+ pays)</li>
+        <li>✅ BazNova IA Global complet (40+ pays)</li>
         <li>✅ Lettre de motivation IA illimitée</li>
         <li>✅ Export PDF + Word</li>
       </ul>
@@ -321,7 +321,7 @@ export const emailTemplates = {
       <p style="font-size:13px;color:#94a3b8;margin:12px 0 0 0;">
         ⏰ Offre limitée — valable 7 jours seulement. Satisfaction garantie ou remboursé.
       </p>
-    `, 'Offre de bienvenue : -30% sur HireNova Pro'),
+    `, 'Offre de bienvenue : -30% sur BazNova Pro'),
   }),
 }
 

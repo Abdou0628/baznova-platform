@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — Public API
+ * BazNova Payment Orchestrator — Public API
  *
  * Re-exports everything from the payment module for convenient imports.
  *

@@ -361,7 +361,7 @@ export default function PersonaForm() {
       <footer className="border-t py-6 px-4 sm:px-6 bg-white mt-auto">
         <div className="max-w-2xl mx-auto flex flex-col items-center gap-2 text-sm text-muted-foreground">
           <p>
-            {t(language, 'footerText')} &copy; 2026 HireNova —{' '}
+            {t(language, 'footerText')} &copy; 2026 BazNova —{' '}
             <span className="font-medium text-foreground">Abdellah Bazhani</span>
           </p>
           <button

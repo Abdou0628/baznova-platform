@@ -1,8 +1,8 @@
 /**
- * HireNova Subscription Management — Core Types
+ * BazNova Subscription Management — Core Types
  */
 
-export type HireNovaPlan =
+export type BazNovaPlan =
   | 'free'
   | 'starter'
   | 'pro'
@@ -14,7 +14,7 @@ export type HireNovaPlan =
   | 'lifetime'
 
 export interface PlanFeatures {
-  planId: HireNovaPlan
+  planId: BazNovaPlan
   cvLimit: number // -1 = unlimited
   clLimit: number
   atsAccess: 'none' | 'basic' | 'detailed'
@@ -22,7 +22,7 @@ export interface PlanFeatures {
   formats: ('pdf' | 'word')[]
   watermark: boolean
   prioritySupport: boolean
-  products: string[] // which HireNova products are accessible
+  products: string[] // which BazNova products are accessible
 }
 
 export interface AccessCheckResult {
@@ -30,7 +30,7 @@ export interface AccessCheckResult {
   reason?: string
   remaining: number
   limit: number
-  planId: HireNovaPlan
+  planId: BazNovaPlan
 }
 
 export interface SubscriptionEvent {
@@ -44,8 +44,8 @@ export interface SubscriptionEvent {
     | 'payment_confirmed'
     | 'payment_failed'
     | 'refund'
-  previousPlan: HireNovaPlan
-  newPlan: HireNovaPlan
+  previousPlan: BazNovaPlan
+  newPlan: BazNovaPlan
   gatewayId: string
   transactionId?: string
   timestamp: string

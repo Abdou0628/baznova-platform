@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION_FR,
   keywords: [
     // Core
-    'HireNova', 'E-Society 2050', 'plateforme IA gestion carrière',
+    'BazNova', 'E-Society 2050', 'plateforme IA gestion carrière',
     // Career
     'gestion carrière', 'coaching carrière IA', 'orientation professionnelle',
     'préparation entretien', 'coaching IA', 'plan de carrière',
@@ -112,9 +112,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/hirenova-logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/baznova-logo-new.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: [{ url: '/hirenova-logo.png' }],
+    apple: [{ url: '/baznova-logo-new.png' }],
   },
   verification: {
     google: 'google-site-verification-code',
@@ -140,15 +141,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              name: 'HireNova',
-              alternateName: 'HireNova by E-Society 2050',
+              name: 'BazNova',
+              alternateName: 'BazNova by E-Society 2050',
               url: SITE_URL,
-              logo: `${SITE_URL}/hirenova-logo.png`,
+              logo: `${SITE_URL}/baznova-logo.png`,
               description: SITE_DESCRIPTION_FR,
               sameAs: [
-                'https://twitter.com/hirenova_ai',
-                'https://linkedin.com/company/hirenova',
-                'https://instagram.com/hirenova_ai',
+                'https://twitter.com/baznova_ai',
+                'https://linkedin.com/company/baznova',
+                'https://instagram.com/baznova_ai',
               ],
               contactPoint: {
                 '@type': 'ContactPoint',
@@ -169,7 +170,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'SoftwareApplication',
-              name: 'HireNova',
+              name: 'BazNova',
               applicationCategory: 'BusinessApplication',
               operatingSystem: 'Web',
               offers: [
@@ -220,7 +221,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebSite',
-              name: 'HireNova',
+              name: 'BazNova',
               url: SITE_URL,
               potentialAction: {
                 '@type': 'SearchAction',

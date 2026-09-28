@@ -64,7 +64,7 @@ async function llmClassify(message: string, language: CVLanguage): Promise<{
     messages: [
       {
         role: 'system',
-        content: `Tu es le CTO Principal de HireNova IA, l'orchestrateur général. Tu analyses les demandes et les routes vers les bons agents.
+        content: `Tu es le CTO Principal de BazNova IA, l'orchestrateur général. Tu analyses les demandes et les routes vers les bons agents.
 ${langPrompt[language]}
 
 Agents disponibles:

@@ -21,7 +21,7 @@ const sections = [
     content: (
       <p className="text-muted-foreground">
         Les présentes Conditions Générales d&rsquo;Utilisation (CGU) régissent l&rsquo;utilisation de la plateforme
-        HireNova (hirenova.com) et de l&rsquo;ensemble de ses services. Toute utilisation de la plateforme implique
+        BazNova (baznova.com) et de l&rsquo;ensemble de ses services. Toute utilisation de la plateforme implique
         l&rsquo;acceptation sans réserve des présentes CGU.
       </p>
     ),
@@ -50,7 +50,7 @@ const sections = [
           <li>Ne pas diffuser de contenus illicites, diffamatoires ou contraires à l&rsquo;ordre public</li>
           <li>Ne pas tenter d&rsquo;interférer avec le bon fonctionnement technique du site</li>
           <li>Ne pas utiliser de robots, scrapers ou outils automatisés sans autorisation</li>
-          <li>Respecter les droits de propriété intellectuelle de HireNova et de tiers</li>
+          <li>Respecter les droits de propriété intellectuelle de BazNova et de tiers</li>
         </ul>
       </div>
     ),
@@ -60,11 +60,11 @@ const sections = [
     title: '4. Services liés à l\'IA',
     content: (
       <div className="space-y-2 text-muted-foreground">
-        <p>HireNova utilise l&rsquo;intelligence artificielle pour assister ses utilisateurs. L&rsquo;utilisateur est informé que :</p>
+        <p>BazNova utilise l&rsquo;intelligence artificielle pour assister ses utilisateurs. L&rsquo;utilisateur est informé que :</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>Les contenus générés par l&rsquo;IA constituent une aide à la décision et non un engagement contractuel</li>
           <li>L&rsquo;utilisateur reste seul responsable des documents et informations qu&rsquo;il transmet ou utilise</li>
-          <li>HireNova ne garantit pas l&rsquo;obtention d&rsquo;un emploi ou d&rsquo;un résultat particulier</li>
+          <li>BazNova ne garantit pas l&rsquo;obtention d&rsquo;un emploi ou d&rsquo;un résultat particulier</li>
           <li>Les données transmises aux modèles d&rsquo;IA sont traitées conformément à la Politique de Confidentialité</li>
         </ul>
       </div>
@@ -76,7 +76,7 @@ const sections = [
     content: (
       <div className="space-y-2 text-muted-foreground">
         <p>L&rsquo;utilisateur conserve la propriété de ses données personnelles et documents chargés.</p>
-        <p>HireNova accorde à l&rsquo;utilisateur une licence d&rsquo;utilisation des documents générés par la plateforme, dans le cadre de sa recherche d&rsquo;emploi ou de ses activités professionnelles.</p>
+        <p>BazNova accorde à l&rsquo;utilisateur une licence d&rsquo;utilisation des documents générés par la plateforme, dans le cadre de sa recherche d&rsquo;emploi ou de ses activités professionnelles.</p>
       </div>
     ),
   },
@@ -85,7 +85,7 @@ const sections = [
     title: '6. Sanctions',
     content: (
       <p className="text-muted-foreground">
-        En cas de manquement aux présentes CGU, HireNova se réserve le droit de suspendre ou supprimer le compte
+        En cas de manquement aux présentes CGU, BazNova se réserve le droit de suspendre ou supprimer le compte
         de l&rsquo;utilisateur, sans préjudice de toute action en justice qu&rsquo;elle pourrait engager.
       </p>
     ),
@@ -95,7 +95,7 @@ const sections = [
     title: '7. Modifications',
     content: (
       <p className="text-muted-foreground">
-        HireNova se réserve le droit de modifier les présentes CGU à tout moment. Les modifications seront notifiées
+        BazNova se réserve le droit de modifier les présentes CGU à tout moment. Les modifications seront notifiées
         par email et/ou via un avis sur la plateforme. L&rsquo;utilisation continue de la plateforme après la date
         d&rsquo;entrée en vigueur vaut acceptation des nouvelles CGU.
       </p>
@@ -117,8 +117,8 @@ const sections = [
     title: '9. Contact',
     content: (
       <div className="bg-muted/50 rounded-xl p-4 space-y-2">
-        <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-emerald-600" /> <strong>Support :</strong> <a href="mailto:support@hirenova.com" className="text-emerald-600 hover:underline">support@hirenova.com</a></p>
-        <p className="flex items-center gap-2"><Scale className="w-4 h-4 text-emerald-600" /> <strong>Juridique :</strong> <a href="mailto:legal@hirenova.com" className="text-emerald-600 hover:underline">legal@hirenova.com</a></p>
+        <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-emerald-600" /> <strong>Support :</strong> <a href="mailto:support@baznova.com" className="text-emerald-600 hover:underline">support@baznova.com</a></p>
+        <p className="flex items-center gap-2"><Scale className="w-4 h-4 text-emerald-600" /> <strong>Juridique :</strong> <a href="mailto:legal@baznova.com" className="text-emerald-600 hover:underline">legal@baznova.com</a></p>
       </div>
     ),
   },
@@ -161,7 +161,7 @@ export default function CGUDialog({ open, onClose }: CGUDialogProps) {
             Dernière mise à jour : 25/07/2025
           </p>
           <p className="text-xs text-muted-foreground text-center font-medium">
-            © HireNova Technologies SARL — Tous droits réservés.
+            © BazNova Technologies SARL — Tous droits réservés.
           </p>
         </div>
       </DialogContent>

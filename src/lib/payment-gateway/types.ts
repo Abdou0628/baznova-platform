@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Gateway Abstraction Layer — Core Types
+ * BazNova Payment Gateway Abstraction Layer — Core Types
  *
  * Unified type definitions for all payment gateways.
  * Every gateway adapter must implement the IPaymentGateway interface.

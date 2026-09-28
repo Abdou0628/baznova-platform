@@ -3,7 +3,7 @@
 import posthog from 'posthog-js'
 
 /**
- * HireNova Analytics — PostHog integration
+ * BazNova Analytics — PostHog integration
  *
  * Events tracked:
  * - page_view (automatic)
@@ -21,7 +21,7 @@ import posthog from 'posthog-js'
  * - ecosystem_card_clicked (with module name)
  */
 
-const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY || 'phc_demo_hirenova_key'
+const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY || 'phc_demo_baznova_key'
 const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com'
 
 let isInitialized = false

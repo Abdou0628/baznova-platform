@@ -91,7 +91,7 @@ class PayzoneGateway implements IPaymentGateway {
     //   const session = await client.createPaymentSession({
     //     amount: request.amount,
     //     currency: request.currency,
-    //     merchantReference: `hirenova-${request.planId}-${request.userId}`,
+    //     merchantReference: `baznova-${request.planId}-${request.userId}`,
     //     returnUrl: `${baseUrl}/?checkout=success&plan=${request.planId}&provider=payzone`,
     //     cancelUrl: `${baseUrl}/?checkout=canceled`,
     //     customer: { email: request.email, name: request.metadata?.name },

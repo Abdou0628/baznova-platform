@@ -1,12 +1,12 @@
 /**
- * HireNova Centralized Access Control
+ * BazNova Centralized Access Control
  *
  * Replaces scattered PAID_PLANS arrays. Every feature gate in the
  * application should go through these functions.
  */
 
 import { db } from '@/lib/db'
-import { getPlanFeatures, type HireNovaPlan, type PlanFeatures } from './plans'
+import { getPlanFeatures, type BazNovaPlan, type PlanFeatures } from './plans'
 import type { AccessCheckResult } from './types'
 
 // ─── Helpers ───────────────────────────────────────────
@@ -46,7 +46,7 @@ async function ensureCountersCurrent(userId: string) {
  * Check whether a plan includes a given product — synchronous, no DB.
  * Use this in non-user-facing code (e.g. rendering plan comparison tables).
  */
-export function hasAccess(planId: HireNovaPlan, productId: string): boolean {
+export function hasAccess(planId: BazNovaPlan, productId: string): boolean {
   const features = getPlanFeatures(planId)
   return features.products.includes(productId)
 }
@@ -54,7 +54,7 @@ export function hasAccess(planId: HireNovaPlan, productId: string): boolean {
 /**
  * Return the full list of product IDs accessible to a plan — synchronous.
  */
-export function getAccessibleProducts(planId: HireNovaPlan): string[] {
+export function getAccessibleProducts(planId: BazNovaPlan): string[] {
   return getPlanFeatures(planId).products
 }
 
@@ -84,7 +84,7 @@ export async function checkFeatureAccess(
     }
   }
 
-  const planId = user.plan as HireNovaPlan
+  const planId = user.plan as BazNovaPlan
   const features = getPlanFeatures(planId)
 
   // CV-specific check with monthly counter
@@ -196,5 +196,5 @@ export async function checkAndIncrementUsage(
 }
 
 // Re-export types for convenience
-export type { HireNovaPlan, AccessCheckResult, PlanFeatures } from './types'
+export type { BazNovaPlan, AccessCheckResult, PlanFeatures } from './types'
 export { getPlanFeatures } from './plans'

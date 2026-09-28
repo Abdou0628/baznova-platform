@@ -14,7 +14,7 @@ import { generateInvoiceForPayment, generateReceiptForPayment } from '@/lib/docu
  *   2. This endpoint simulates a successful payment
  *   3. Upgrades the user's plan
  *   4. Auto-generates invoice (FAC-YYYY-NNNN) + receipt (REC-YYYY-NNNN)
- *      with HireNova logo + electronic signature
+ *      with BazNova logo + electronic signature
  *   5. Returns the document IDs + download URLs
  *
  * In production (when LemonSqueezy is configured), the real checkout API
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       userName: user.name || 'Client',
       amount,
       currency: currencyUpper,
-      description: `Abonnement HireNova ${planType} — paiement simulé (dev mode)`,
+      description: `Abonnement BazNova ${planType} — paiement simulé (dev mode)`,
       userId: user.id,
       paidAt,
     })

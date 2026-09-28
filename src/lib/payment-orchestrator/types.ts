@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — Core Types
+ * BazNova Payment Orchestrator — Core Types
  *
  * Independent layer that wraps the existing Payment Gateway Abstraction.
  * Implements the CTO's vision: state machine, event sourcing, idempotency,

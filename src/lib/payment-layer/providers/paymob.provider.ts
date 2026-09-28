@@ -57,7 +57,7 @@ export class PayMobProvider implements IPaymentProvider {
 
     const planType = (params.metadata.planId as string) || 'pro';
     const userId = String(params.metadata.userId);
-    const email = params.email || 'user@hirenova.com';
+    const email = params.email || 'user@baznova.com';
     const userName = (params.metadata.userName as string) || 'User';
 
     const result = await createPaymobCheckout({

@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — Payment Ledger
+ * BazNova Payment Orchestrator — Payment Ledger
  *
  * Immutable financial record layer providing read-only access to
  * payment history, event timelines, financial summaries, and

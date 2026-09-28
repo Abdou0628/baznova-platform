@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   return NextResponse.json({
     executives: [
-      { id: 'ceo', title: 'CEO', name: 'HireNova Alpha', role: 'Directeur Général IA', avatar: '🤖', status: 'active', metrics: { decisions: 1247, accuracy: 97.3, uptime: 99.9 }, department: 'Vision Stratégique' },
+      { id: 'ceo', title: 'CEO', name: 'BazNova Alpha', role: 'Directeur Général IA', avatar: '🤖', status: 'active', metrics: { decisions: 1247, accuracy: 97.3, uptime: 99.9 }, department: 'Vision Stratégique' },
       { id: 'cto', title: 'CTO', name: 'Neural Architect', role: 'Directeur Technique IA', avatar: '🧠', status: 'active', metrics: { decisions: 2891, accuracy: 98.1, uptime: 99.8 }, department: 'Infrastructure IA' },
       { id: 'coo', title: 'COO', name: 'Process Optimizer', role: 'Directeur des Opérations', avatar: '⚙️', status: 'active', metrics: { decisions: 3562, accuracy: 96.8, uptime: 99.7 }, department: 'Opérations Automatisées' },
       { id: 'cfo', title: 'CFO', name: 'Finance AI', role: 'Directeur Financier IA', avatar: '💰', status: 'active', metrics: { decisions: 892, accuracy: 99.2, uptime: 99.9 }, department: 'Finance & Compliance' },

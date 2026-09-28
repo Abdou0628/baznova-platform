@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// HireNova — Client-side tracking utility
+// BazNova — Client-side tracking utility
 // ---------------------------------------------------------------------------
 
 export type TrackingEventType =

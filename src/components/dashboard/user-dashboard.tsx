@@ -302,7 +302,7 @@ export default function UserDashboard() {
       const url = URL.createObjectURL(blob)
       const a = window.document.createElement('a')
       a.href = url
-      a.download = `hirenova-document-${docId}.pdf`
+      a.download = `baznova-document-${docId}.pdf`
       a.click()
       URL.revokeObjectURL(url)
     } catch {

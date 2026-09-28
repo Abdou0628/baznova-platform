@@ -1,6 +1,6 @@
 /**
  * @module hnsa/field-encryption
- * @description Field-level encryption utility for HireNova Security Architecture (HNSA).
+ * @description Field-level encryption utility for BazNova Security Architecture (HNSA).
  *
  * Provides AES-256-GCM encryption/decryption for sensitive fields at the application
  * layer. This is required because SQLite does not support native column-level encryption.
@@ -82,7 +82,7 @@ function resolveEncryptionKey(): Buffer {
   }
 
   // Deterministic dev fallback: SHA-256 of a static seed
-  const devSeed = 'hirenova-dev-field-encryption-key-v1-do-not-use-in-prod';
+  const devSeed = 'baznova-dev-field-encryption-key-v1-do-not-use-in-prod';
   return createHash('sha256').update(devSeed).digest();
 }
 

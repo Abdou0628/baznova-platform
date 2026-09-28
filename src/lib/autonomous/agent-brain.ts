@@ -1,5 +1,5 @@
 // =============================================================================
-// HireNova IA — Autonomous Agent Brain (Phase 3B/C)
+// BazNova IA — Autonomous Agent Brain (Phase 3B/C)
 // Decision engine, memory system, inter-agent collaboration, proactive intelligence
 // Enhanced with LLM-powered decisions + real-time event broadcasting
 // SERVER-ONLY — do not import in client components
@@ -415,7 +415,7 @@ export const ProactiveEngine = {
       },
       plan_upgrade: {
         type: 'market_alert', sourceAgent: decision.agentId,
-        title: { fr: 'Débloquez tout le potentiel de HireNova', en: 'Unlock HireNova\'s full potential', ar: 'افتح كل إمكانات HireNova', es: 'Desbloquea todo el potencial de HireNova' },
+        title: { fr: 'Débloquez tout le potentiel de BazNova', en: 'Unlock BazNova\'s full potential', ar: 'افتح كل إمكانات BazNova', es: 'Desbloquea todo el potencial de BazNova' },
         description: { fr: 'Un plan supérieur vous donnerait accès à tous les agents IA autonomes.', en: 'A higher plan would give access to all autonomous AI agents.', ar: 'خطة أعلى ستمنحك وصولاً لجميع وكلاء الذكاء.', es: 'Un plan superior te daría acceso a todos los agentes IA autónomos.' },
         confidence: decision.confidence, reason: decision.reasoning, category: 'system',
       },
@@ -531,7 +531,7 @@ export const LLMDecisionEngine = {
       const llm = await getLLM()
       const agentList = AGENTS.map(a => `${a.id} (${a.name}: ${a.capabilities.join(', ')})`).join('\n')
 
-      const prompt = `Tu es le CTO IA de HireNova, un système multi-agents autonome pour la recherche d'emploi. Analyse le contexte utilisateur et décide quelles actions les agents doivent entreprendre.
+      const prompt = `Tu es le CTO IA de BazNova, un système multi-agents autonome pour la recherche d'emploi. Analyse le contexte utilisateur et décide quelles actions les agents doivent entreprendre.
 
 ## Contexte Utilisateur
 - Plan: ${context.plan} | Rôle: ${context.role}

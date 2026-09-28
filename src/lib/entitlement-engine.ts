@@ -1,4 +1,4 @@
-// ─── HireNova Entitlement Engine ──────────────────────────────────────────
+// ─── BazNova Entitlement Engine ──────────────────────────────────────────
 // Single source of truth for what each plan/subscription grants.
 // Maps: User Plan → Entitlements → Modules → Features
 //
@@ -119,8 +119,8 @@ const PLAN_ENTITLEMENTS: Record<string, PlanEntitlements> = {
     maxAtsAnalysesPerMonth: 10,
   },
 
-  // ── HireNova Start (new name for starter) ──
-  hirenova_start: {
+  // ── BazNova Start (new name for starter) ──
+  baznova_start: {
     modules: STARTER_MODULES,
     features: STARTER_FEATURES,
     aiLevel: 'basic',
@@ -141,8 +141,8 @@ const PLAN_ENTITLEMENTS: Record<string, PlanEntitlements> = {
     maxAtsAnalysesPerMonth: 50,
   },
 
-  // ── HireNova Career (new name for career_plus) ──
-  hirenova_career: {
+  // ── BazNova Career (new name for career_plus) ──
+  baznova_career: {
     modules: CAREER_PLUS_MODULES,
     features: CAREER_PLUS_FEATURES,
     aiLevel: 'basic',
@@ -163,8 +163,8 @@ const PLAN_ENTITLEMENTS: Record<string, PlanEntitlements> = {
     maxAtsAnalysesPerMonth: 200,
   },
 
-  // ── HireNova Professional (new name for pro) ──
-  hirenova_professional: {
+  // ── BazNova Professional (new name for pro) ──
+  baznova_professional: {
     modules: PRO_MODULES,
     features: PRO_FEATURES,
     aiLevel: 'advanced',
@@ -174,8 +174,8 @@ const PLAN_ENTITLEMENTS: Record<string, PlanEntitlements> = {
     maxAtsAnalysesPerMonth: 200,
   },
 
-  // ── HireNova AI Power (top tier) ──
-  hirenova_ai_power: {
+  // ── BazNova AI Power (top tier) ──
+  baznova_ai_power: {
     modules: AI_POWER_MODULES,
     features: AI_POWER_FEATURES,
     aiLevel: 'premium',
@@ -190,9 +190,9 @@ const PLAN_ENTITLEMENTS: Record<string, PlanEntitlements> = {
 // Maps legacy plan names to their canonical (new) equivalents.
 
 const PLAN_ALIASES: Record<string, string> = {
-  starter: 'hirenova_start',
-  career_plus: 'hirenova_career',
-  pro: 'hirenova_professional',
+  starter: 'baznova_start',
+  career_plus: 'baznova_career',
+  pro: 'baznova_professional',
 }
 
 // ─── Action → Feature Mapping ───────────────────────────────────────────────
@@ -265,7 +265,7 @@ export function getEntitlements(plan: string): PlanEntitlements {
 
   // Employer / annual / other non-B2C plans get starter-level access
   if (plan === 'employer' || plan === 'annual') {
-    return { ...PLAN_ENTITLEMENTS.hirenova_professional }
+    return { ...PLAN_ENTITLEMENTS.baznova_professional }
   }
 
   // Fallback: free tier
@@ -324,7 +324,7 @@ export function getUpgradePath(
   const currentCanonical = PLAN_ALIASES[currentPlan] || currentPlan
 
   // If the target is the same or lower than current, no upgrade
-  const planOrder = ['free', 'hirenova_start', 'hirenova_career', 'hirenova_professional', 'hirenova_ai_power']
+  const planOrder = ['free', 'baznova_start', 'baznova_career', 'baznova_professional', 'baznova_ai_power']
   const currentIdx = planOrder.indexOf(currentCanonical)
   const targetIdx = planOrder.indexOf(canonicalPlan)
   if (targetIdx >= 0 && currentIdx >= 0 && targetIdx <= currentIdx) return null

@@ -1,5 +1,5 @@
 /**
- * HireNova Growth Dashboard API (Admin Only)
+ * BazNova Growth Dashboard API (Admin Only)
  *
  * GET /api/admin/growth-dashboard
  *

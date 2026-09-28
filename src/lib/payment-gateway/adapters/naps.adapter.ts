@@ -92,7 +92,7 @@ class NapsGateway implements IPaymentGateway {
     //   const payment = await client.initiatePayment({
     //     amount: request.amount,  // NAPS may expect dirhams, not cents — verify docs
     //     currency: 'MAD',
-    //     orderId: `hirenova-${request.planId}-${request.userId}-${Date.now()}`,
+    //     orderId: `baznova-${request.planId}-${request.userId}-${Date.now()}`,
     //     customerEmail: request.email,
     //     returnUrl: `${baseUrl}/?checkout=success&plan=${request.planId}&provider=naps`,
     //     cancelUrl: `${baseUrl}/?checkout=canceled`,

@@ -5,7 +5,7 @@ import { withAuth } from '@/lib/hnsa'
 /**
  * GET /api/admin/comprehensive-stats
  * Returns comprehensive platform-wide statistics for the admin dashboard.
- * Covers ALL HireNova modules + financial movements.
+ * Covers ALL BazNova modules + financial movements.
  *
  * Requires admin session.
  */

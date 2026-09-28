@@ -50,7 +50,7 @@ Message: ${message || 'N/A'}`
     }).catch(() => null)
 
     // Notify admin via email
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@hirenova.com'
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@baznova.com'
     await sendEmail({
       to: adminEmail,
       subject: `Nouvelle demande Campus — ${university}`,
@@ -68,12 +68,12 @@ Message: ${message || 'N/A'}`
     // Auto-reply to university contact
     await sendEmail({
       to: email,
-      subject: 'HireNova IA CAMPUS SaaS — Votre demande a bien été reçue',
+      subject: 'BazNova IA CAMPUS SaaS — Votre demande a bien été reçue',
       html: `<h2>Bonjour ${contactName},</h2>
         <p>Nous avons bien reçu votre demande de partenariat pour <strong>${university}</strong>.</p>
         <p>Notre équipe Campus vous recontactera sous <strong>48 heures ouvrées</strong> pour planifier un échange.</p>
-        <p>En attendant, n'hésitez pas à découvrir HireNova sur <a href="https://hirenova.com">hirenova.com</a>.</p>
-        <p>Cordialement,<br>L'équipe HireNova IA CAMPUS SaaS</p>`,
+        <p>En attendant, n'hésitez pas à découvrir BazNova sur <a href="https://baznova.com">baznova.com</a>.</p>
+        <p>Cordialement,<br>L'équipe BazNova IA CAMPUS SaaS</p>`,
     }).catch(() => null)
 
     return NextResponse.json({

@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Ledger — Event Sourcing
+ * BazNova Payment Ledger — Event Sourcing
  *
  * Immutable financial record. Every state transition creates an event.
  * If a problem occurs, the entire payment history can be reconstructed

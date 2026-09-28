@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'HireNova — Plateforme IA de Gestion de Carrière & Recrutement',
-    short_name: 'HireNova',
+    name: 'BazNova — Plateforme IA de Gestion de Carrière & Recrutement',
+    short_name: 'BazNova',
     description:
       'Plateforme IA complète de gestion de carrière et recrutement. CV, lettres de motivation, score ATS, coaching, marketplace d\'emplois et recrutement international.',
     start_url: '/',
@@ -13,7 +13,7 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: 'portrait-primary',
     icons: [
       {
-        src: '/hirenova-logo.png',
+        src: '/baznova-logo.png',
         sizes: 'any',
         type: 'image/png',
         purpose: 'any maskable',

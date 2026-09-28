@@ -1,5 +1,5 @@
 // =============================================================================
-// HireNova AI Operating System — Policy Engine
+// BazNova AI Operating System — Policy Engine
 // Permission checks, risk assessment, and agent policy management
 // =============================================================================
 

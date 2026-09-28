@@ -87,7 +87,7 @@ export default function CoachHome() {
           </button>
           <div className="flex items-center gap-2">
             <Bot className="w-5 h-5 text-emerald-600" />
-            <span className="font-semibold text-sm">HireNova IA Coach</span>
+            <span className="font-semibold text-sm">BazNova IA Coach</span>
           </div>
           <div className="w-16" />
         </div>

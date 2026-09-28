@@ -52,13 +52,13 @@ const VOICE_MAP: Record<CVLanguage, string> = {
 // LLM prompt templates per language
 const LLM_PROMPTS: Record<CVLanguage, (name: string, desc: string) => string> = {
   fr: (name, desc) =>
-    `Tu es un présentateur marketing passionné. Présente le produit HireNova "${name}" en 3 phrases courtes et percutantes pour une présentation vocale. Description: ${desc}. Ne dépasse pas 800 caractères. Sois enthousiaste et professionnel. Ne mets pas de titres ni de listes, juste un texte fluide.`,
+    `Tu es un présentateur marketing passionné. Présente le produit BazNova "${name}" en 3 phrases courtes et percutantes pour une présentation vocale. Description: ${desc}. Ne dépasse pas 800 caractères. Sois enthousiaste et professionnel. Ne mets pas de titres ni de listes, juste un texte fluide.`,
   en: (name, desc) =>
-    `You are a passionate marketing presenter. Present the HireNova product "${name}" in 3 short, punchy sentences for a voice presentation. Description: ${desc}. Do not exceed 800 characters. Be enthusiastic and professional. No titles or lists, just flowing text.`,
+    `You are a passionate marketing presenter. Present the BazNova product "${name}" in 3 short, punchy sentences for a voice presentation. Description: ${desc}. Do not exceed 800 characters. Be enthusiastic and professional. No titles or lists, just flowing text.`,
   ar: (name, desc) =>
-    `أنت مقدم تسويقي شغوف. قدم منتج HireNova "${name}" في 3 جمل قصيرة ومؤثرة للعرض الصوتي. الوصف: ${desc}. لا تتجاوز 800 حرف. كن متحمساً ومحترفاً. بدون عناوين أو قوائم، فقط نص سلس.`,
+    `أنت مقدم تسويقي شغوف. قدم منتج BazNova "${name}" في 3 جمل قصيرة ومؤثرة للعرض الصوتي. الوصف: ${desc}. لا تتجاوز 800 حرف. كن متحمساً ومحترفاً. بدون عناوين أو قوائم، فقط نص سلس.`,
   es: (name, desc) =>
-    `Eres un presentador de marketing apasionado. Presenta el producto HireNova "${name}" en 3 frases cortas y contundentes para una presentación de voz. Descripción: ${desc}. No excedas 800 caracteres. Sé entusiasta y profesional. Sin títulos ni listas, solo texto fluido.`,
+    `Eres un presentador de marketing apasionado. Presenta el producto BazNova "${name}" en 3 frases cortas y contundentes para una presentación de voz. Descripción: ${desc}. No excedas 800 caracteres. Sé entusiasta y profesional. Sin títulos ni listas, solo texto fluido.`,
 }
 
 // Image prompt templates per language

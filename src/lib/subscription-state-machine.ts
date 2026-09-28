@@ -1,4 +1,4 @@
-// ─── HireNova Subscription State Machine ─────────────────────────────────
+// ─── BazNova Subscription State Machine ─────────────────────────────────
 // Strict state transition enforcement for subscription lifecycle.
 // SERVER-ONLY — do not import in client components.
 //

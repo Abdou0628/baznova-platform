@@ -63,7 +63,7 @@ function generateCheckoutId(): string {
  * @example
  * ```ts
  * // Frontend code:
- * const result = await hirenovaCheckout({
+ * const result = await baznovaCheckout({
  *   userId: 'user_123',
  *   planId: 'pro',
  *   amount: 1900, // 19.00 EUR in cents
@@ -79,7 +79,7 @@ function generateCheckoutId(): string {
  * // They NEVER see "Stripe" or "PayMob"
  * ```
  */
-export async function hirenovaCheckout(request: CheckoutRequest): Promise<CheckoutResponse> {
+export async function baznovaCheckout(request: CheckoutRequest): Promise<CheckoutResponse> {
   // ── 1. Route to provider ───────────────────────────────────────────────
   const routingDecision = routeToProvider(request);
 
@@ -205,7 +205,7 @@ export async function hirenovaCheckout(request: CheckoutRequest): Promise<Checko
  * @param checkoutId - Our internal checkout ID
  * @returns Provider-agnostic payment status
  */
-export async function hirenovaVerifyPayment(checkoutId: string): Promise<PaymentStatusResponse> {
+export async function baznovaVerifyPayment(checkoutId: string): Promise<PaymentStatusResponse> {
   // Look up the payment record
   const record = await db.unifiedPayment.findUnique({
     where: { checkoutId },
@@ -268,7 +268,7 @@ export async function hirenovaVerifyPayment(checkoutId: string): Promise<Payment
  * @param signature - Webhook signature for verification
  * @returns Webhook processing result
  */
-export async function hirenovaWebhook(
+export async function baznovaWebhook(
   providerId: string,
   payload: unknown,
   signature: string,
@@ -303,7 +303,7 @@ export async function hirenovaWebhook(
  * @param amount - Optional amount for partial refund (in cents)
  * @returns Refund result
  */
-export async function hirenovaRefund(checkoutId: string, amount?: number): Promise<RefundResult> {
+export async function baznovaRefund(checkoutId: string, amount?: number): Promise<RefundResult> {
   const record = await db.unifiedPayment.findUnique({
     where: { checkoutId },
   });

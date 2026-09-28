@@ -54,7 +54,7 @@ export default function SupportButton() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: name.trim(),
-          email: email.trim() || 'non-connecte@hirenova.app',
+          email: email.trim() || 'non-connecte@baznova.app',
           subject,
           message: message.trim(),
         }),

@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Notify admin
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@hirenova.com'
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@baznova.com'
     await sendEmail({
       to: adminEmail,
       subject: `[Enterprise] Nouvelle demande — ${companyName}`,
@@ -121,9 +121,9 @@ export async function POST(request: NextRequest) {
     // Auto-reply to enterprise contact
     await sendEmail({
       to: workEmail,
-      subject: 'HireNova Enterprise — Votre demande a bien été reçue',
+      subject: 'BazNova Enterprise — Votre demande a bien été reçue',
       html: `<h2>Bonjour ${contactName},</h2>
-        <p>Merci pour votre intérêt pour <strong>HireNova Enterprise</strong> pour <strong>${companyName}</strong>.</p>
+        <p>Merci pour votre intérêt pour <strong>BazNova Enterprise</strong> pour <strong>${companyName}</strong>.</p>
         <p>Nous avons bien reçu votre demande et notre équipe commerciale vous recontactera sous <strong>24 à 48 heures ouvrées</strong> pour organiser un échange et préparer un devis personnalisé.</p>
         <p>Pour préparer cet échange, nous aborderons :</p>
         <ul>
@@ -132,8 +132,8 @@ export async function POST(request: NextRequest) {
           <li>Le niveau de SLA et le support dédié</li>
           <li>La formation de vos équipes</li>
         </ul>
-        <p>En attendant, n'hésitez pas à consulter notre <a href="https://hirenova.com">site</a> ou notre <a href="https://hirenova.com/api">documentation API</a>.</p>
-        <p>Cordialement,<br><strong>L'équipe Enterprise — HireNova</strong><br>hello@hirenova.com</p>`,
+        <p>En attendant, n'hésitez pas à consulter notre <a href="https://baznova.com">site</a> ou notre <a href="https://baznova.com/api">documentation API</a>.</p>
+        <p>Cordialement,<br><strong>L'équipe Enterprise — BazNova</strong><br>hello@baznova.com</p>`,
     }).catch(() => null)
 
     return NextResponse.json({

@@ -19,7 +19,7 @@ import { useCVStore } from '@/store/cv-store'
 import type { CVLanguage } from '@/lib/i18n'
 import { t } from '@/lib/i18n'
 
-const STORAGE_KEY = 'hirenova_cookie_consent'
+const STORAGE_KEY = 'baznova_cookie_consent'
 
 // Inline i18n map for cookie consent (FR default, EN/AR/ES)
 const labels: Record<CVLanguage, {
@@ -41,7 +41,7 @@ const labels: Record<CVLanguage, {
 }> = {
   fr: {
     title: 'Nous respectons votre vie privée',
-    description: 'HireNova utilise des cookies nécessaires au fonctionnement du service ainsi que, selon votre consentement, des cookies de mesure d\'audience et d\'amélioration de l\'expérience. Le détail figure dans la Politique Cookies.',
+    description: 'BazNova utilise des cookies nécessaires au fonctionnement du service ainsi que, selon votre consentement, des cookies de mesure d\'audience et d\'amélioration de l\'expérience. Le détail figure dans la Politique Cookies.',
     necessary: 'Nécessaires',
     necessaryDesc: 'Essentiels au bon fonctionnement du service',
     analytics: 'Analytique',
@@ -58,7 +58,7 @@ const labels: Record<CVLanguage, {
   },
   en: {
     title: 'We respect your privacy',
-    description: 'HireNova uses cookies necessary for the service to function, and, depending on your consent, analytics and experience improvement cookies. Details are available in the Cookie Policy.',
+    description: 'BazNova uses cookies necessary for the service to function, and, depending on your consent, analytics and experience improvement cookies. Details are available in the Cookie Policy.',
     necessary: 'Necessary',
     necessaryDesc: 'Essential for the service to function',
     analytics: 'Analytics',
@@ -75,7 +75,7 @@ const labels: Record<CVLanguage, {
   },
   ar: {
     title: 'نحترم خصوصيتك',
-    description: 'يستخدم HireNova ملفات تعريف الارتباط الضرورية لعمل الخدمة، ووفقاً لموافقتك، ملفات تعريف الارتباط لقياس الجمهور وتحسين التجربة. التفاصيل في سياسة ملفات تعريف الارتباط.',
+    description: 'يستخدم BazNova ملفات تعريف الارتباط الضرورية لعمل الخدمة، ووفقاً لموافقتك، ملفات تعريف الارتباط لقياس الجمهور وتحسين التجربة. التفاصيل في سياسة ملفات تعريف الارتباط.',
     necessary: 'ضروري',
     necessaryDesc: 'أساسي لعمل الخدمة',
     analytics: 'تحليلات',
@@ -92,7 +92,7 @@ const labels: Record<CVLanguage, {
   },
   es: {
     title: 'Respetamos tu privacidad',
-    description: 'HireNova utiliza cookies necesarias para el funcionamiento del servicio así como, según tu consentimiento, cookies de medición de audiencia y mejora de la experiencia. El detalle figura en la Política de Cookies.',
+    description: 'BazNova utiliza cookies necesarias para el funcionamiento del servicio así como, según tu consentimiento, cookies de medición de audiencia y mejora de la experiencia. El detalle figura en la Política de Cookies.',
     necessary: 'Necesarios',
     necessaryDesc: 'Esenciales para el funcionamiento del servicio',
     analytics: 'Analítica',

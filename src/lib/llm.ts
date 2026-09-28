@@ -1,5 +1,5 @@
 /**
- * HireNova LLM Helper — Unified interface to z-ai-web-dev-sdk
+ * BazNova LLM Helper — Unified interface to z-ai-web-dev-sdk
  * Used server-side only for AI-powered features.
  */
 let zaiInstance: ReturnType<typeof import('z-ai-web-dev-sdk').default.create> | null = null

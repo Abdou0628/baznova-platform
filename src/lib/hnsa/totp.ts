@@ -39,7 +39,7 @@ export function verifyTOTP(secret: string, code: string): boolean {
  * Generate OTPAuth URI for QR code generation.
  */
 export function generateOTPAuthURI(secret: string, email: string): string {
-  return `otpauth://totp/HireNova:${encodeURIComponent(email)}?secret=${secret}&issuer=HireNova&algorithm=SHA1&digits=6&period=30`
+  return `otpauth://totp/BazNova:${encodeURIComponent(email)}?secret=${secret}&issuer=BazNova&algorithm=SHA1&digits=6&period=30`
 }
 
 // --- Internal ---

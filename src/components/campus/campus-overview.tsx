@@ -102,12 +102,12 @@ export default function CampusOverview({ onSetTab }: OverviewProps) {
 
   function downloadBrochure() {
     events.track('campus_brochure_downloaded')
-    const brochure = `HireNova IA CAMPUS SaaS — ${t(language, 'campusSubtitle')}\n\nE-Society 2050 — HireNova\n© 2026\n`
+    const brochure = `BazNova IA CAMPUS SaaS — ${t(language, 'campusSubtitle')}\n\nE-Society 2050 — BazNova\n© 2026\n`
     const blob = new Blob([brochure], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'HireNova-Campus-Brochure.txt'
+    a.download = 'BazNova-Campus-Brochure.txt'
     a.click()
     URL.revokeObjectURL(url)
     toast.success(t(language, 'campusBrochureDownloaded'))

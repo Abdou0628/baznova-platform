@@ -66,7 +66,7 @@ const partnerTypes = [
   {
     icon: BookOpen,
     title: 'Écoles',
-    description: "Intégrez HireNova dans votre programme d'insertion professionnelle",
+    description: "Intégrez BazNova dans votre programme d'insertion professionnelle",
     color: 'text-teal-600',
     bg: 'bg-teal-50',
   },
@@ -280,7 +280,7 @@ export default function PartnershipPortal() {
           <div className="flex items-center gap-2">
             <Handshake className="h-5 w-5 text-emerald-600" />
             <div className="text-right sm:text-left">
-              <p className="text-sm font-semibold leading-tight text-foreground">HireNova Partenariats</p>
+              <p className="text-sm font-semibold leading-tight text-foreground">BazNova Partenariats</p>
               <p className="text-xs text-muted-foreground">Portail dédié</p>
             </div>
           </div>
@@ -637,15 +637,15 @@ export default function PartnershipPortal() {
           <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
             <div className="flex items-center gap-2">
               <Handshake className="h-5 w-5 text-emerald-600" />
-              <span className="text-sm font-semibold text-foreground">HireNova Partenariats</span>
+              <span className="text-sm font-semibold text-foreground">BazNova Partenariats</span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <a
-                href="mailto:partnerships@hirenova.com"
+                href="mailto:partnerships@baznova.com"
                 className="flex items-center gap-1.5 hover:text-foreground transition-colors"
               >
                 <Mail className="h-4 w-4" />
-                partnerships@hirenova.com
+                partnerships@baznova.com
               </a>
               <a
                 href="tel:+212522000000"
@@ -655,18 +655,18 @@ export default function PartnershipPortal() {
                 +212 (0) 5 22 00 00 00
               </a>
               <a
-                href="https://hirenova.com"
+                href="https://baznova.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 hover:text-foreground transition-colors"
               >
                 <Globe className="h-4 w-4" />
-                hirenova.com
+                baznova.com
               </a>
             </div>
           </div>
           <div className="mt-6 text-center text-xs text-muted-foreground">
-            © 2026 E-Society 2050 — HireNova Partenariats
+            © 2026 E-Society 2050 — BazNova Partenariats
           </div>
         </div>
       </footer>

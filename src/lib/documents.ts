@@ -1,5 +1,5 @@
 /**
- * HireNova Document Engine — 100% paperless, auto-generated PDFs
+ * BazNova Document Engine — 100% paperless, auto-generated PDFs
  *
  * Generates professional PDF documents on demand:
  * - Invoice (facture) — triggered automatically on payment
@@ -23,7 +23,7 @@ import {
   TextAlignment,
 } from 'pdf-lib'
 import { db } from '@/lib/db'
-import { embedHireNovaLogo } from '@/lib/document-logo'
+import { embedBazNovaLogo } from '@/lib/document-logo'
 import {
   applySignature,
   drawSignatureBlock,
@@ -51,7 +51,7 @@ export interface DocumentData {
   recipientCompany?: string
   recipientAddress?: string
   recipientCountry?: string
-  // Issuer (defaults to HireNova)
+  // Issuer (defaults to BazNova)
   issuerName?: string
   issuerLegal?: string
   issuerAddress?: string
@@ -266,7 +266,7 @@ function drawHeader(page: PDFPage, fontBold: PDFFont, fontRegular: PDFFont, data
 
   // Logo brand name (shifted right to sit beside the logo image)
   const brandX = logo ? 100 : 50
-  page.drawText('HireNova', {
+  page.drawText('BazNova', {
     x: brandX,
     y: page.getHeight() - 48,
     size: 24,
@@ -302,10 +302,10 @@ function drawHeader(page: PDFPage, fontBold: PDFFont, fontRegular: PDFFont, data
 
   // Issuer info (left side, below band)
   let yPos = page.getHeight() - 140
-  const issuerName = data.issuerName || 'HireNova'
+  const issuerName = data.issuerName || 'BazNova'
   const issuerLegal = data.issuerLegal || 'E-Society 2050'
   const issuerAddress = data.issuerAddress || 'Casablanca, Maroc'
-  const issuerEmail = data.issuerEmail || 'hello@hirenova.com'
+  const issuerEmail = data.issuerEmail || 'hello@baznova.com'
 
   page.drawText(issuerName, { x: 50, y: yPos, size: 11, font: fontBold, color: COLORS.dark })
   yPos -= 14
@@ -498,7 +498,7 @@ function drawFooter(page: PDFPage, fontBold: PDFFont, fontRegular: PDFFont, data
   }
 
   // Legal info
-  page.drawText('HireNova - E-Society 2050 | Casablanca, Maroc | hello@hirenova.com | https://hirenova.com', {
+  page.drawText('BazNova - E-Society 2050 | Casablanca, Maroc | hello@baznova.com | https://baznova.com', {
     x: 50,
     y: 45,
     size: 8,
@@ -506,7 +506,7 @@ function drawFooter(page: PDFPage, fontBold: PDFFont, fontRegular: PDFFont, data
     color: COLORS.lightGray,
   })
 
-  page.drawText(`Document genere automatiquement par HireNova le ${formatDate(new Date())} - No ${data.number}`, {
+  page.drawText(`Document genere automatiquement par BazNova le ${formatDate(new Date())} - No ${data.number}`, {
     x: 50,
     y: 32,
     size: 7,
@@ -565,20 +565,20 @@ async function buildPdf(rawData: DocumentData): Promise<Uint8Array> {
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
   const fontItalic = await pdfDoc.embedFont(StandardFonts.HelveticaOblique)
 
-  // Embed HireNova logo (white variant — visible on colored header bands)
+  // Embed BazNova logo (white variant — visible on colored header bands)
   let logo: PDFImage | undefined
   try {
-    logo = await embedHireNovaLogo(pdfDoc, 'white')
+    logo = await embedBazNovaLogo(pdfDoc, 'white')
   } catch (err) {
     // Logo is optional — document can still be generated without it
     console.warn('[documents] Logo not embedded:', err instanceof Error ? err.message : err)
   }
 
-  pdfDoc.setTitle(sanitizeText(`${TYPE_META[data.type].label} ${data.number} - HireNova`))
-  pdfDoc.setAuthor(sanitizeText('HireNova - E-Society 2050'))
+  pdfDoc.setTitle(sanitizeText(`${TYPE_META[data.type].label} ${data.number} - BazNova`))
+  pdfDoc.setAuthor(sanitizeText('BazNova - E-Society 2050'))
   pdfDoc.setSubject(data.subject)
-  pdfDoc.setCreator('HireNova Document Engine')
-  pdfDoc.setProducer('HireNova Auto-Generator')
+  pdfDoc.setCreator('BazNova Document Engine')
+  pdfDoc.setProducer('BazNova Auto-Generator')
   pdfDoc.setCreationDate(new Date())
 
   const page = pdfDoc.addPage([595.28, 841.89]) // A4
@@ -693,7 +693,7 @@ function drawAgreementClauses(
   page.drawLine({ start: { x: 50, y: yPos }, end: { x: 230, y: yPos }, thickness: 1, color: COLORS.gray })
   page.drawLine({ start: { x: 320, y: yPos }, end: { x: 500, y: yPos }, thickness: 1, color: COLORS.gray })
 
-  page.drawText('Pour HireNova', { x: 50, y: yPos - 14, size: 9, font: fontBold, color: COLORS.dark })
+  page.drawText('Pour BazNova', { x: 50, y: yPos - 14, size: 9, font: fontBold, color: COLORS.dark })
   page.drawText(data.recipientName, { x: 320, y: yPos - 14, size: 9, font: fontBold, color: COLORS.dark })
 
   page.drawText('Date : _______________', { x: 50, y: yPos - 30, size: 9, font: fontRegular, color: COLORS.gray })
@@ -717,7 +717,7 @@ function drawAcceptanceBlock(page: PDFPage, fontBold: PDFFont, fontRegular: PDFF
   })
 
   page.drawText('BON POUR ACCORD', { x: 64, y: yPos - 16, size: 10, font: fontBold, color: COLORS.primaryDark })
-  page.drawText('Ce devis est valable 30 jours. Pour accepter, signez et renvoyez-le à hello@hirenova.com', {
+  page.drawText('Ce devis est valable 30 jours. Pour accepter, signez et renvoyez-le à hello@baznova.com', {
     x: 64, y: yPos - 32, size: 9, font: fontRegular, color: COLORS.gray,
   })
 
@@ -733,7 +733,7 @@ function drawPaymentTerms(page: PDFPage, fontBold: PDFFont, fontRegular: PDFFont
   let yPos = startY
   page.drawText('Modalités de paiement', { x: 50, y: yPos, size: 10, font: fontBold, color: COLORS.dark })
   yPos -= 14
-  page.drawText('Paiement à réception. CB, virement ou prélèvement SEPA via la plateforme HireNova.', {
+  page.drawText('Paiement à réception. CB, virement ou prélèvement SEPA via la plateforme BazNova.', {
     x: 50, y: yPos, size: 9, font: fontRegular, color: COLORS.gray,
   })
   yPos -= 12
@@ -789,10 +789,10 @@ export async function generateDocument(data: DocumentData): Promise<GeneratedDoc
       recipientCompany: data.recipientCompany || null,
       recipientAddress: data.recipientAddress || null,
       recipientCountry: data.recipientCountry || null,
-      issuerName: data.issuerName || 'HireNova',
+      issuerName: data.issuerName || 'BazNova',
       issuerLegal: data.issuerLegal || 'E-Society 2050',
       issuerAddress: data.issuerAddress || 'Casablanca, Maroc',
-      issuerEmail: data.issuerEmail || 'hello@hirenova.com',
+      issuerEmail: data.issuerEmail || 'hello@baznova.com',
       issuerVAT: data.issuerVAT,
       subject: data.subject,
       items: JSON.stringify(data.items),
@@ -849,13 +849,13 @@ export async function generateInvoiceForPayment(params: {
 }): Promise<GeneratedDocument> {
   const number = await nextDocumentNumber('invoice')
   const planLabels: Record<string, string> = {
-    starter: 'HireNova Starter',
-    pro: 'HireNova Pro',
-    career_plus: 'HireNova Career+',
-    employer: 'HireNova Employeur',
-    annual: 'HireNova Annuel',
-    enterprise: 'HireNova Enterprise',
-    api: 'HireNova API',
+    starter: 'BazNova Starter',
+    pro: 'BazNova Pro',
+    career_plus: 'BazNova Career+',
+    employer: 'BazNova Employeur',
+    annual: 'BazNova Annuel',
+    enterprise: 'BazNova Enterprise',
+    api: 'BazNova API',
   }
 
   return generateDocument({
@@ -874,7 +874,7 @@ export async function generateInvoiceForPayment(params: {
     taxRate: 0,
     paidAt: params.paidAt || new Date(),
     userId: params.userId,
-    notes: 'Paiement reçu via la plateforme HireNova. Merci de votre confiance.',
+    notes: 'Paiement reçu via la plateforme BazNova. Merci de votre confiance.',
   })
 }
 
@@ -941,7 +941,7 @@ export async function generateReceiptForPayment(params: {
     taxRate: 0,
     paidAt: params.paidAt || new Date(),
     userId: params.userId,
-    notes: 'Ce reçu atteste du paiement effectué sur la plateforme HireNova.',
+    notes: 'Ce reçu atteste du paiement effectué sur la plateforme BazNova.',
   })
 }
 
@@ -962,7 +962,7 @@ export async function generateAgreementForInquiry(params: {
   const currency = params.currency || 'EUR'
 
   const defaultTerms = `OBJET DU CONTRAT
-Le présent contrat a pour objet la fourniture par HireNova (E-Society 2050) à ${params.companyName} des services de la plateforme Enterprise, incluant notamment l'accès à la génération de CV IA, l'analyse ATS, le portail de recrutement, l'intégration API, et le support dédié.
+Le présent contrat a pour objet la fourniture par BazNova (E-Society 2050) à ${params.companyName} des services de la plateforme Enterprise, incluant notamment l'accès à la génération de CV IA, l'analyse ATS, le portail de recrutement, l'intégration API, et le support dédié.
 
 DURÉE
 Le contrat est conclu pour une durée de 12 mois renouvelable par tacite reconduction. Chaque partie peut le résilier avec un préavis de 30 jours avant l'échéance.
@@ -971,13 +971,13 @@ TARIF
 Le montant annuel est de ${params.totalAmount} ${currency}, payable d'avance. Facturation mensuelle possible sur demande.
 
 ENGAGEMENTS DE HIRENOVA
-HireNova s'engage à fournir un service disponible à 99,9% (SLA), un support dédié 24/7, la formation des équipes, et la sécurité des données conformément au RGPD.
+BazNova s'engage à fournir un service disponible à 99,9% (SLA), un support dédié 24/7, la formation des équipes, et la sécurité des données conformément au RGPD.
 
 ENGAGEMENTS DU CLIENT
 Le client s'engage à utiliser le service conformément aux CGU, à désigner un administrateur, et à assurer le paiement aux échéances.
 
 CONFIDENTIALITÉ ET DONNÉES
-Chaque partie s'engage à préserver la confidentialité des informations échangées. Les données personnelles sont traitées conformément au RGPD et à la politique de confidentialité HireNova.
+Chaque partie s'engage à préserver la confidentialité des informations échangées. Les données personnelles sont traitées conformément au RGPD et à la politique de confidentialité BazNova.
 
 RÉSILIATION
 En cas de manquement, une mise en demeure préalable de 30 jours est requise. Les sommes versées restent acquises.
@@ -1003,7 +1003,7 @@ Le présent contrat est soumis au droit marocain. Tout litige sera porté devant
     taxRate: 0,
     inquiryId: params.inquiryId,
     agreementTerms: params.terms || defaultTerms,
-    notes: 'Contrat généré automatiquement après acceptation du devis. À signer et retourner à hello@hirenova.com',
+    notes: 'Contrat généré automatiquement après acceptation du devis. À signer et retourner à hello@baznova.com',
   })
 }
 
@@ -1028,10 +1028,10 @@ export async function generateReferralAgreement(params: {
     : `${params.rewardValue || '1'} mois gratuit`
 
   const terms = `OBJET DU CONTRAT
-Le présent contrat a pour objet la participation de ${params.userName} au Programme de Parrainage HireNova. En contrepartie de la recommandation de la plateforme HireNova à de nouveaux utilisateurs, le parrain bénéficie de ${rewardLabel} sur l'abonnement de son choix pour chaque parrainage réussi.
+Le présent contrat a pour objet la participation de ${params.userName} au Programme de Parrainage BazNova. En contrepartie de la recommandation de la plateforme BazNova à de nouveaux utilisateurs, le parrain bénéficie de ${rewardLabel} sur l'abonnement de son choix pour chaque parrainage réussi.
 
 CONDITIONS DE PARRAINAGE
-Un parrainage est considéré comme réussi lorsque le filleul s'inscrit sur la plateforme HireNova via le lien de parrainage personnalisé (code : ${params.referralCode}), crée un compte vérifié, et souscrit à un abonnement payant (Starter, Pro, Career+, Employer ou Annuel).
+Un parrainage est considéré comme réussi lorsque le filleul s'inscrit sur la plateforme BazNova via le lien de parrainage personnalisé (code : ${params.referralCode}), crée un compte vérifié, et souscrit à un abonnement payant (Starter, Pro, Career+, Employer ou Annuel).
 
 CODE DE PARRAINAGE
 Le code de parrainage personnel attribué au parrain est : ${params.referralCode}. Ce code est unique, personnel et incessible. Le parrain s'engage à ne pas utiliser de méthodes de spam, d'achat de leads ou de toute pratique trompeuse pour recruter des filleuls.
@@ -1040,16 +1040,16 @@ RÉCOMPENSE
 Pour chaque parrainage réussi et validé, le parrain reçoit ${rewardLabel}. Les récompenses sont cumulables sans plafond. La récompense est appliquée automatiquement sur le prochain renouvellement d'abonnement.
 
 ENGAGEMENTS DU PARRAIN
-Le parrain s'engage à : représenter fidèlement les services de HireNova, ne pas faire de fausses déclarations concernant les fonctionnalités de la plateforme, respecter les CGU de HireNova, et informer ses filleuls des conditions d'utilisation.
+Le parrain s'engage à : représenter fidèlement les services de BazNova, ne pas faire de fausses déclarations concernant les fonctionnalités de la plateforme, respecter les CGU de BazNova, et informer ses filleuls des conditions d'utilisation.
 
 ENGAGEMENTS DE HIRENOVA
-HireNova s'engage à : créditer la récompense dans un délai de 48 heures après validation du parrainage, fournir un tableau de bord de suivi des parrainages, et assurer le support technique du programme.
+BazNova s'engage à : créditer la récompense dans un délai de 48 heures après validation du parrainage, fournir un tableau de bord de suivi des parrainages, et assurer le support technique du programme.
 
 DURÉE ET RÉSILIATION
 Le présent contrat entre en vigueur dès son acceptation et court pour une durée indéterminée. Chaque partie peut y mettre fin à tout moment par simple notification. Les récompenses déjà créditées restent acquises.
 
 CONFIDENTIALITÉ
-Les données collectées dans le cadre de ce programme sont traitées conformément au RGPD et à la politique de confidentialité de HireNova.
+Les données collectées dans le cadre de ce programme sont traitées conformément au RGPD et à la politique de confidentialité de BazNova.
 
 LITIGES
 Le présent contrat est soumis au droit marocain. Tout litige sera soumis à une médiation amiable avant tout recours judiciaire.`
@@ -1059,7 +1059,7 @@ Le présent contrat est soumis au droit marocain. Tout litige sera soumis à une
     number,
     recipientName: params.userName,
     recipientEmail: params.userEmail,
-    subject: `Contrat de Parrainage HireNova — ${params.referralCode}`,
+    subject: `Contrat de Parrainage BazNova — ${params.referralCode}`,
     items: [{
       description: `Programme de Parrainage — code ${params.referralCode}`,
       quantity: 1,
@@ -1101,13 +1101,13 @@ export async function generatePartnershipAgreement(params: {
   const usersStr = params.usersCount ? ` pour ${params.usersCount} utilisateurs` : ''
 
   const defaultTerms = `OBJET DU CONTRAT
-Le présent contrat a pour objet l'établissement d'un partenariat entre HireNova (E-Society 2050) et ${params.companyName} pour ${typeLabel}${usersStr}. Les deux parties conviennent de collaborer afin de proposer les services de génération de CV IA, d'analyse ATS et de recrutement à leurs clients ou membres respectifs.
+Le présent contrat a pour objet l'établissement d'un partenariat entre BazNova (E-Society 2050) et ${params.companyName} pour ${typeLabel}${usersStr}. Les deux parties conviennent de collaborer afin de proposer les services de génération de CV IA, d'analyse ATS et de recrutement à leurs clients ou membres respectifs.
 
 RESPONSABILITÉS DE HIRENOVA
-HireNova fournira un accès prioritaire à la plateforme avec des tarifs préférentiels, un support technique dédié, une intégration API ou white-label si applicable, des rapports d'utilisation mensuels, et une formation initiale pour les équipes de ${params.companyName}.
+BazNova fournira un accès prioritaire à la plateforme avec des tarifs préférentiels, un support technique dédié, une intégration API ou white-label si applicable, des rapports d'utilisation mensuels, et une formation initiale pour les équipes de ${params.companyName}.
 
 RESPONSABILITÉS DE ${params.companyName?.toUpperCase() || 'LA PARTIE PARTENAIRE'}
-${params.companyName} s'engage à promouvoir les services HireNova auprès de son réseau, à fournir les informations nécessaires à l'intégration technique, à désigner un interlocuteur principal, et à respecter les conditions d'utilisation de la plateforme.
+${params.companyName} s'engage à promouvoir les services BazNova auprès de son réseau, à fournir les informations nécessaires à l'intégration technique, à désigner un interlocuteur principal, et à respecter les conditions d'utilisation de la plateforme.
 
 CONDITIONS COMMERCIALES
 Les conditions tarifaires applicables sont définies dans le devis associé (référence à déterminer). Les tarifs sont garantis pour une durée de 12 mois à compter de la signature du présent contrat. Toute modification tarifaire fera l'objet d'un préavis de 90 jours.
@@ -1141,7 +1141,7 @@ Le présent contrat est soumis au droit marocain. Tout litige fera l'objet d'une
     currency: 'EUR',
     taxRate: 0,
     agreementTerms: params.terms || defaultTerms,
-    notes: `Contrat de partenariat ${typeLabel}. Généré automatiquement par HireNova.`,
+    notes: `Contrat de partenariat ${typeLabel}. Généré automatiquement par BazNova.`,
   })
 }
 
@@ -1174,10 +1174,10 @@ export async function generateServiceAgreement(params: {
   const provider = params.paymentProvider || 'plateforme'
 
   const terms = `OBJET DU CONTRAT
-Le présent contrat de service a pour objet la souscription par ${params.userName} à l'abonnement HireNova ${planLabel}. En contrepartie du paiement de ${params.amount} ${params.currency}, HireNova (E-Society 2050) accorde à l'utilisateur l'accès aux fonctionnalités correspondant au plan ${planLabel}.
+Le présent contrat de service a pour objet la souscription par ${params.userName} à l'abonnement BazNova ${planLabel}. En contrepartie du paiement de ${params.amount} ${params.currency}, BazNova (E-Society 2050) accorde à l'utilisateur l'accès aux fonctionnalités correspondant au plan ${planLabel}.
 
 SERVICES INCLUS (PLAN ${planLabel.toUpperCase()})
-L'utilisateur bénéficie de l'accès complet à la plateforme HireNova selon les modalités du plan ${planLabel}, incluant la génération de CV IA, l'analyse de score ATS, les lettres de motivation, les templates professionnels, le support prioritaire, et toutes les fonctionnalités associées au plan choisi.
+L'utilisateur bénéficie de l'accès complet à la plateforme BazNova selon les modalités du plan ${planLabel}, incluant la génération de CV IA, l'analyse de score ATS, les lettres de motivation, les templates professionnels, le support prioritaire, et toutes les fonctionnalités associées au plan choisi.
 
 DURÉE ET RENOUVELLEMENT
 L'abonnement est mensuel et se renouvelle automatiquement à l'échéance. L'utilisateur peut résilier à tout moment depuis son espace personnel. La résiliation prend effet à la fin de la période en cours. Les services restent accessibles jusqu'à l'expiration de la période payée.
@@ -1186,16 +1186,16 @@ MODALITÉS DE PAIEMENT
 Le paiement est effectué via ${provider}. Le montant de ${params.amount} ${params.currency} est prélevé automatiquement à chaque renouvellement. En cas d'échec de paiement, l'accès est suspendu après 7 jours et résilié après 30 jours.
 
 CONDITIONS GÉNÉRALES D'UTILISATION
-L'utilisateur s'engage à utiliser la plateforme conformément aux CGU de HireNova, à ne pas partager ses identifiants, à ne pas utiliser les services à des fins illégales, et à respecter les droits de propriété intellectuelle.
+L'utilisateur s'engage à utiliser la plateforme conformément aux CGU de BazNova, à ne pas partager ses identifiants, à ne pas utiliser les services à des fins illégales, et à respecter les droits de propriété intellectuelle.
 
 PROPRIÉTÉ INTELLECTUELLE
-Les contenus générés par la plateforme (CV, lettres de motivation) restent la propriété de l'utilisateur. HireNova conserve la propriété de l'algorithme, de l'interface et des marques.
+Les contenus générés par la plateforme (CV, lettres de motivation) restent la propriété de l'utilisateur. BazNova conserve la propriété de l'algorithme, de l'interface et des marques.
 
 PROTECTION DES DONNÉES
 Les données personnelles sont traitées conformément au RGPD et à la loi 09-08 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel au Maroc.
 
 LIMITATION DE RESPONSABILITÉ
-HireNova s'engage à fournir un service disponible. En aucun cas, HireNova ne saurait être tenue responsable des dommages indirects résultant de l'utilisation de la plateforme.
+BazNova s'engage à fournir un service disponible. En aucun cas, BazNova ne saurait être tenue responsable des dommages indirects résultant de l'utilisation de la plateforme.
 
 LITIGES
 Le présent contrat est soumis au droit marocain. Tout litige fera l'objet d'une médiation amiable. À défaut, les tribunaux de Casablanca seront seuls compétents.`
@@ -1493,8 +1493,8 @@ export async function generateAccountingStatement(params: {
   const result = await generateDocument({
     type: 'accounting_statement',
     number,
-    recipientName: 'HireNova — Direction Financière',
-    recipientEmail: 'finance@hirenova.com',
+    recipientName: 'BazNova — Direction Financière',
+    recipientEmail: 'finance@baznova.com',
     recipientCompany: 'E-Society 2050',
     recipientAddress: 'Casablanca, Maroc',
     subject: `Bilan comptable — ${periodLabel} — ${invoices.length} facture(s)`,

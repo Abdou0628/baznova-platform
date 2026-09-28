@@ -1,12 +1,12 @@
 /**
- * HireNova AI Billing Agent — Payment Intelligence API
+ * BazNova AI Billing Agent — Payment Intelligence API
  *
- * Dedicated endpoint for the 4th AI agent in HireNova Command Center.
+ * Dedicated endpoint for the 4th AI agent in BazNova Command Center.
  * Connects the billing chatbot mode to real payment/subscription data.
  *
  * CTO: "Agent AI spécifique pour le traitement des processus des abonnements,
  * des annulations et le traitement des process des paiement confirmé ou non
- * pour libérer l'accès aux différents produits HireNova"
+ * pour libérer l'accès aux différents produits BazNova"
  *
  * ⚠️ This route only reads data — no mutations.
  * Payment operations go through the Payment Orchestrator.
@@ -255,7 +255,7 @@ async function handleCancelInfo(userId: string) {
         'All your data (CVs, documents, profiles) are preserved',
         'You can resubscribe at any time',
       ],
-      supportEmail: 'support@hirenova.app',
+      supportEmail: 'support@baznova.app',
     },
   })
 }

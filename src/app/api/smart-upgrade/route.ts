@@ -70,10 +70,10 @@ const MESSAGES: Record<string, Record<string, string>> = {
 // ─── Plan Display Names ─────────────────────────────────────────────────
 
 const PLAN_NAMES: Record<string, Record<string, string>> = {
-  hirenova_career: { fr: 'Career', en: 'Career', ar: 'كاريير', es: 'Carrera' },
-  hirenova_professional: { fr: 'Professionnel', en: 'Professional', ar: 'بروفيسيونال', es: 'Profesional' },
-  hirenova_ai_power: { fr: 'AI Power', en: 'AI Power', ar: 'AI باور', es: 'AI Power' },
-  hirenova_start: { fr: 'Start', en: 'Start', ar: 'ستارت', es: 'Start' },
+  baznova_career: { fr: 'Career', en: 'Career', ar: 'كاريير', es: 'Carrera' },
+  baznova_professional: { fr: 'Professionnel', en: 'Professional', ar: 'بروفيسيونال', es: 'Profesional' },
+  baznova_ai_power: { fr: 'AI Power', en: 'AI Power', ar: 'AI باور', es: 'AI Power' },
+  baznova_start: { fr: 'Start', en: 'Start', ar: 'ستارت', es: 'Start' },
 }
 
 const CTA_SEE_PLAN: Record<string, string> = {

@@ -1,5 +1,5 @@
 // =============================================================================
-// HireNova AI Operating System — Memory Engine
+// BazNova AI Operating System — Memory Engine
 // Manages AgentMemory CRUD, specialized memory stores, and learning loop
 // =============================================================================
 

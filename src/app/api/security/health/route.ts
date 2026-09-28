@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Security Health API
+ * BazNova Security Architecture (HNSA) — Security Health API
  *
  * Returns the current security health status.
  * Used by the admin security dashboard.

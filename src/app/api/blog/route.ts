@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
           description: data.description || '',
           excerpt: data.excerpt || '',
           category: data.category || 'Carrière',
-          author: data.author || 'HireNova',
+          author: data.author || 'BazNova',
           date: data.date ? String(data.date) : new Date().toISOString().slice(0, 10),
           readingTime: Number(data.readingTime) || 5,
           keywords: Array.isArray(data.keywords) ? data.keywords : [],

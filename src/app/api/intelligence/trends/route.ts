@@ -66,7 +66,7 @@ async function generateTrends(
     ? `Filter focus: ${filterParts.join(', ')}. You may include some adjacent sectors for context but prioritize the requested filters.`
     : 'Cover a diverse range of industries and regions globally.'
 
-  const systemPrompt = `You are HireNova Intelligence, an AI-powered labor market analyst. You track real-time employment trends across tech, green energy, finance, healthcare, and more. All skill names and industry labels must be written in ${responseLang}. Respond with JSON ONLY, no markdown.`
+  const systemPrompt = `You are BazNova Intelligence, an AI-powered labor market analyst. You track real-time employment trends across tech, green energy, finance, healthcare, and more. All skill names and industry labels must be written in ${responseLang}. Respond with JSON ONLY, no markdown.`
 
   const userPrompt = `Generate 12 current, real-world labor market trends for ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
 ${filterContext}
@@ -106,7 +106,7 @@ async function generateAnalysis(
 ): Promise<Analysis> {
   const responseLang = LANG_MAP[lang] || 'English'
 
-  const systemPrompt = `You are HireNova Intelligence, an expert AI market analyst. You provide concise, data-driven analysis of labor market trends. Respond in ${responseLang}. Respond with JSON ONLY, no markdown.`
+  const systemPrompt = `You are BazNova Intelligence, an expert AI market analyst. You provide concise, data-driven analysis of labor market trends. Respond in ${responseLang}. Respond with JSON ONLY, no markdown.`
 
   const userPrompt = `Analyze the following labor market trends and provide a summary:
 ${JSON.stringify(trends, null, 2)}

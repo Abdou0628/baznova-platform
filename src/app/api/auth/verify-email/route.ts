@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
-const SITE_URL = process.env.NEXTAUTH_URL || 'https://hirenova.com'
+const SITE_URL = process.env.NEXTAUTH_URL || 'https://baznova.com'
 
 export async function GET(request: NextRequest) {
   try {

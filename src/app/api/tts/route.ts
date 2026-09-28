@@ -19,28 +19,28 @@ function isRateLimited(): boolean {
 
 const MARKETING_SLIDES = {
   fr: [
-    'Découvrez HireNova, votre plateforme IA de gestion de carrière et recrutement. Créez des CV professionnels, optimisez votre profil LinkedIn, et préparez-vous aux entretiens avec notre intelligence artificielle avancée.',
+    'Découvrez BazNova, votre plateforme IA de gestion de carrière et recrutement. Créez des CV professionnels, optimisez votre profil LinkedIn, et préparez-vous aux entretiens avec notre intelligence artificielle avancée.',
     'Notre écosystème complet comprend vingt modules intelligents : CV IA, Lettre de Motivation, Analyse ATS, Simulateur d\'entretien, Optimiseur LinkedIn, Plan de Carrière, Coach IA, et bien plus encore.',
     'Le Command Center IA supervise l\'ensemble de la plateforme en temps réel. Dix-neuf agents autonomes collaborent pour vous offrir une expérience sans précédent.',
-    'Rejoignez des milliers de professionnels qui font confiance à HireNova pour accélérer leur carrière. L\'intelligence artificielle au service de votre réussite.',
+    'Rejoignez des milliers de professionnels qui font confiance à BazNova pour accélérer leur carrière. L\'intelligence artificielle au service de votre réussite.',
   ],
   en: [
-    'Discover HireNova, your AI-powered career management and recruitment platform. Create professional resumes, optimize your LinkedIn profile, and prepare for interviews with our advanced artificial intelligence.',
+    'Discover BazNova, your AI-powered career management and recruitment platform. Create professional resumes, optimize your LinkedIn profile, and prepare for interviews with our advanced artificial intelligence.',
     'Our complete ecosystem includes twenty intelligent modules: AI Resume, Cover Letter, ATS Analysis, Interview Simulator, LinkedIn Optimizer, Career Roadmap, AI Coach, and much more.',
     'The AI Command Center supervises the entire platform in real time. Nineteen autonomous agents collaborate to provide you with an unprecedented experience.',
-    'Join thousands of professionals who trust HireNova to accelerate their careers. Artificial intelligence at the service of your success.',
+    'Join thousands of professionals who trust BazNova to accelerate their careers. Artificial intelligence at the service of your success.',
   ],
   ar: [
-    'اكتشف HireNova، منصتك المدعومة بالذكاء الاصطناعي لإدارة المسار المهني التوظيف. أنشئ سيرًا ذاتية احترافية، وحسّن ملفك على لينكد إن، واستعد للمقابلات.',
+    'اكتشف BazNova، منصتك المدعومة بالذكاء الاصطناعي لإدارة المسار المهني التوظيف. أنشئ سيرًا ذاتية احترافية، وحسّن ملفك على لينكد إن، واستعد للمقابلات.',
     'يضم نظامنا المتكامل عشرين وحدة ذكية: سيرة ذاتية، رسالة تعريف، تحليل ATS، محاكاة مقابلات، تحسين لينكد إن، خارطة طريق مهنية، مدرب ذكي، والمزيد.',
     'يراقب مركز القيادة الذكي المنصة بالكامل في الوقت الفعلي. تسعة عشر وكيلًا مستقلًا يتعاونون لتقديم تجربة استثنائية.',
-    'انضم إلى آلاف المحترفين الذين يثقون في HireNova لتسريع مساراتهم المهنية. الذكاء الاصطناعي في خدمة نجاحك.',
+    'انضم إلى آلاف المحترفين الذين يثقون في BazNova لتسريع مساراتهم المهنية. الذكاء الاصطناعي في خدمة نجاحك.',
   ],
   es: [
-    'Descubre HireNova, tu plataforma de gestión de carrera y reclutamiento con IA. Crea currículums profesionales, optimiza tu perfil de LinkedIn y prepárate para entrevistas.',
+    'Descubre BazNova, tu plataforma de gestión de carrera y reclutamiento con IA. Crea currículums profesionales, optimiza tu perfil de LinkedIn y prepárate para entrevistas.',
     'Nuestro ecosistema completo incluye veinte módulos inteligentes: CV IA, Carta de Presentación, Análisis ATS, Simulador de Entrevistas, Optimizador de LinkedIn y mucho más.',
     'El Centro de Mando IA supervisa toda la plataforma en tiempo real. Diecinueve agentes autónomos colaboran para ofrecerte una experiencia sin precedentes.',
-    'Únete a miles de profesionales que confían en HireNova para acelerar sus carreras. Inteligencia artificial al servicio de tu éxito.',
+    'Únete a miles de profesionales que confían en BazNova para acelerar sus carreras. Inteligencia artificial al servicio de tu éxito.',
   ],
 }
 

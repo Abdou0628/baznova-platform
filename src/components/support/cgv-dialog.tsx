@@ -21,7 +21,7 @@ const sections = [
     content: (
       <div className="space-y-2 text-muted-foreground">
         <p>Les prix des abonnements sont indiqués en euros (€) ou en dirhams marocains (MAD) sur la plateforme.</p>
-        <p>HireNova se réserve le droit de modifier ses tarifs. Les modifications seront notifiées 30 jours avant leur entrée en vigueur.
+        <p>BazNova se réserve le droit de modifier ses tarifs. Les modifications seront notifiées 30 jours avant leur entrée en vigueur.
         L&rsquo;utilisateur peut résilier avant l&rsquo;application des nouveaux tarifs.</p>
       </div>
     ),
@@ -34,7 +34,7 @@ const sections = [
         <p>Le paiement s&rsquo;effectue en ligne par carte bancaire (Stripe) ou par mobile money (Paymob).</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>Paiement sécurisé conforme PCI DSS Level 1</li>
-          <li>Les données bancaires ne transitent jamais par les serveurs de HireNova</li>
+          <li>Les données bancaires ne transitent jamais par les serveurs de BazNova</li>
           <li>Un reçu est envoyé par email après chaque transaction</li>
         </ul>
       </div>
@@ -59,11 +59,11 @@ const sections = [
         <p className="font-medium text-foreground">Droit de rétractation (14 jours — article L.221-18 du Code de la consommation) :</p>
         <p>L&rsquo;utilisateur disposant de la qualité de consommateur au sens de l&rsquo;article préliminaire du Code de la consommation français
         dispose d&rsquo;un délai de 14 jours à compter de la souscription pour exercer son droit de rétractation, sans avoir à motiver sa décision.</p>
-        <p>Si le service a été partiellement utilisé pendant ce délai, HireNova pourra exiger une somme proportionnelle au service effectivement fourni.</p>
+        <p>Si le service a été partiellement utilisé pendant ce délai, BazNova pourra exiger une somme proportionnelle au service effectivement fourni.</p>
         <p className="font-medium text-foreground mt-2">Exceptions :</p>
         <p>Le droit de rétractation ne s&rsquo;applique pas aux services entièrement exécutés avant la fin du délai et dont l&rsquo;exécution a commencé
         avec l&rsquo;accord exprès du consommateur.</p>
-        <p>Pour toute demande : <a href="mailto:support@hirenova.com" className="text-emerald-600 hover:underline font-medium">support@hirenova.com</a></p>
+        <p>Pour toute demande : <a href="mailto:support@baznova.com" className="text-emerald-600 hover:underline font-medium">support@baznova.com</a></p>
       </div>
     ),
   },
@@ -72,13 +72,13 @@ const sections = [
     title: '5. Garanties',
     content: (
       <div className="space-y-2 text-muted-foreground">
-        <p>HireNova garantit :</p>
+        <p>BazNova garantit :</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>Un accès continu au service (sauf cas de force majeure ou maintenance planifiée)</li>
           <li>La confidentialité des données conformément à la Politique de Confidentialité</li>
           <li>Un support technique accessible par email</li>
         </ul>
-        <p className="text-xs italic mt-2">HireNova ne garantit pas l&rsquo;obtention d&rsquo;un résultat spécifique (emploi, entretien, recrutement).</p>
+        <p className="text-xs italic mt-2">BazNova ne garantit pas l&rsquo;obtention d&rsquo;un résultat spécifique (emploi, entretien, recrutement).</p>
       </div>
     ),
   },
@@ -87,8 +87,8 @@ const sections = [
     title: '6. Responsabilité',
     content: (
       <p className="text-muted-foreground">
-        La responsabilité de HireNova est limitée au montant des sommes effectivement versées par l&rsquo;utilisateur
-        au cours des 12 derniers mois. HireNova ne saurait être tenue responsable des dommages indirects, perte de chance,
+        La responsabilité de BazNova est limitée au montant des sommes effectivement versées par l&rsquo;utilisateur
+        au cours des 12 derniers mois. BazNova ne saurait être tenue responsable des dommages indirects, perte de chance,
         ou préjudice commercial.
       </p>
     ),
@@ -118,8 +118,8 @@ const sections = [
     title: '9. Contact',
     content: (
       <div className="bg-muted/50 rounded-xl p-4 space-y-2">
-        <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-emerald-600" /> <strong>Support & Facturation :</strong> <a href="mailto:support@hirenova.com" className="text-emerald-600 hover:underline">support@hirenova.com</a></p>
-        <p className="flex items-center gap-2"><Scale className="w-4 h-4 text-emerald-600" /> <strong>Juridique :</strong> <a href="mailto:legal@hirenova.com" className="text-emerald-600 hover:underline">legal@hirenova.com</a></p>
+        <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-emerald-600" /> <strong>Support & Facturation :</strong> <a href="mailto:support@baznova.com" className="text-emerald-600 hover:underline">support@baznova.com</a></p>
+        <p className="flex items-center gap-2"><Scale className="w-4 h-4 text-emerald-600" /> <strong>Juridique :</strong> <a href="mailto:legal@baznova.com" className="text-emerald-600 hover:underline">legal@baznova.com</a></p>
       </div>
     ),
   },
@@ -162,7 +162,7 @@ export default function CGVDialog({ open, onClose }: CGVDialogProps) {
             Dernière mise à jour : 25/07/2025
           </p>
           <p className="text-xs text-muted-foreground text-center font-medium">
-            © HireNova Technologies SARL — Tous droits réservés.
+            © BazNova Technologies SARL — Tous droits réservés.
           </p>
         </div>
       </DialogContent>

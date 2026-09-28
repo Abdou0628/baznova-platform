@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { hirenovaCheckout, hirenovaVerifyPayment } from '@/lib/payment-layer';
+import { baznovaCheckout, baznovaVerifyPayment } from '@/lib/payment-layer';
 import type { CheckoutRequest, PlanPricing } from '@/lib/payment-layer';
 
 // ── Plan Pricing Configuration ──────────────────────────────────────────────
@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Call the unified checkout
-    const result = await hirenovaCheckout(checkoutRequest);
+    const result = await baznovaCheckout(checkoutRequest);
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
@@ -229,7 +229,7 @@ export async function GET(request: NextRequest) {
     // If checkoutId is provided, return payment status instead
     if (checkoutId) {
       try {
-        const status = await hirenovaVerifyPayment(checkoutId);
+        const status = await baznovaVerifyPayment(checkoutId);
         return NextResponse.json(status, { status: 200 });
       } catch (error) {
         return NextResponse.json(

@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     // If no jobs exist for demo user, seed sample data
     if (jobs.length === 0) {
       // Create demo user if not exists
-      const user = await db.user.findFirst({ where: { email: 'recruiter@hirenova.com' } })
+      const user = await db.user.findFirst({ where: { email: 'recruiter@baznova.com' } })
       if (user) {
         // Create sample jobs
         const job1 = await db.recruiterJob.create({
@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
 
     // Create new job
     if (body.action === 'createJob') {
-      const user = await db.user.findFirst({ where: { email: 'recruiter@hirenova.com' } })
+      const user = await db.user.findFirst({ where: { email: 'recruiter@baznova.com' } })
       if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
       const job = await db.recruiterJob.create({

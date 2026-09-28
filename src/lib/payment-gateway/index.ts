@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Gateway Abstraction Layer
+ * BazNova Payment Gateway Abstraction Layer
  *
  * Main entry point. Re-exports all types, the registry, and helper functions.
  *

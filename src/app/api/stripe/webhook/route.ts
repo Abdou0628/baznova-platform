@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { stripe, STRIPE_WEBHOOK_SECRET, type HireNovaPlan } from '@/lib/stripe'
+import { stripe, STRIPE_WEBHOOK_SECRET, type BazNovaPlan } from '@/lib/stripe'
 import { generateInvoiceForPayment, generateReceiptForPayment } from '@/lib/documents'
 import Stripe from 'stripe'
 
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
 async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId
-  const planType = session.metadata?.planType as HireNovaPlan | undefined
+  const planType = session.metadata?.planType as BazNovaPlan | undefined
   const currency = session.metadata?.currency || 'eur'
 
   if (!userId) {
@@ -82,7 +82,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
     return
   }
 
-  const validPlans: HireNovaPlan[] = ['starter', 'pro', 'career_plus', 'employer', 'annual']
+  const validPlans: BazNovaPlan[] = ['starter', 'pro', 'career_plus', 'employer', 'annual']
   const plan = validPlans.includes(planType!) ? planType! : 'pro'
 
   const user = await db.user.findUnique({
@@ -127,7 +127,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
           userName: user.name || 'Client',
           amount: amountTotal / 100,
           currency,
-          description: `Abonnement ${plan} — HireNova (Stripe)`,
+          description: `Abonnement ${plan} — BazNova (Stripe)`,
           userId,
           paidAt: new Date(),
         })
@@ -176,9 +176,9 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
     if (!user) return
 
     // Still update plan from metadata if available
-    const planType = invoice.metadata?.planType as HireNovaPlan | undefined
+    const planType = invoice.metadata?.planType as BazNovaPlan | undefined
     if (planType) {
-      const validPlans: HireNovaPlan[] = ['starter', 'pro', 'career_plus', 'employer', 'annual']
+      const validPlans: BazNovaPlan[] = ['starter', 'pro', 'career_plus', 'employer', 'annual']
       const plan = validPlans.includes(planType) ? planType : undefined
       if (plan) {
         await db.user.update({

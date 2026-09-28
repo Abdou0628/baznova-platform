@@ -39,10 +39,10 @@ export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || ''
 // ─── Pricing Configuration ────────────────────────────
 // All prices in cents (smallest currency unit)
 
-export type HireNovaPlan = 'starter' | 'pro' | 'career_plus' | 'employer' | 'annual'
+export type BazNovaPlan = 'starter' | 'pro' | 'career_plus' | 'employer' | 'annual'
 export type Currency = 'eur' | 'usd' | 'gbp' | 'mad'
 
-export const PLAN_PRICES: Record<Currency, Record<HireNovaPlan, { amount: number; label: string }>> = {
+export const PLAN_PRICES: Record<Currency, Record<BazNovaPlan, { amount: number; label: string }>> = {
   eur: {
     starter:    { amount: 900,  label: '9€' },
     pro:        { amount: 1900, label: '19€' },
@@ -75,7 +75,7 @@ export const PLAN_PRICES: Record<Currency, Record<HireNovaPlan, { amount: number
 
 // Stripe Price IDs — set in Stripe Dashboard → Products
 // These are Price IDs (price_xxx), NOT Product IDs
-export const STRIPE_PRICE_IDS: Record<Currency, Record<HireNovaPlan, string>> = {
+export const STRIPE_PRICE_IDS: Record<Currency, Record<BazNovaPlan, string>> = {
   eur: {
     starter:    process.env.STRIPE_STARTER_EUR || 'price_starter_eur',
     pro:        process.env.STRIPE_PRO_EUR || 'price_pro_eur',
@@ -100,7 +100,7 @@ export const STRIPE_PRICE_IDS: Record<Currency, Record<HireNovaPlan, string>> = 
   mad: {}, // PayMob handles MAD, not Stripe
 }
 
-export const VALID_PLANS: HireNovaPlan[] = ['starter', 'pro', 'career_plus', 'employer', 'annual']
+export const VALID_PLANS: BazNovaPlan[] = ['starter', 'pro', 'career_plus', 'employer', 'annual']
 export const VALID_CURRENCIES: Currency[] = ['eur', 'usd', 'gbp', 'mad']
 
 // ─── Payment Provider Detection ────────────────────────

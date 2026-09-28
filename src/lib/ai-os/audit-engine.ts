@@ -1,5 +1,5 @@
 // =============================================================================
-// HireNova AI Operating System — Audit Engine
+// BazNova AI Operating System — Audit Engine
 // Immutable audit trail for all agent actions, tool calls, and policy decisions
 // =============================================================================
 

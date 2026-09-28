@@ -1,5 +1,5 @@
 /**
- * HNSA — HireNova Security Architecture
+ * HNSA — BazNova Security Architecture
  *
  * Barrel export for all HNSA security modules.
  * This file will be extended by other agents adding new security pillars.

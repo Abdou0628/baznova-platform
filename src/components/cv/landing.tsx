@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Globe, Shield, PenLine, ArrowRight, FileText, Star, Languages, Check, X, Crown, Zap, Loader2, LayoutTemplate, Download, GraduationCap, Briefcase, Rocket, Plane, UserCheck, Award, Bot, MessageCircle, MessageSquare, Linkedin, Search, Compass, BookOpen, Laptop, ChevronDown, HelpCircle, Users, ThumbsUp, Lock, Code2, BarChart3, PlusCircle, CheckCircle2, Copy, Gift, Building2, Mail, Wand2, Store, Brain, Scale, Network, HeartHandshake, UserPlus, Receipt } from 'lucide-react'
+import { Sparkles, Globe, Shield, PenLine, ArrowRight, FileText, Star, Languages, Check, X, Crown, Zap, Loader2, LayoutTemplate, Download, GraduationCap, Briefcase, Rocket, Plane, UserCheck, Award, Bot, MessageCircle, MessageSquare, Linkedin, Search, Compass, BookOpen, Laptop, ChevronDown, HelpCircle, Users, ThumbsUp, Lock, Code2, BarChart3, PlusCircle, CheckCircle2, Copy, Gift, Building2, Mail, Wand2, Store, Brain, Scale, Network, HeartHandshake, UserPlus, Receipt, Volume2, VolumeX } from 'lucide-react'
 import Image from 'next/image'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,7 @@ import VideoPresentation from '@/components/marketing/video-presentation'
 import AIMarketingHub from '@/components/marketing/ai-marketing-hub'
 import JobCopilotWidget from '@/components/copilot/job-copilot-widget'
 import { useSession } from 'next-auth/react'
+import { BazNovaMusic } from '@/lib/ambient-music'
 
 const flagEmoji: Record<CVLanguage, string> = {
   fr: '🇫🇷',
@@ -112,6 +113,32 @@ export default function Landing() {
   const { setStep, language, setLanguage, setSelectedPersona } = useCVStore()
   const isRTL = language === 'ar'
   const liveStats = usePublicStats()
+
+  // ── Ambient Music Player ──
+  const [musicPlaying, setMusicPlaying] = useState(false)
+  const musicRef = useRef<BazNovaMusic | null>(null)
+
+  const toggleMusic = async () => {
+    if (!musicRef.current) {
+      musicRef.current = new BazNovaMusic()
+    }
+    if (musicPlaying) {
+      await musicRef.current.stop()
+      setMusicPlaying(false)
+    } else {
+      await musicRef.current.start(0.35)
+      setMusicPlaying(true)
+    }
+  }
+
+  // Cleanup music on unmount
+  useEffect(() => {
+    return () => {
+      if (musicRef.current) {
+        musicRef.current.stop()
+      }
+    }
+  }, [])
 
   // Update html lang and dir attributes when language changes
   useEffect(() => {
@@ -334,12 +361,22 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex flex-col items-center">
-              <Image src="/hirenova-logo.png" alt="HireNova" width={36} height={36} className="rounded-lg" />
+              <Image src="/baznova-logo-new.png" alt="BazNova" width={36} height={36} className="rounded-lg" />
               <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">POWERED BY IA</span>
             </div>
             <span className="text-lg font-bold text-foreground">{t(language, 'siteTitle')}</span>
           </div>
           <div className="flex items-center gap-3">
+            {/* Music Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-lg text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+              onClick={toggleMusic}
+              aria-label={musicPlaying ? 'Stop music' : 'Play ambient music'}
+            >
+              {musicPlaying ? <Volume2 className="w-4 h-4 text-emerald-600" /> : <VolumeX className="w-4 h-4" />}
+            </Button>
             <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
               {(Object.keys(flagEmoji) as CVLanguage[]).map((lang) => (
                 <button
@@ -424,6 +461,8 @@ export default function Landing() {
               >
                 <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4 border border-emerald-200">
                   <Star className="w-4 h-4 fill-emerald-500 text-emerald-500" />
+                  <span>SaaS + SaaS Labour</span>
+                  <span className="w-px h-4 bg-emerald-300" />
                   <span>{t(language, 'freeNoSignup')}</span>
                 </div>
               </motion.div>
@@ -448,8 +487,8 @@ export default function Landing() {
                 className="mb-6"
               >
                 <div className="flex flex-col items-center">
-                  <Image src="/hirenova-logo.png" alt="HireNova" width={80} height={80} className="rounded-2xl shadow-lg shadow-emerald-600/20 mx-auto" />
-                  <span className="text-[10px] font-semibold text-emerald-600 tracking-widest mt-1">POWERED BY IA</span>
+                  <Image src="/baznova-logo-new.png" alt="BazNova" width={96} height={96} className="rounded-2xl shadow-lg shadow-emerald-600/20 mx-auto ring-2 ring-emerald-200/50" />
+                  <Badge className="mt-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 px-3 py-0.5 text-[10px] font-bold tracking-wider">SaaS + SaaS LABOUR</Badge>
                 </div>
               </motion.div>
 
@@ -459,7 +498,20 @@ export default function Landing() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                {t(language, 'siteTitle')}
+                {/* Animated BazNova title with letter-by-letter animation */}
+                <span className="inline-flex">
+                  {'BazNova'.split('').map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      transition={{ duration: 0.4, delay: 0.15 + i * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      className={i < 3 ? 'text-emerald-600' : 'text-foreground'}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </span>
                 <span className="block text-emerald-600 mt-2">{t(language, 'siteSubtitle')}</span>
               </motion.h1>
 
@@ -750,7 +802,7 @@ export default function Landing() {
         {/* AI Marketing Hub — Personalized Product Discovery */}
         <AIMarketingHub onScrollToPricing={scrollToPricing} />
 
-        {/* HireNova Ecosystem — Future Products Roadmap */}
+        {/* BazNova Ecosystem — Future Products Roadmap */}
         <section ref={ecosystemRef} className="relative py-16 sm:py-24 bg-gradient-to-b from-teal-50/40 via-white to-emerald-50/30">
           <div className="absolute inset-0 -z-10">
             <Image src="/images/bg-pattern.jpg" alt="" fill className="object-cover opacity-8" />
@@ -773,27 +825,27 @@ export default function Landing() {
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               {[
-                { icon: FileText, name: 'HireNova IA CV', desc: t(language, 'ecosystemCv'), active: true, accent: 'emerald', step: 'form' as AppStep | null },
-                { icon: Search, name: 'HireNova IA ATS', desc: t(language, 'ecosystemAts'), active: true, accent: 'emerald', step: 'form' as AppStep | null },
-                { icon: Briefcase, name: 'HireNova IA JOBS', desc: t(language, 'ecosystemJobs'), active: true, accent: 'emerald', step: 'jobMarket' as AppStep | null },
-                { icon: Globe, name: 'HireNova IA GLOBAL', desc: t(language, 'ecosystemGlobal'), active: true, accent: 'teal', step: 'globalMarket' as AppStep | null },
-                { icon: Plane, name: 'HireNova IA MOBILITY', desc: t(language, 'ecosystemMobility'), active: true, accent: 'purple', step: 'mobilityHome' as AppStep | null },
-                { icon: Code2, name: 'HireNova IA API', desc: t(language, 'ecosystemApi'), active: true, accent: 'sky', step: 'apiDocs' as AppStep | null },
-                { icon: Brain, name: 'HireNova IA INTELLIGENCE', desc: t(language, 'ecosystemIntelligence'), active: true, accent: 'violet', step: 'intelligenceHome' as AppStep | null },
-                { icon: MessageCircle, name: 'HireNova IA INTERVIEW', desc: t(language, 'ecosystemInterview'), active: true, accent: 'violet', step: 'interview' as AppStep | null },
-                { icon: Linkedin, name: 'HireNova IA LINKEDIN', desc: t(language, 'ecosystemLinkedin'), active: true, accent: 'sky', step: 'linkedinHome' as AppStep | null },
-                { icon: UserCheck, name: 'HireNova IA RECRUITER', desc: t(language, 'ecosystemRecruiter'), active: true, accent: 'amber', step: 'recruiterHome' as AppStep | null },
-                { icon: Compass, name: 'HireNova IA CAREER', desc: t(language, 'ecosystemCareer'), active: true, accent: 'rose', step: 'careerHome' as AppStep | null },
-                { icon: Bot, name: 'HireNova IA COACH', desc: t(language, 'ecosystemCoach'), active: true, accent: 'emerald', step: 'coachHome' as AppStep | null },
-                { icon: BookOpen, name: 'HireNova IA FORMATION', desc: t(language, 'ecosystemFormation'), active: true, accent: 'teal', step: 'formationHome' as AppStep | null },
-                { icon: Laptop, name: 'HireNova IA FREELANCE', desc: t(language, 'ecosystemFreelance'), active: true, accent: 'orange', step: 'freelanceHome' as AppStep | null },
-                { icon: MessageSquare, name: 'HireNova IA CHAT BOT ADVANCED', desc: t(language, 'ecosystemChatbot'), active: true, accent: 'violet', step: null },
-                { icon: GraduationCap, name: 'HireNova IA CAMPUS SaaS', desc: t(language, 'ecosystemCampus'), active: true, accent: 'teal', step: 'campus' as AppStep | null },
-                { icon: Store, name: 'HireNova IA COMMUNITY ET MARKETPLACE', desc: t(language, 'ecosystemMarketplace'), active: true, accent: 'emerald', step: 'marketplaceHome' as AppStep | null },
-                { icon: Building2, name: 'HireNova IA WHITE LABEL', desc: t(language, 'ecosystemWhiteLabel'), active: true, accent: 'slate', step: 'whiteLabelHome' as AppStep | null },
-                { icon: Scale, name: 'HireNova IA LEGAL', desc: t(language, 'ecosystemLegal'), active: true, accent: 'red', step: 'legalHome' as AppStep | null },
-                { icon: Receipt, name: 'HireNova IA PAIEMENT', desc: t(language, 'ecosystemPayment'), active: true, accent: 'emerald', step: 'paymentDashboard' as AppStep | null },
-                { icon: Network, name: 'HireNova IA COMMAND CENTER', desc: t(language, 'orchSubtitle'), active: true, accent: 'emerald', step: 'orchestrationHub' as AppStep | null },
+                { icon: FileText, name: 'BazNova IA CV', desc: t(language, 'ecosystemCv'), active: true, accent: 'emerald', step: 'form' as AppStep | null },
+                { icon: Search, name: 'BazNova IA ATS', desc: t(language, 'ecosystemAts'), active: true, accent: 'emerald', step: 'form' as AppStep | null },
+                { icon: Briefcase, name: 'BazNova IA JOBS', desc: t(language, 'ecosystemJobs'), active: true, accent: 'emerald', step: 'jobMarket' as AppStep | null },
+                { icon: Globe, name: 'BazNova IA GLOBAL', desc: t(language, 'ecosystemGlobal'), active: true, accent: 'teal', step: 'globalMarket' as AppStep | null },
+                { icon: Plane, name: 'BazNova IA MOBILITY', desc: t(language, 'ecosystemMobility'), active: true, accent: 'purple', step: 'mobilityHome' as AppStep | null },
+                { icon: Code2, name: 'BazNova IA API', desc: t(language, 'ecosystemApi'), active: true, accent: 'sky', step: 'apiDocs' as AppStep | null },
+                { icon: Brain, name: 'BazNova IA INTELLIGENCE', desc: t(language, 'ecosystemIntelligence'), active: true, accent: 'violet', step: 'intelligenceHome' as AppStep | null },
+                { icon: MessageCircle, name: 'BazNova IA INTERVIEW', desc: t(language, 'ecosystemInterview'), active: true, accent: 'violet', step: 'interview' as AppStep | null },
+                { icon: Linkedin, name: 'BazNova IA LINKEDIN', desc: t(language, 'ecosystemLinkedin'), active: true, accent: 'sky', step: 'linkedinHome' as AppStep | null },
+                { icon: UserCheck, name: 'BazNova IA RECRUITER', desc: t(language, 'ecosystemRecruiter'), active: true, accent: 'amber', step: 'recruiterHome' as AppStep | null },
+                { icon: Compass, name: 'BazNova IA CAREER', desc: t(language, 'ecosystemCareer'), active: true, accent: 'rose', step: 'careerHome' as AppStep | null },
+                { icon: Bot, name: 'BazNova IA COACH', desc: t(language, 'ecosystemCoach'), active: true, accent: 'emerald', step: 'coachHome' as AppStep | null },
+                { icon: BookOpen, name: 'BazNova IA FORMATION', desc: t(language, 'ecosystemFormation'), active: true, accent: 'teal', step: 'formationHome' as AppStep | null },
+                { icon: Laptop, name: 'BazNova IA FREELANCE', desc: t(language, 'ecosystemFreelance'), active: true, accent: 'orange', step: 'freelanceHome' as AppStep | null },
+                { icon: MessageSquare, name: 'BazNova IA CHAT BOT ADVANCED', desc: t(language, 'ecosystemChatbot'), active: true, accent: 'violet', step: null },
+                { icon: GraduationCap, name: 'BazNova IA CAMPUS SaaS', desc: t(language, 'ecosystemCampus'), active: true, accent: 'teal', step: 'campus' as AppStep | null },
+                { icon: Store, name: 'BazNova IA COMMUNITY ET MARKETPLACE', desc: t(language, 'ecosystemMarketplace'), active: true, accent: 'emerald', step: 'marketplaceHome' as AppStep | null },
+                { icon: Building2, name: 'BazNova IA WHITE LABEL', desc: t(language, 'ecosystemWhiteLabel'), active: true, accent: 'slate', step: 'whiteLabelHome' as AppStep | null },
+                { icon: Scale, name: 'BazNova IA LEGAL', desc: t(language, 'ecosystemLegal'), active: true, accent: 'red', step: 'legalHome' as AppStep | null },
+                { icon: Receipt, name: 'BazNova IA PAIEMENT', desc: t(language, 'ecosystemPayment'), active: true, accent: 'emerald', step: 'paymentDashboard' as AppStep | null },
+                { icon: Network, name: 'BazNova IA COMMAND CENTER', desc: t(language, 'orchSubtitle'), active: true, accent: 'emerald', step: 'orchestrationHub' as AppStep | null },
                 { icon: Bot, name: 'SaaLabour — Software as Labour', desc: 'Marketplace IA · Wallet WU · Templates · Mission Control', active: true, accent: 'violet', step: 'saalabourHub' as AppStep | null },
               ].map((product, index) => {
                 const isClickable = Boolean(product.active)
@@ -978,7 +1030,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* HireNova Jobs Section */}
+        {/* BazNova Jobs Section */}
         <section className="py-16 sm:py-20 bg-gradient-to-b from-emerald-50/50 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
@@ -1003,7 +1055,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* HireNova API Section */}
+        {/* BazNova API Section */}
         <section className="py-16 sm:py-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
@@ -1059,7 +1111,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* HireNova Global Section */}
+        {/* BazNova Global Section */}
         <section className="py-16 sm:py-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
@@ -1091,7 +1143,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* HireNova Mobilité Section */}
+        {/* BazNova Mobilité Section */}
         <section className="py-16 sm:py-20 bg-gradient-to-b from-teal-50/30 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
@@ -1134,7 +1186,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* HireNova LinkedIn Section */}
+        {/* BazNova LinkedIn Section */}
         <section className="py-16 sm:py-20 bg-gradient-to-b from-sky-50/30 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
@@ -1351,7 +1403,7 @@ export default function Landing() {
       {/* Footer */}
       <footer className="border-t bg-gradient-to-r from-emerald-50/50 via-white to-amber-50/30 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
         <div className="max-w-6xl mx-auto flex flex-col items-center gap-3 text-sm text-muted-foreground">
-          <p>{t(language, 'footerText')} &copy; 2026 HireNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
+          <p>{t(language, 'footerText')} &copy; 2026 BazNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
           <div className="flex items-center flex-wrap justify-center gap-2 text-xs">
             <span className="text-emerald-600 font-medium">{t(language, 'footerSecuredBy')}</span>
             <span>🇫🇷 FR</span><span>🇧🇪 BE</span><span>🇨🇭 CH</span><span>🇱🇺 LU</span><span>🇲🇨 MC</span><span>🇪🇸 ES</span><span>🇬🇧 UK</span><span>🇺🇸 US</span><span>🇨🇦 CA</span><span>🇦🇺 AU</span><span>🇸🇦 SA</span><span>🇦🇪 AE</span><span>🇶🇦 QA</span><span>🇰🇼 KW</span><span>🇧🇭 BH</span><span>🇴🇲 OM</span>

@@ -40,11 +40,11 @@ interface GoalCard {
 }
 
 const GOALS: GoalCard[] = [
-  { id: 'create_cv', icon: FileText, labelKey: 'goalCreateCv', recommendedBundle: 'hirenova_start' },
-  { id: 'find_job', icon: Briefcase, labelKey: 'goalFindJob', recommendedBundle: 'hirenova_career' },
-  { id: 'prepare_interview', icon: MessageSquare, labelKey: 'goalPrepareInterview', recommendedBundle: 'hirenova_career' },
-  { id: 'develop_career', icon: GraduationCap, labelKey: 'goalDevelopCareer', recommendedBundle: 'hirenova_professional' },
-  { id: 'freelance', icon: Laptop, labelKey: 'goalFreelance', recommendedBundle: 'hirenova_professional' },
+  { id: 'create_cv', icon: FileText, labelKey: 'goalCreateCv', recommendedBundle: 'baznova_start' },
+  { id: 'find_job', icon: Briefcase, labelKey: 'goalFindJob', recommendedBundle: 'baznova_career' },
+  { id: 'prepare_interview', icon: MessageSquare, labelKey: 'goalPrepareInterview', recommendedBundle: 'baznova_career' },
+  { id: 'develop_career', icon: GraduationCap, labelKey: 'goalDevelopCareer', recommendedBundle: 'baznova_professional' },
+  { id: 'freelance', icon: Laptop, labelKey: 'goalFreelance', recommendedBundle: 'baznova_professional' },
 ]
 
 // Module individual prices (EUR) for value calculation
@@ -120,7 +120,7 @@ interface BundlePlan {
 
 const BUNDLES: BundlePlan[] = [
   {
-    id: 'hirenova_start',
+    id: 'baznova_start',
     name: 'HIRENOVA START',
     monthlyEur: 9.9,
     color: 'emerald',
@@ -135,7 +135,7 @@ const BUNDLES: BundlePlan[] = [
     description: 'priceBundleStartDesc',
   },
   {
-    id: 'hirenova_career',
+    id: 'baznova_career',
     name: 'HIRENOVA CAREER',
     monthlyEur: 19.9,
     color: 'sky',
@@ -150,7 +150,7 @@ const BUNDLES: BundlePlan[] = [
     description: 'priceBundleCareerDesc',
   },
   {
-    id: 'hirenova_professional',
+    id: 'baznova_professional',
     name: 'HIRENOVA PROFESSIONNEL',
     monthlyEur: 29.9,
     color: 'violet',
@@ -165,7 +165,7 @@ const BUNDLES: BundlePlan[] = [
     description: 'priceBundleProDesc',
   },
   {
-    id: 'hirenova_ai_power',
+    id: 'baznova_ai_power',
     name: 'HIRENOVA AI POWER',
     monthlyEur: 39.9,
     color: 'amber',
@@ -635,7 +635,7 @@ export default function PricingSection({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 items-stretch max-w-6xl mx-auto mb-16">
           {BUNDLES.map((plan, i) => {
             const Icon = plan.icon
-            const isPopular = plan.id === 'hirenova_career'
+            const isPopular = plan.id === 'baznova_career'
             const isGoalRecommended = recommendedBundleId === plan.id
             return (
               <motion.div

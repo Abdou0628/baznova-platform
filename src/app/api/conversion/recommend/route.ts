@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
 
           // Check if user already has the recommended bundle
           if (recommendation.primaryBundle.id !== 'b2b_recruiter_enterprise') {
-            const planOrder = ['free', 'hirenova_start', 'hirenova_career', 'hirenova_professional', 'hirenova_ai_power']
+            const planOrder = ['free', 'baznova_start', 'baznova_career', 'baznova_professional', 'baznova_ai_power']
             const currentIdx = planOrder.indexOf(user.plan)
             const recommendedIdx = planOrder.indexOf(recommendation.primaryBundle.id)
             userContext.needsUpgrade = recommendedIdx > currentIdx

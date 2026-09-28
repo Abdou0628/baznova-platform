@@ -1,5 +1,5 @@
 /**
- * HireNova — AI Marketing Personalization Engine
+ * BazNova — AI Marketing Personalization Engine
  *
  * POST /api/ai/marketing-personalize
  *
@@ -74,33 +74,33 @@ interface PersonalizeResponse {
 // ===== Product & Bundle Catalog =====
 
 const BUNDLES: Record<string, { id: string; name: Record<Language, string>; price: string; products: string[] }> = {
-  hirenova_start: {
-    id: 'hirenova_start',
-    name: { fr: 'HireNova Start', en: 'HireNova Start', ar: 'HireNova Start', es: 'HireNova Start' },
+  baznova_start: {
+    id: 'baznova_start',
+    name: { fr: 'BazNova Start', en: 'BazNova Start', ar: 'BazNova Start', es: 'BazNova Start' },
     price: '€9.90/mois',
     products: ['cv', 'cover-letter', 'ats'],
   },
-  hirenova_career: {
-    id: 'hirenova_career',
-    name: { fr: 'HireNova Career', en: 'HireNova Career', ar: 'HireNova Career', es: 'HireNova Career' },
+  baznova_career: {
+    id: 'baznova_career',
+    name: { fr: 'BazNova Career', en: 'BazNova Career', ar: 'BazNova Career', es: 'BazNova Career' },
     price: '€19.90/mois',
     products: ['cv', 'cover-letter', 'ats', 'interview', 'linkedin', 'career'],
   },
-  hirenova_professional: {
-    id: 'hirenova_professional',
-    name: { fr: 'HireNova Professional', en: 'HireNova Professional', ar: 'HireNova Professional', es: 'HireNova Professional' },
+  baznova_professional: {
+    id: 'baznova_professional',
+    name: { fr: 'BazNova Professional', en: 'BazNova Professional', ar: 'BazNova Professional', es: 'BazNova Professional' },
     price: '€29.90/mois',
     products: ['cv', 'cover-letter', 'ats', 'interview', 'linkedin', 'career', 'coach', 'formation'],
   },
-  hirenova_ai_power: {
-    id: 'hirenova_ai_power',
-    name: { fr: 'HireNova AI Power', en: 'HireNova AI Power', ar: 'HireNova AI Power', es: 'HireNova AI Power' },
+  baznova_ai_power: {
+    id: 'baznova_ai_power',
+    name: { fr: 'BazNova AI Power', en: 'BazNova AI Power', ar: 'BazNova AI Power', es: 'BazNova AI Power' },
     price: '€39.90/mois',
     products: ['cv', 'cover-letter', 'ats', 'interview', 'linkedin', 'career', 'coach', 'formation', 'freelance', 'mobility'],
   },
   enterprise: {
     id: 'enterprise',
-    name: { fr: 'HireNova Enterprise', en: 'HireNova Enterprise', ar: 'HireNova Enterprise', es: 'HireNova Enterprise' },
+    name: { fr: 'BazNova Enterprise', en: 'BazNova Enterprise', ar: 'BazNova Enterprise', es: 'BazNova Enterprise' },
     price: 'Sur mesure',
     products: ['white-label', 'recruiter', 'api', 'legal'],
   },
@@ -140,41 +140,41 @@ function matchBundleRule(quiz: QuizProfile): { bundleId: string; reason: string 
 
   // Senior/Executive with premium budget
   if ((experience === 'senior' || experience === 'executive') && budget === 'premium') {
-    return { bundleId: 'hirenova_ai_power', reason: 'senior_full_stack' }
+    return { bundleId: 'baznova_ai_power', reason: 'senior_full_stack' }
   }
 
   // Career change needs comprehensive tools
   if (goal === 'career_change') {
-    return { bundleId: 'hirenova_professional', reason: 'career_transition' }
+    return { bundleId: 'baznova_professional', reason: 'career_transition' }
   }
 
   // Interview prep + career development
   if (goal === 'prepare_interview') {
-    if (budget === 'premium') return { bundleId: 'hirenova_ai_power', reason: 'full_career_prep' }
-    return { bundleId: 'hirenova_career', reason: 'interview_career' }
+    if (budget === 'premium') return { bundleId: 'baznova_ai_power', reason: 'full_career_prep' }
+    return { bundleId: 'baznova_career', reason: 'interview_career' }
   }
 
   // Freelance path
   if (goal === 'freelance') {
-    if (budget === 'premium' || budget === 'moderate') return { bundleId: 'hirenova_ai_power', reason: 'freelance_business' }
-    return { bundleId: 'hirenova_career', reason: 'freelance_start' }
+    if (budget === 'premium' || budget === 'moderate') return { bundleId: 'baznova_ai_power', reason: 'freelance_business' }
+    return { bundleId: 'baznova_career', reason: 'freelance_start' }
   }
 
   // Job search - scale with experience and budget
   if (goal === 'find_job') {
-    if (experience === 'executive' || budget === 'premium') return { bundleId: 'hirenova_ai_power', reason: 'executive_search' }
-    if (experience === 'senior' || experience === 'mid') return { bundleId: 'hirenova_professional', reason: 'professional_search' }
-    if (experience === 'junior' || budget === 'moderate') return { bundleId: 'hirenova_career', reason: 'career_launch' }
-    return { bundleId: 'hirenova_start', reason: 'first_job' }
+    if (experience === 'executive' || budget === 'premium') return { bundleId: 'baznova_ai_power', reason: 'executive_search' }
+    if (experience === 'senior' || experience === 'mid') return { bundleId: 'baznova_professional', reason: 'professional_search' }
+    if (experience === 'junior' || budget === 'moderate') return { bundleId: 'baznova_career', reason: 'career_launch' }
+    return { bundleId: 'baznova_start', reason: 'first_job' }
   }
 
   // Create CV only
   if (goal === 'create_cv') {
-    if (budget === 'moderate' || budget === 'premium') return { bundleId: 'hirenova_career', reason: 'cv_plus_value' }
-    return { bundleId: 'hirenova_start', reason: 'cv_essentials' }
+    if (budget === 'moderate' || budget === 'premium') return { bundleId: 'baznova_career', reason: 'cv_plus_value' }
+    return { bundleId: 'baznova_start', reason: 'cv_essentials' }
   }
 
-  return { bundleId: 'hirenova_start', reason: 'default_recommendation' }
+  return { bundleId: 'baznova_start', reason: 'default_recommendation' }
 }
 
 // ===== Default Fallback Response =====
@@ -183,14 +183,14 @@ function getFallbackResponse(lang: Language): PersonalizeResponse {
   const copy: Record<Language, PersonalizeResponse> = {
     fr: {
       success: true,
-      bundle: { id: 'hirenova_start', name: 'HireNova Start', price: '€9.90/mois', reason: 'Le bundle idéal pour commencer votre parcours professionnel avec l\'IA.', savings: 'Économisez 40% vs achats individuels' },
+      bundle: { id: 'baznova_start', name: 'BazNova Start', price: '€9.90/mois', reason: 'Le bundle idéal pour commencer votre parcours professionnel avec l\'IA.', savings: 'Économisez 40% vs achats individuels' },
       products: [
         { slug: 'cv', name: 'CV IA Professionnel', reason: 'Créez un CV qui passe les filtres ATS', priority: 'primary' },
         { slug: 'cover-letter', name: 'Lettre de Motivation IA', reason: 'Lettres personnalisées pour chaque candidature', priority: 'secondary' },
         { slug: 'ats', name: 'Analyse ATS', reason: 'Optimisez votre score de compatibilité', priority: 'secondary' },
       ],
       testimonials: [
-        { name: 'Sarah M.', role: 'Développeuse Frontend', company: 'TechStartup Paris', quote: 'Grâce à HireNova, j\'ai reçu 5 invitations d\'entretien en une semaine. Le CV IA a fait toute la différence !', rating: 5, avatar: '👩‍💻' },
+        { name: 'Sarah M.', role: 'Développeuse Frontend', company: 'TechStartup Paris', quote: 'Grâce à BazNova, j\'ai reçu 5 invitations d\'entretien en une semaine. Le CV IA a fait toute la différence !', rating: 5, avatar: '👩‍💻' },
         { name: 'Karim B.', role: 'Chef de Projet Digital', company: 'Maroc Telecom', quote: 'Le simulateur d\'entretien m\'a préparé parfaitement. J\'ai décroché le poste du premier coup.', rating: 5, avatar: '👨‍💼' },
         { name: 'Elena R.', role: 'Data Analyst', company: 'Casablanca Finance', quote: 'L\'analyse ATS m\'a montré exactement ce que les recruteurs cherchent. Score passé de 45% à 92%.', rating: 4, avatar: '👩‍🔬' },
       ],
@@ -200,14 +200,14 @@ function getFallbackResponse(lang: Language): PersonalizeResponse {
     },
     en: {
       success: true,
-      bundle: { id: 'hirenova_start', name: 'HireNova Start', price: '€9.90/month', reason: 'The ideal bundle to kickstart your professional journey with AI.', savings: 'Save 40% vs individual purchases' },
+      bundle: { id: 'baznova_start', name: 'BazNova Start', price: '€9.90/month', reason: 'The ideal bundle to kickstart your professional journey with AI.', savings: 'Save 40% vs individual purchases' },
       products: [
         { slug: 'cv', name: 'Professional AI Resume', reason: 'Create a resume that passes ATS filters', priority: 'primary' },
         { slug: 'cover-letter', name: 'AI Cover Letter', reason: 'Personalized letters for every application', priority: 'secondary' },
         { slug: 'ats', name: 'ATS Analysis', reason: 'Optimize your compatibility score', priority: 'secondary' },
       ],
       testimonials: [
-        { name: 'James L.', role: 'Software Engineer', company: 'London Tech Co.', quote: 'Thanks to HireNova, I got 5 interview invitations in one week. The AI resume made all the difference!', rating: 5, avatar: '👨‍💻' },
+        { name: 'James L.', role: 'Software Engineer', company: 'London Tech Co.', quote: 'Thanks to BazNova, I got 5 interview invitations in one week. The AI resume made all the difference!', rating: 5, avatar: '👨‍💻' },
         { name: 'Fatima Z.', role: 'Digital Project Manager', company: 'Rabat Innovation Hub', quote: 'The interview simulator prepared me perfectly. I landed the job on the first try.', rating: 5, avatar: '👩‍💼' },
         { name: 'Carlos M.', role: 'Data Analyst', company: 'Madrid Fintech', quote: 'ATS analysis showed me exactly what recruiters look for. Score went from 45% to 92%.', rating: 4, avatar: '🧑‍🔬' },
       ],
@@ -217,14 +217,14 @@ function getFallbackResponse(lang: Language): PersonalizeResponse {
     },
     ar: {
       success: true,
-      bundle: { id: 'hirenova_start', name: 'HireNova Start', price: '€9.90/شهر', reason: 'الحزمة المثالية لبدء مسارك المهني بالذكاء الاصطناعي.', savings: 'وفّر 40% مقارنة بالشراء الفردي' },
+      bundle: { id: 'baznova_start', name: 'BazNova Start', price: '€9.90/شهر', reason: 'الحزمة المثالية لبدء مسارك المهني بالذكاء الاصطناعي.', savings: 'وفّر 40% مقارنة بالشراء الفردي' },
       products: [
         { slug: 'cv', name: 'سيرة ذاتية احترافية IA', reason: 'أنشئ سيرة ذاتية تتجاوز فلاتر ATS', priority: 'primary' },
         { slug: 'cover-letter', name: 'رسالة تحفيزية IA', reason: 'رسائل مخصصة لكل طلب توظيف', priority: 'secondary' },
         { slug: 'ats', name: 'تحليل ATS', reason: 'حسّن نقاط توافقك', priority: 'secondary' },
       ],
       testimonials: [
-        { name: 'سارة م.', role: 'مطورة واجهات أمامية', company: 'شركة تقنية الرباط', quote: 'بفضل HireNova، حصلت على 5 دعوات مقابلة في أسبوع واحد.', rating: 5, avatar: '👩‍💻' },
+        { name: 'سارة م.', role: 'مطورة واجهات أمامية', company: 'شركة تقنية الرباط', quote: 'بفضل BazNova، حصلت على 5 دعوات مقابلة في أسبوع واحد.', rating: 5, avatar: '👩‍💻' },
         { name: 'كريم ب.', role: 'مدير مشاريع رقمية', company: 'إنnovacija الدار البيضاء', quote: 'محاكي المقابلة هيأني بشكل مثالي. حصلت على الوظيفة من المحاولة الأولى.', rating: 5, avatar: '👨‍💼' },
       ],
       heroCopy: { headline: 'مسارك المهني، متسارع بالذكاء الاصطناعي', subtitle: '+20 أداة ذكاء اصطناعي لكل مرحلة من مسارك المهني', cta: 'اكتشف خطتي', socialProof: 'أكثر من 12,000 محترف يثقون بنا' },
@@ -233,14 +233,14 @@ function getFallbackResponse(lang: Language): PersonalizeResponse {
     },
     es: {
       success: true,
-      bundle: { id: 'hirenova_start', name: 'HireNova Start', price: '€9.90/mes', reason: 'El paquete ideal para comenzar tu camino profesional con IA.', savings: 'Ahorra 40% vs compras individuales' },
+      bundle: { id: 'baznova_start', name: 'BazNova Start', price: '€9.90/mes', reason: 'El paquete ideal para comenzar tu camino profesional con IA.', savings: 'Ahorra 40% vs compras individuales' },
       products: [
         { slug: 'cv', name: 'CV Profesional IA', reason: 'Crea un CV que supere los filtros ATS', priority: 'primary' },
         { slug: 'cover-letter', name: 'Carta de Presentación IA', reason: 'Cartas personalizadas para cada aplicación', priority: 'secondary' },
         { slug: 'ats', name: 'Análisis ATS', reason: 'Optimiza tu puntuación de compatibilidad', priority: 'secondary' },
       ],
       testimonials: [
-        { name: 'María G.', role: 'Ingeniera de Software', company: 'Barcelona Tech', quote: 'Gracias a HireNova, recibí 5 invitaciones a entrevistas en una semana.', rating: 5, avatar: '👩‍💻' },
+        { name: 'María G.', role: 'Ingeniera de Software', company: 'Barcelona Tech', quote: 'Gracias a BazNova, recibí 5 invitaciones a entrevistas en una semana.', rating: 5, avatar: '👩‍💻' },
         { name: 'Ahmed K.', role: 'Director de Proyectos', company: 'Casablanca Digital', quote: 'El simulador de entrevistas me preparó perfectamente. Conseguí el trabajo a la primera.', rating: 5, avatar: '👨‍💼' },
       ],
       heroCopy: { headline: 'Tu Carrera, Acelerada por IA', subtitle: '+20 herramientas IA para cada paso de tu camino profesional', cta: 'Descubrir Mi Plan', socialProof: 'Más de 12,000 profesionales confían en nosotros' },
@@ -311,7 +311,7 @@ export async function POST(request: NextRequest) {
 
       const langNames: Record<Language, string> = { fr: 'French', en: 'English', ar: 'Arabic', es: 'Spanish' }
 
-      const systemPrompt = `You are the AI Marketing Personalization Engine for "HireNova by E-Society 2050" — a Premium AI Recruitment Platform with 20+ AI-powered career tools.
+      const systemPrompt = `You are the AI Marketing Personalization Engine for "BazNova by E-Society 2050" — a Premium AI Recruitment Platform with 20+ AI-powered career tools.
 
 You MUST respond in valid JSON only. No markdown, no explanation, just the JSON object.
 
@@ -338,7 +338,7 @@ IMPORTANT:
 - ALL content MUST be in ${langNames[lang]}
 - Names should be culturally appropriate for the language
 - Companies should feel realistic (mix of known and fictional)
-- Quotes must reference specific HireNova features and measurable outcomes
+- Quotes must reference specific BazNova features and measurable outcomes
 - The confidence_score should be 80-98 based on how clearly the user's needs map to a bundle
 - Make testimonials feel genuine, not salesy
 - For Arabic content, use natural Arabic (not translated French)`

@@ -1,5 +1,5 @@
 // =============================================================================
-// HireNova IA — Persona Engine (Marketing Expert Perspective)
+// BazNova IA — Persona Engine (Marketing Expert Perspective)
 // Chaque persona a un parcours complet: CV → LM auto → ATS → Suggestions → Candidature
 // Philosophie: Égalité des chances, zéro discrimination, référence mondiale
 // =============================================================================
@@ -69,16 +69,16 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
       es: 'Tu primer paso hacia la carrera — sin discriminación',
     },
     valueProp: {
-      fr: 'HireNova donne à chaque étudiant la même chance de décrocher un stage ou un premier emploi grâce à un CV optimisé qui met en valeur tes projets académiques, tes compétences et ton potentiel — pas ton manque d\'expérience.',
-      en: 'HireNova gives every student an equal chance to land an internship or first job with an optimized CV that highlights your academic projects, skills, and potential — not your lack of experience.',
-      ar: 'يمنح HireNova كل طالب فرصة متساوية للحصول على تدريب أو وظيفة أولى من خلال سيرة ذاتية محسنة تبرز مشاريعك الأكاديمية ومهاراتك وإمكاناتك — وليس نقص خبرتك.',
-      es: 'HireNova da a cada estudiante la misma oportunidad de conseguir una pasantía o primer empleo con un CV optimizado que destaca tus proyectos académicos, habilidades y potencial — no tu falta de experiencia.',
+      fr: 'BazNova donne à chaque étudiant la même chance de décrocher un stage ou un premier emploi grâce à un CV optimisé qui met en valeur tes projets académiques, tes compétences et ton potentiel — pas ton manque d\'expérience.',
+      en: 'BazNova gives every student an equal chance to land an internship or first job with an optimized CV that highlights your academic projects, skills, and potential — not your lack of experience.',
+      ar: 'يمنح BazNova كل طالب فرصة متساوية للحصول على تدريب أو وظيفة أولى من خلال سيرة ذاتية محسنة تبرز مشاريعك الأكاديمية ومهاراتك وإمكاناتك — وليس نقص خبرتك.',
+      es: 'BazNova da a cada estudiante la misma oportunidad de conseguir una pasantía o primer empleo con un CV optimizado que destaca tus proyectos académicos, habilidades y potencial — no tu falta de experiencia.',
     },
     socialProof: {
-      fr: '+12 000 étudiants ont déjà décroché leur premier stage avec HireNova',
-      en: '+12,000 students already landed their first internship with HireNova',
-      ar: '+12,000 طالب حصلوا بالفعل على أول تدريب لهم مع HireNova',
-      es: '+12,000 estudiantes ya consiguieron su primera pasantía con HireNova',
+      fr: '+12 000 étudiants ont déjà décroché leur premier stage avec BazNova',
+      en: '+12,000 students already landed their first internship with BazNova',
+      ar: '+12,000 طالب حصلوا بالفعل على أول تدريب لهم مع BazNova',
+      es: '+12,000 estudiantes ya consiguieron su primera pasantía con BazNova',
     },
     defaultTone: 'semi-formal',
     showApplicationType: true,
@@ -100,7 +100,7 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
     suggestions: [
       { category: 'cv', key: 'student_projects', label: { fr: 'Mets en avant tes projets', en: 'Highlight your projects', ar: 'أبرز مشاريعك', es: 'Destaca tus proyectos' }, description: { fr: 'Les recruteurs cherchent des projets concrets — pas seulement des diplômes. Décris 2-3 projets académiques avec tes rôles et résultats.', en: 'Recruiters look for concrete projects — not just degrees. Describe 2-3 academic projects with your roles and results.', ar: 'يبحث المسؤولون عن مشاريع ملموسة — وليس فقط شهادات. صف 2-3 مشاريع أكاديمية مع أدوارك ونتائجك.', es: 'Los reclutadores buscan proyectos concretos — no solo títulos. Describe 2-3 proyectos académicos con tus roles y resultados.' }, priority: 'high' },
       { category: 'cl', key: 'student_motivation', label: { fr: 'Lettre de motivation ciblée', en: 'Targeted cover letter', ar: 'رسالة تحفيزية مستهدفة', es: 'Carta de motivación dirigida' }, description: { fr: 'Explique pourquoi TU — parmi tous les candidats — es le meilleur choix. Personnalise pour chaque entreprise.', en: 'Explain why YOU — among all candidates — are the best choice. Personalize for each company.', ar: 'اشرح لماذا أنت — من بين جميع المرشحين — الخيار الأفضل. خصص لكل شركة.', es: 'Explica por qué TÚ — entre todos los candidatos — eres la mejor opción. Personaliza para cada empresa.' }, priority: 'high' },
-      { category: 'ats', key: 'student_keywords', label: { fr: 'Mots-clés du poste cible', en: 'Target job keywords', ar: 'الكلمات المفتاحية للوظيفة المستهدفة', es: 'Palabras clave del puesto objetivo' }, description: { fr: 'Copie-colle l\'offre d\'emploi dans l\'analyseur ATS — HireNova extrait les mots-clés et vérifie ton CV.', en: 'Paste the job posting into the ATS analyzer — HireNova extracts keywords and checks your CV.', ar: 'الصق إعلان الوظيفة في محلل ATS — يستخرج HireNova الكلمات المفتاحية ويتحقق من سيرتك الذاتية.', es: 'Pega la oferta de empleo en el analizador ATS — HireNova extrae palabras clave y verifica tu CV.' }, priority: 'high' },
+      { category: 'ats', key: 'student_keywords', label: { fr: 'Mots-clés du poste cible', en: 'Target job keywords', ar: 'الكلمات المفتاحية للوظيفة المستهدفة', es: 'Palabras clave del puesto objetivo' }, description: { fr: 'Copie-colle l\'offre d\'emploi dans l\'analyseur ATS — BazNova extrait les mots-clés et vérifie ton CV.', en: 'Paste the job posting into the ATS analyzer — BazNova extracts keywords and checks your CV.', ar: 'الصق إعلان الوظيفة في محلل ATS — يستخرج BazNova الكلمات المفتاحية ويتحقق من سيرتك الذاتية.', es: 'Pega la oferta de empleo en el analizador ATS — BazNova extrae palabras clave y verifica tu CV.' }, priority: 'high' },
       { category: 'career', key: 'student_linkedin', label: { fr: 'Optimise ton LinkedIn', en: 'Optimize your LinkedIn', ar: 'حسّن ملفك على لينكد إن', es: 'Optimiza tu LinkedIn' }, description: { fr: 'Un profil LinkedIn complet multiplie par 3 tes chances d\'être contacté par un recruteur.', en: 'A complete LinkedIn profile triples your chances of being contacted by a recruiter.', ar: 'ملف لينكد إن كامل يضاعف 3 مرات فرص تواصلك مع مسؤول توظيف.', es: 'Un perfil de LinkedIn completo triplica tus posibilidades de ser contactado por un reclutador.' }, priority: 'medium' },
       { category: 'interview', key: 'student_practice', label: { fr: 'Pratique l\'entretien IA', en: 'Practice AI interview', ar: 'تدرب على المقابلة بالذكاء الاصطناعي', es: 'Practica entrevista IA' }, description: { fr: 'Le simulateur d\'entretien IA te prépare aux questions fréquentes pour les profils juniors.', en: 'The AI interview simulator prepares you for common junior-level interview questions.', ar: 'يحضرك محاكي المقابلة بالذكاء الاصطناعي للأسئلة الشائعة للمستوى المبتدئ.', es: 'El simulador de entrevistas IA te prepara para preguntas comunes de nivel junior.' }, priority: 'medium' },
     ],
@@ -133,8 +133,8 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
       es: 'Tu título merece un CV que lo valore',
     },
     valueProp: {
-      fr: 'Fais la transition de l\'université à l\'entreprise avec un CV qui transforme tes connaissances académiques en compétences professionnelles concrètes. HireNova IA connaît les attentes des recruteurs pour les jeunes diplômés.',
-      en: 'Make the transition from university to the corporate world with a CV that transforms academic knowledge into concrete professional skills. HireNova IA knows recruiter expectations for recent graduates.',
+      fr: 'Fais la transition de l\'université à l\'entreprise avec un CV qui transforme tes connaissances académiques en compétences professionnelles concrètes. BazNova IA connaît les attentes des recruteurs pour les jeunes diplômés.',
+      en: 'Make the transition from university to the corporate world with a CV that transforms academic knowledge into concrete professional skills. BazNova IA knows recruiter expectations for recent graduates.',
       ar: 'انتقل من الجامعة إلى عالم الشركات بسيرة ذاتية تحول معرفتك الأكاديمية إلى مهارات مهنية ملموسة.',
       es: 'Haz la transición de la universidad al mundo corporativo con un CV que transforma el conocimiento académico en habilidades profesionales concretas.',
     },
@@ -163,7 +163,7 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
     suggestions: [
       { category: 'cv', key: 'grad_translate', label: { fr: 'Traduis ton académique en professionnel', en: 'Translate academic to professional', ar: 'حوّل أكاديميك إلى مهني', es: 'Traduce académico a profesional' }, description: { fr: 'Remplace \"j\'ai étudié\" par \"j\'ai appliqué\". Les recruteurs veulent voir des résultats, pas des programmes.', en: 'Replace \\"I studied\\" with \\"I applied\\". Recruiters want results, not curricula.', ar: 'استبدل \"درست\" بـ \"طبقت\". يريد المسؤولون نتائج وليس مناهج.', es: 'Reemplaza \\"estudié\\" con \\"apliqué\\". Los reclutadores quieren resultados, no currículos.' }, priority: 'high' },
       { category: 'ats', key: 'grad_ats', label: { fr: 'Optimise pour le score ATS', en: 'Optimize for ATS score', ar: 'حسّن لنتيجة ATS', es: 'Optimiza para puntuación ATS' }, description: { fr: 'Les jeunes diplômés sont souvent filtrés par les ATS. Vérifie que ton CV contient les mots-clés exacts de l\'offre.', en: 'Recent graduates are often filtered by ATS. Make sure your CV contains the exact keywords from the job posting.', ar: 'غالبًا ما يتم تصفية الخريجين الجدد بواسطة ATS. تأكد أن سيرتك تحتوي الكلمات المفتاحية الدقيقة من الإعلان.', es: 'Los recién graduados son a menudo filtrados por ATS. Asegúrate de que tu CV contiene las palabras clave exactas de la oferta.' }, priority: 'high' },
-      { category: 'career', key: 'grad_roadmap', label: { fr: 'Planifie ta carrière sur 3 ans', en: 'Plan your 3-year career', ar: 'خطط لمسارك المهني لـ 3 سنوات', es: 'Planifica tu carrera a 3 años' }, description: { fr: 'HireNova IA Career construit une feuille de route personnalisée pour tes 3 premières années professionnelles.', en: 'HireNova IA Career builds a personalized roadmap for your first 3 professional years.', ar: 'يبني HireNova IA Career خارطة طريق مخصصة لأول 3 سنوات مهنية لك.', es: 'HireNova IA Career construye una hoja de ruta personalizada para tus primeros 3 años profesionales.' }, priority: 'medium' },
+      { category: 'career', key: 'grad_roadmap', label: { fr: 'Planifie ta carrière sur 3 ans', en: 'Plan your 3-year career', ar: 'خطط لمسارك المهني لـ 3 سنوات', es: 'Planifica tu carrera a 3 años' }, description: { fr: 'BazNova IA Career construit une feuille de route personnalisée pour tes 3 premières années professionnelles.', en: 'BazNova IA Career builds a personalized roadmap for your first 3 professional years.', ar: 'يبني BazNova IA Career خارطة طريق مخصصة لأول 3 سنوات مهنية لك.', es: 'BazNova IA Career construye una hoja de ruta personalizada para tus primeros 3 años profesionales.' }, priority: 'medium' },
     ],
     applicationFields: [
       { key: 'degree', labelKey: 'appFieldDegree', placeholderKey: 'appFieldDegreePh', required: true, type: 'text' },
@@ -195,16 +195,16 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
       es: 'Tu experiencia habla — hazla hablar más fuerte',
     },
     valueProp: {
-      fr: 'Transforme tes années d\'expérience en un CV qui démontre un impact mesurable. HireNova IA structure tes réalisations avec des métriques et les aligne sur les attentes des recruteurs de ton secteur.',
-      en: 'Transform years of experience into a CV that demonstrates measurable impact. HireNova IA structures your achievements with metrics and aligns them with recruiter expectations in your industry.',
+      fr: 'Transforme tes années d\'expérience en un CV qui démontre un impact mesurable. BazNova IA structure tes réalisations avec des métriques et les aligne sur les attentes des recruteurs de ton secteur.',
+      en: 'Transform years of experience into a CV that demonstrates measurable impact. BazNova IA structures your achievements with metrics and aligns them with recruiter expectations in your industry.',
       ar: 'حوّل سنوات خبرتك إلى سيرة ذاتية تُظهر تأثيرًا قابلًا للقياس.',
       es: 'Transforma años de experiencia en un CV que demuestra impacto medible.',
     },
     socialProof: {
-      fr: '+25 000 professionnels ont boosté leur carrière avec un CV HireNova',
-      en: '+25,000 professionals boosted their career with a HireNova CV',
-      ar: '+25,000 محترف عززوا مسيرتهم المهنية بسيرة HireNova',
-      es: '+25,000 profesionales impulsaron su carrera con un CV HireNova',
+      fr: '+25 000 professionnels ont boosté leur carrière avec un CV BazNova',
+      en: '+25,000 professionals boosted their career with a BazNova CV',
+      ar: '+25,000 محترف عززوا مسيرتهم المهنية بسيرة BazNova',
+      es: '+25,000 profesionales impulsaron su carrera con un CV BazNova',
     },
     defaultTone: 'formal',
     showApplicationType: true,
@@ -257,16 +257,16 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
       es: 'Tu liderazgo merece un CV de nivel C-Suite',
     },
     valueProp: {
-      fr: 'Un CV exécutif qui projette vision, stratégie et résultats. HireNova IA structure ton parcours pour les boards de recrutement et les chasseurs de têtes, avec un design premium et une narration percutante.',
-      en: 'An executive CV that projects vision, strategy, and results. HireNova IA structures your journey for recruiting boards and headhunters, with premium design and compelling narrative.',
+      fr: 'Un CV exécutif qui projette vision, stratégie et résultats. BazNova IA structure ton parcours pour les boards de recrutement et les chasseurs de têtes, avec un design premium et une narration percutante.',
+      en: 'An executive CV that projects vision, strategy, and results. BazNova IA structures your journey for recruiting boards and headhunters, with premium design and compelling narrative.',
       ar: 'سيرة ذاتية تنفيذية تعكس الرؤية والاستراتيجية والنتائج.',
       es: 'Un CV ejecutivo que proyecta visión, estrategia y resultados.',
     },
     socialProof: {
-      fr: '+3 200 cadres dirigeants ont confiance à HireNova pour leur positionnement',
-      en: '+3,200 executives trust HireNova for their positioning',
-      ar: '+3,200 مديرين تنفيذيين يثقون في HireNova لتموضعهم',
-      es: '+3,200 ejecutivos confían en HireNova para su posicionamiento',
+      fr: '+3 200 cadres dirigeants ont confiance à BazNova pour leur positionnement',
+      en: '+3,200 executives trust BazNova for their positioning',
+      ar: '+3,200 مديرين تنفيذيين يثقون في BazNova لتموضعهم',
+      es: '+3,200 ejecutivos confían en BazNova para su posicionamiento',
     },
     defaultTone: 'formal',
     showApplicationType: true,
@@ -287,7 +287,7 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
     atsFocusKeywords: ['direction', 'leadership', 'stratégie', 'strategy', 'transformation', 'P&L', 'CA', 'revenue', 'croissance', 'growth', 'gouvernance', 'governance', 'conseil d\'administration', 'board'],
     suggestions: [
       { category: 'cv', key: 'exec_impact', label: { fr: 'Pense impact, pas tâches', en: 'Think impact, not tasks', ar: 'فكر بالتأثير وليس المهام', es: 'Piensa en impacto, no en tareas' }, description: { fr: 'Remplace \"Gestion de l\'équipe\" par \"Bâti et dirigé une équipe de 50+ personnes à travers 3 pays, générant 15M€ de revenus\".', en: 'Replace \\"Managed the team\\" with \\"Built and led a 50+ person team across 3 countries, generating €15M in revenue\\".', ar: 'استبدل \"إدارة الفريق\" بـ \"بنيت وقيت فريقًا من 50+ شخصًا عبر 3 دول، بتحقيق 15 مليون€ إيرادات\".', es: 'Reemplaza \\"Gestioné el equipo\\" con \\"Construí y lideré un equipo de 50+ personas en 3 países, generando 15M€ en ingresos\\".' }, priority: 'high' },
-      { category: 'cl', key: 'exec_vision', label: { fr: 'Lettre avec vision stratégique', en: 'Letter with strategic vision', ar: 'رسالة برؤية استراتيجية', es: 'Carta con visión estratégica' }, description: { fr: 'La lettre d\'un dirigeant doit démontrer une vision claire et des résultats quantifiés. HireNova adapte le ton.', en: 'An executive\'s letter must demonstrate clear vision and quantified results. HireNova adapts the tone.', ar: 'يجب أن تُظهر رسالة المدير التنفيذي رؤية واضحة ونتائج كمية.', es: 'La carta de un ejecutivo debe demostrar visión clara y resultados cuantificados.' }, priority: 'high' },
+      { category: 'cl', key: 'exec_vision', label: { fr: 'Lettre avec vision stratégique', en: 'Letter with strategic vision', ar: 'رسالة برؤية استراتيجية', es: 'Carta con visión estratégica' }, description: { fr: 'La lettre d\'un dirigeant doit démontrer une vision claire et des résultats quantifiés. BazNova adapte le ton.', en: 'An executive\'s letter must demonstrate clear vision and quantified results. BazNova adapts the tone.', ar: 'يجب أن تُظهر رسالة المدير التنفيذي رؤية واضحة ونتائج كمية.', es: 'La carta de un ejecutivo debe demostrar visión clara y resultados cuantificados.' }, priority: 'high' },
       { category: 'career', key: 'exec_linkedin', label: { fr: 'Profil LinkedIn exécutif', en: 'Executive LinkedIn profile', ar: 'ملف لينكد إن تنفيذي', es: 'Perfil LinkedIn ejecutivo' }, description: { fr: 'Les chasseurs de têtes scrutent LinkedIn. Un profil exécutif optimisé est indispensable.', en: 'Headhunters scrutinize LinkedIn. An optimized executive profile is essential.', ar: 'يبحث صيادو الرؤساء عن لينكد إن. ملف تنفيذي محسن أمر ضروري.', es: 'Los headhunters examinan LinkedIn. Un perfil ejecutivo optimizado es esencial.' }, priority: 'medium' },
     ],
     applicationFields: [
@@ -320,16 +320,16 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
       es: 'Tu portafolio es tu CV — hazlo irresistible',
     },
     valueProp: {
-      fr: 'En tant que freelance, tu vends des résultats — pas du temps. HireNova IA crée un CV qui met en avant tes missions, tes taux de réussite et tes compétences spécialisées pour attirer les meilleurs clients.',
-      en: 'As a freelancer, you sell results — not time. HireNova AI creates a CV that highlights your missions, success rates, and specialized skills to attract top clients.',
-      ar: 'كمستقل، أنت تبيع النتائج — ليس الوقت. ينشئ HireNova IA سيرة ذاتية تبرز مهامك ومعدلات نجاحك ومهاراتك المتخصصة.',
-      es: 'Como freelance, vendes resultados — no tiempo. HireNova IA crea un CV que destaca tus misiones, tasas de éxito y habilidades especializadas.',
+      fr: 'En tant que freelance, tu vends des résultats — pas du temps. BazNova IA crée un CV qui met en avant tes missions, tes taux de réussite et tes compétences spécialisées pour attirer les meilleurs clients.',
+      en: 'As a freelancer, you sell results — not time. BazNova AI creates a CV that highlights your missions, success rates, and specialized skills to attract top clients.',
+      ar: 'كمستقل، أنت تبيع النتائج — ليس الوقت. ينشئ BazNova IA سيرة ذاتية تبرز مهامك ومعدلات نجاحك ومهاراتك المتخصصة.',
+      es: 'Como freelance, vendes resultados — no tiempo. BazNova IA crea un CV que destaca tus misiones, tasas de éxito y habilidades especializadas.',
     },
     socialProof: {
-      fr: '+5 800 freelances ont décuplé leurs missions grâce à un CV HireNova',
-      en: '+5,800 freelancers multiplied their missions with a HireNova CV',
-      ar: '+5,800 مستقل ضاعفوا مهامهم بفضل سيرة HireNova',
-      es: '+5,800 freelancers multiplicaron sus misiones con un CV HireNova',
+      fr: '+5 800 freelances ont décuplé leurs missions grâce à un CV BazNova',
+      en: '+5,800 freelancers multiplied their missions with a BazNova CV',
+      ar: '+5,800 مستقل ضاعفوا مهامهم بفضل سيرة BazNova',
+      es: '+5,800 freelancers multiplicaron sus misiones con un CV BazNova',
     },
     defaultTone: 'dynamic',
     showApplicationType: false,
@@ -345,7 +345,7 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
     atsFocusKeywords: ['freelance', 'mission', 'projet', 'project', 'client', 'livrable', 'deliverable', 'taux de réussite', 'success rate', 'portefeuille client', 'client portfolio'],
     suggestions: [
       { category: 'cv', key: 'free_portfolio', label: { fr: 'Ajoute tes missions phares', en: 'Add your flagship missions', ar: 'أضف مهامك البارزة', es: 'Agrega tus misiones insignia' }, description: { fr: 'Liste tes 3-5 missions les plus impactantes avec le client, le livrable et le résultat concret.', en: 'List your 3-5 most impactful missions with client, deliverable, and concrete result.', ar: 'اذكر 3-5 مهامك الأكثر تأثيرًا مع العميل والتسليم والنتيجة الملموسة.', es: 'Lista tus 3-5 misiones más impactantes con cliente, entregable y resultado concreto.' }, priority: 'high' },
-      { category: 'career', key: 'free_marketplace', label: { fr: 'Rejoins le Marketplace Freelance', en: 'Join the Freelance Marketplace', ar: 'انضم إلى سوق العمل الحر', es: 'Únete al Marketplace Freelance' }, description: { fr: 'HireNova IA Freelance te connecte à des missions qualifiées avec proposition IA automatique.', en: 'HireNova IA Freelance connects you to qualified missions with automatic AI proposal.', ar: 'يربطك HireNova IA Freelance بمهام مؤهلة مع اقتراح ذكاء اصطناعي تلقائي.', es: 'HireNova IA Freelance te conecta con misiones calificadas con propuesta IA automática.' }, priority: 'medium' },
+      { category: 'career', key: 'free_marketplace', label: { fr: 'Rejoins le Marketplace Freelance', en: 'Join the Freelance Marketplace', ar: 'انضم إلى سوق العمل الحر', es: 'Únete al Marketplace Freelance' }, description: { fr: 'BazNova IA Freelance te connecte à des missions qualifiées avec proposition IA automatique.', en: 'BazNova IA Freelance connects you to qualified missions with automatic AI proposal.', ar: 'يربطك BazNova IA Freelance بمهام مؤهلة مع اقتراح ذكاء اصطناعي تلقائي.', es: 'BazNova IA Freelance te conecta con misiones calificadas con propuesta IA automática.' }, priority: 'medium' },
     ],
     applicationFields: [
       { key: 'specialization', labelKey: 'appFieldSpecialization', placeholderKey: 'appFieldSpecializationPh', required: true, type: 'text' },
@@ -375,16 +375,16 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
       es: 'El mundo es tu mercado — tu CV debe demostrarlo',
     },
     valueProp: {
-      fr: 'Un CV international qui traverse les frontières. HireNova IA adapte ton profil aux normes de chaque pays, gère le multilinguisme et met en valeur ta mobilité comme un atout stratégique.',
-      en: 'An international CV that crosses borders. HireNova AI adapts your profile to each country\'s standards, manages multilingualism, and highlights your mobility as a strategic asset.',
-      ar: 'سيرة ذاتية دولية تعبر الحدود. يكيف HireNova AI ملفك مع معايير كل دولة ويدير تعدد اللغات.',
-      es: 'Un CV internacional que cruza fronteras. HireNova IA adapta tu perfil a los estándares de cada país.',
+      fr: 'Un CV international qui traverse les frontières. BazNova IA adapte ton profil aux normes de chaque pays, gère le multilinguisme et met en valeur ta mobilité comme un atout stratégique.',
+      en: 'An international CV that crosses borders. BazNova AI adapts your profile to each country\'s standards, manages multilingualism, and highlights your mobility as a strategic asset.',
+      ar: 'سيرة ذاتية دولية تعبر الحدود. يكيف BazNova AI ملفك مع معايير كل دولة ويدير تعدد اللغات.',
+      es: 'Un CV internacional que cruza fronteras. BazNova IA adapta tu perfil a los estándares de cada país.',
     },
     socialProof: {
-      fr: '+4 200 expatriés ont trouvé un poste à l\'international avec HireNova',
-      en: '+4,200 expats found an international position with HireNova',
-      ar: '+4,200 مغترب وجدوا منصبًا دوليًا مع HireNova',
-      es: '+4,200 expatriados encontraron una posición internacional con HireNova',
+      fr: '+4 200 expatriés ont trouvé un poste à l\'international avec BazNova',
+      en: '+4,200 expats found an international position with BazNova',
+      ar: '+4,200 مغترب وجدوا منصبًا دوليًا مع BazNova',
+      es: '+4,200 expatriados encontraron una posición internacional con BazNova',
     },
     defaultTone: 'formal',
     showApplicationType: true,
@@ -404,9 +404,9 @@ export const PERSONA_CONFIGS: Record<PersonaType, PersonaConfig> = {
     autoProposeATS: true,
     atsFocusKeywords: ['international', 'multilingue', 'multilingual', 'mobilité', 'mobility', 'adaptabilité', 'adaptability', 'expérience internationale', 'international experience', 'relocalisation', 'relocation'],
     suggestions: [
-      { category: 'cv', key: 'expat_adapt', label: { fr: 'Adapte ton CV au pays cible', en: 'Adapt your CV to the target country', ar: 'كيف سيرتك الذاتية مع البلد المستهدف', es: 'Adapta tu CV al país objetivo' }, description: { fr: 'Utilise HireNova IA MOBILITY pour adapter automatiquement ton CV aux normes locales (photo, âge, format).', en: 'Use HireNova IA MOBILITY to automatically adapt your CV to local standards (photo, age, format).', ar: 'استخدم HireNova IA MOBILITY لتكييف سيرتك تلقائيًا مع المعايير المحلية.', es: 'Usa HireNova IA MOBILITY para adaptar automáticamente tu CV a los estándares locales.' }, priority: 'high' },
+      { category: 'cv', key: 'expat_adapt', label: { fr: 'Adapte ton CV au pays cible', en: 'Adapt your CV to the target country', ar: 'كيف سيرتك الذاتية مع البلد المستهدف', es: 'Adapta tu CV al país objetivo' }, description: { fr: 'Utilise BazNova IA MOBILITY pour adapter automatiquement ton CV aux normes locales (photo, âge, format).', en: 'Use BazNova IA MOBILITY to automatically adapt your CV to local standards (photo, age, format).', ar: 'استخدم BazNova IA MOBILITY لتكييف سيرتك تلقائيًا مع المعايير المحلية.', es: 'Usa BazNova IA MOBILITY para adaptar automáticamente tu CV a los estándares locales.' }, priority: 'high' },
       { category: 'ats', key: 'expat_global_ats', label: { fr: 'ATS international', en: 'International ATS', ar: 'ATS دولي', es: 'ATS internacional' }, description: { fr: 'Les systèmes ATS varient par pays. Vérifie ton score pour chaque marché cible.', en: 'ATS systems vary by country. Check your score for each target market.', ar: 'تختلف أنظمة ATS حسب البلد. تحقق من نتيجتك لكل سوق مستهدف.', es: 'Los sistemas ATS varían por país. Verifica tu puntuación para cada mercado objetivo.' }, priority: 'high' },
-      { category: 'career', key: 'expat_global', label: { fr: 'Explore les offres internationales', en: 'Explore international opportunities', ar: 'استكشف الفرص الدولية', es: 'Explora oportunidades internacionales' }, description: { fr: 'HireNova IA GLOBAL propose des postes dans 40+ pays avec gestion visa et relocation.', en: 'HireNova IA GLOBAL offers positions in 40+ countries with visa and relocation management.', ar: 'يقدم HireNova IA GLOBAL مناصب في 40+ دولة مع إدارة التأشيرات والانتقال.', es: 'HireNova IA GLOBAL ofrece posiciones en 40+ países con gestión de visa y reubicación.' }, priority: 'medium' },
+      { category: 'career', key: 'expat_global', label: { fr: 'Explore les offres internationales', en: 'Explore international opportunities', ar: 'استكشف الفرص الدولية', es: 'Explora oportunidades internacionales' }, description: { fr: 'BazNova IA GLOBAL propose des postes dans 40+ pays avec gestion visa et relocation.', en: 'BazNova IA GLOBAL offers positions in 40+ countries with visa and relocation management.', ar: 'يقدم BazNova IA GLOBAL مناصب في 40+ دولة مع إدارة التأشيرات والانتقال.', es: 'BazNova IA GLOBAL ofrece posiciones en 40+ países con gestión de visa y reubicación.' }, priority: 'medium' },
     ],
     applicationFields: [
       { key: 'currentCountry', labelKey: 'appFieldCurrentCountry', placeholderKey: 'appFieldCurrentCountryPh', required: true, type: 'text' },

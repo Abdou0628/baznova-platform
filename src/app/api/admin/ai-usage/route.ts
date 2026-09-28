@@ -1,5 +1,5 @@
 /**
- * HireNova AI Usage Admin API (Admin Only)
+ * BazNova AI Usage Admin API (Admin Only)
  *
  * GET /api/admin/ai-usage — Global AI usage analytics
  *   Query params: startDate, endDate, module (optional)

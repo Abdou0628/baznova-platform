@@ -42,7 +42,7 @@ interface AiInsights {
   summary: string
 }
 
-const SYSTEM_PROMPT = `Tu es l'Agent Paiement HireNova, un agent IA de fintech marocain spécialisé dans la gestion financière SaaS, la fiscalité marocaine (IS, TVA) et l'analyse multi-fournisseur de paiements.
+const SYSTEM_PROMPT = `Tu es l'Agent Paiement BazNova, un agent IA de fintech marocain spécialisé dans la gestion financière SaaS, la fiscalité marocaine (IS, TVA) et l'analyse multi-fournisseur de paiements.
 
 Tu analyses les données financières d'une plateforme SaaS et génères un rapport structuré au format JSON strict.
 
@@ -82,7 +82,7 @@ function buildPrompt(data: RequestBody): string {
 
   const margin = data.revenue > 0 ? Math.round(((data.revenue - data.expenses) / data.revenue) * 10000) / 100 : 0
 
-  return `Analyse les données financières suivantes de la plateforme HireNova :
+  return `Analyse les données financières suivantes de la plateforme BazNova :
 
 --- DONNÉES ---
 - Revenu total du mois : ${data.revenue} MAD
@@ -158,7 +158,7 @@ function generateFallback(data: RequestBody): AiInsights {
       projectedMRR,
     },
     healthScore,
-    summary: `HireNova affiche un revenu de ${data.revenue.toLocaleString('fr-FR')} MAD avec ${data.subscriptions} abonnements actifs et un MRR de ${data.mrr.toLocaleString('fr-FR')} MAD. ${data.revenueTrend >= 0 ? 'La tendance est positive' : 'La tendance est à la baisse'} (${data.revenueTrend > 0 ? '+' : ''}${data.revenueTrend}%), ${margin >= 30 ? 'avec une marge brute saine' : 'avec une marge à optimiser'} de ${margin}%. ${failedTxns > 0 ? `Attention : ${failedTxns} transactions échouées nécessitent une investigation.` : "Le taux d'échec des paiements est sous contrôle."}`,
+    summary: `BazNova affiche un revenu de ${data.revenue.toLocaleString('fr-FR')} MAD avec ${data.subscriptions} abonnements actifs et un MRR de ${data.mrr.toLocaleString('fr-FR')} MAD. ${data.revenueTrend >= 0 ? 'La tendance est positive' : 'La tendance est à la baisse'} (${data.revenueTrend > 0 ? '+' : ''}${data.revenueTrend}%), ${margin >= 30 ? 'avec une marge brute saine' : 'avec une marge à optimiser'} de ${margin}%. ${failedTxns > 0 ? `Attention : ${failedTxns} transactions échouées nécessitent une investigation.` : "Le taux d'échec des paiements est sous contrôle."}`,
   }
 }
 

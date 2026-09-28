@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
         userName: user.name || 'Client',
         amount: amountCents,
         currency: 'MAD',
-        description: `Abonnement ${plan} — HireNova (PayMob)`,
+        description: `Abonnement ${plan} — BazNova (PayMob)`,
         userId: user.id,
         paidAt: new Date(),
       })

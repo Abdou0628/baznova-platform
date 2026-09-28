@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Core Types
+ * BazNova Security Architecture (HNSA) — Core Types
  *
  * Implements the CTO's 8-pillar security architecture:
  *   1. Identity & Access Management

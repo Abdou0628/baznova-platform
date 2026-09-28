@@ -1,5 +1,5 @@
 /**
- * HireNova CMI Payment Adapter
+ * BazNova CMI Payment Adapter
  *
  * Implements the PaymentAdapter interface for CMI — Centre Monétique
  * Interbancaire, Morocco's central interbank card payment network.
@@ -74,7 +74,7 @@ interface CmiRefundResponse {
 // ===== Status Mapping =====
 
 /**
- * Maps CMI transaction statuses to HireNova PaymentStatus.
+ * Maps CMI transaction statuses to BazNova PaymentStatus.
  *
  * CMI statuses: INITIATED, WAITING_3DS, PENDING_AUTH, AUTHORIZED,
  *   CAPTURED, PAID, AUTH_REJECTED, REJECTED, CANCELLED,
@@ -210,7 +210,7 @@ export class CmiAdapter implements PaymentAdapter {
         amount: input.amount,
         currency: input.currency || 'MAD',
         description: input.description,
-        merchantTransactionId: input.idempotencyKey || `hirenova-${Date.now()}`,
+        merchantTransactionId: input.idempotencyKey || `baznova-${Date.now()}`,
         customerEmail: input.customerEmail,
         customerName: input.customerName,
         returnUrl: input.returnUrl,

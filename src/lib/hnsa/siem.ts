@@ -1,6 +1,6 @@
 /**
  * @module hnsa/siem
- * @description SIEM (Security Information and Event Management) integration for HireNova Security Architecture (HNSA).
+ * @description SIEM (Security Information and Event Management) integration for BazNova Security Architecture (HNSA).
  *
  * Provides structured security event forwarding to an external SIEM endpoint
  * via webhook, with an in-memory ring buffer fallback when no endpoint is configured.
@@ -28,7 +28,7 @@
 // Types
 // ---------------------------------------------------------------------------
 
-/** All supported SIEM event types for HireNova */
+/** All supported SIEM event types for BazNova */
 export type SIEMEventType =
   | 'AUTH_SUCCESS'
   | 'AUTH_FAILURE'
@@ -86,7 +86,7 @@ export type CreateSIEMEventParams = Omit<SIEMEvent, 'eventId' | 'timestamp' | 's
 // Constants
 // ---------------------------------------------------------------------------
 
-const SIEM_SOURCE = 'hirenova-api';
+const SIEM_SOURCE = 'baznova-api';
 
 /** Maximum number of events stored in the local ring buffer */
 const LOCAL_BUFFER_MAX_SIZE = 1000;
@@ -154,7 +154,7 @@ function pushToLocalBuffer(event: SIEMEvent): void {
  * Creates a fully-formed `SIEMEvent` from partial parameters.
  *
  * Automatically generates `eventId` (CUID) and `timestamp` (ISO 8601),
- * and sets `source` to `'hirenova-api'`.
+ * and sets `source` to `'baznova-api'`.
  *
  * @param params - Event parameters excluding auto-generated fields.
  * @returns A complete `SIEMEvent` ready for forwarding.
@@ -168,7 +168,7 @@ function pushToLocalBuffer(event: SIEMEvent): void {
  * });
  * // event.eventId === 'lq5j2k3m...' (auto-generated)
  * // event.timestamp === '2025-01-15T10:30:00.000Z' (auto-generated)
- * // event.source === 'hirenova-api'
+ * // event.source === 'baznova-api'
  * ```
  */
 export function createSIEMEvent(params: CreateSIEMEventParams): SIEMEvent {

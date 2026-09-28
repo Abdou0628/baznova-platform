@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — State Machine
+ * BazNova Payment Orchestrator — State Machine
  *
  * Enforces strict state transitions for payment lifecycle.
  * No payment can move to an invalid state.

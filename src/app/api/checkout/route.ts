@@ -15,7 +15,7 @@ type Currency = 'eur' | 'usd' | 'gbp' | 'mad'
 
 const LEGACY_PLANS = ['starter', 'pro', 'career_plus', 'employer', 'annual'] as const
 
-const B2C_BUNDLE_IDS = ['hirenova_start', 'hirenova_career', 'hirenova_professional', 'hirenova_ai_power'] as const
+const B2C_BUNDLE_IDS = ['baznova_start', 'baznova_career', 'baznova_professional', 'baznova_ai_power'] as const
 
 const MODULE_IDS = [
   'mod_cv', 'mod_ats', 'mod_jobs', 'mod_global', 'mod_mobility',
@@ -26,17 +26,17 @@ const ALL_VALID_PLANS = [...LEGACY_PLANS, ...B2C_BUNDLE_IDS, ...MODULE_IDS] as s
 
 const PLAN_DB_MAP: Record<string, string> = {
   starter: 'starter', pro: 'pro', career_plus: 'career_plus', employer: 'employer', annual: 'annual',
-  hirenova_start: 'starter', hirenova_career: 'career_plus', hirenova_professional: 'pro', hirenova_ai_power: 'pro',
+  baznova_start: 'starter', baznova_career: 'career_plus', baznova_professional: 'pro', baznova_ai_power: 'pro',
   mod_cv: 'pro', mod_ats: 'pro', mod_jobs: 'pro', mod_global: 'pro',
   mod_mobility: 'pro', mod_interview: 'pro', mod_linkedin: 'pro',
   mod_career: 'pro', mod_coach: 'pro', mod_formation: 'pro', mod_freelance: 'pro',
 }
 
 const PLAN_LABEL_MAP: Record<string, string> = {
-  starter: 'HireNova Start', pro: 'HireNova Pro', career_plus: 'HireNova Career+',
-  employer: 'HireNova Employer', annual: 'HireNova Annuel',
-  hirenova_start: 'HireNova Start', hirenova_career: 'HireNova Career',
-  hirenova_professional: 'HireNova Professionnel', hirenova_ai_power: 'HireNova AI Power',
+  starter: 'BazNova Start', pro: 'BazNova Pro', career_plus: 'BazNova Career+',
+  employer: 'BazNova Employer', annual: 'BazNova Annuel',
+  baznova_start: 'BazNova Start', baznova_career: 'BazNova Career',
+  baznova_professional: 'BazNova Professionnel', baznova_ai_power: 'BazNova AI Power',
   mod_cv: 'Module CV', mod_ats: 'Module ATS', mod_jobs: 'Module Jobs',
   mod_global: 'Module Global Jobs', mod_mobility: 'Module Mobilité',
   mod_interview: 'Module Interview', mod_linkedin: 'Module LinkedIn',
@@ -251,7 +251,7 @@ export async function POST(request: NextRequest) {
 
     await db.user.update({ where: { id: userId }, data: { plan: dbPlan } })
 
-    const description = `${isModule ? 'Module' : 'Abonnement'} ${planLabel} — HireNova`
+    const description = `${isModule ? 'Module' : 'Abonnement'} ${planLabel} — BazNova`
 
     const invoice = await generateInvoiceForPayment({
       userEmail: user.email, userName: user.name || 'Client',

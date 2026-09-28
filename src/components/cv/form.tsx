@@ -317,7 +317,7 @@ export default function CVForm() {
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <div className="flex flex-col items-center">
-              <Image src="/hirenova-logo.png" alt="HireNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">{t(language, 'poweredByIa')}</span>
             </div>
             <span className="font-semibold text-foreground hidden sm:inline">{t(language, 'siteTitle')}</span>
@@ -1043,7 +1043,7 @@ export default function CVForm() {
       {/* Footer */}
       <footer className="border-t py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-emerald-50/50 via-white to-amber-50/30 mt-auto">
         <div className="max-w-3xl mx-auto flex flex-col items-center gap-2 text-sm text-muted-foreground">
-          <p>{t(language, 'footerText')} &copy; 2026 HireNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
+          <p>{t(language, 'footerText')} &copy; 2026 BazNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
           <button onClick={() => { document.dispatchEvent(new CustomEvent('open-legal')) }} className="text-xs text-emerald-600 hover:underline cursor-pointer">{t(language, 'footerLegal')}</button>
         </div>
       </footer>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withAuth } from '@/lib/hnsa'
 import { db } from '@/lib/db'
-import { stripe, isStripeConfigured, STRIPE_PRICE_IDS, PLAN_PRICES, VALID_PLANS, type Currency, type HireNovaPlan } from '@/lib/stripe'
+import { stripe, isStripeConfigured, STRIPE_PRICE_IDS, PLAN_PRICES, VALID_PLANS, type Currency, type BazNovaPlan } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { planType, currency: currencyParam } = body as { planType?: string; currency?: string }
 
-    if (!planType || !VALID_PLANS.includes(planType as HireNovaPlan)) {
+    if (!planType || !VALID_PLANS.includes(planType as BazNovaPlan)) {
       return NextResponse.json(
         { error: `Plan invalide. Options: ${VALID_PLANS.join(', ')}` },
         { status: 400 }
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     const currency = (['eur', 'usd', 'gbp'].includes(currencyParam) ? currencyParam : 'eur') as Currency
-    const plan = planType as HireNovaPlan
+    const plan = planType as BazNovaPlan
 
     // MAD not supported via Stripe — redirect to PayMob
     if (currency === 'mad') {

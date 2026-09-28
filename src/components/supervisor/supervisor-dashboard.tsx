@@ -58,7 +58,7 @@ export default function SupervisorDashboard({ language }: { language: string }) 
 
   // ─── Localization ───────────────────────────────────────────
   const LABELS: Record<string, Record<string, string>> = {
-    title: { fr: 'IA Superviseur HireNova', en: 'HireNova AI Supervisor', ar: 'مشرف HireNova الذكي', es: 'Supervisor IA HireNova' },
+    title: { fr: 'IA Superviseur BazNova', en: 'BazNova AI Supervisor', ar: 'مشرف BazNova الذكي', es: 'Supervisor IA BazNova' },
     subtitle: { fr: 'Surveillance en temps réel · Détection de pannes · Attribution automatique', en: 'Real-time monitoring · Fault detection · Auto-assignment', ar: 'مراقبة فورية · كشف الأعطال · تعيين تلقائي', es: 'Monitoreo en tiempo real · Detección de fallas · Asignación automática' },
     connected: { fr: 'Connecté', en: 'Connected', ar: 'متصل', es: 'Conectado' },
     disconnected: { fr: 'Déconnecté', en: 'Disconnected', ar: 'غير متصل', es: 'Desconectado' },

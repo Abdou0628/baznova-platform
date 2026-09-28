@@ -1,7 +1,7 @@
 /**
  * @module moroccan-tax
  * @description
- * HireNova — Moroccan Tax System (simplified)
+ * BazNova — Moroccan Tax System (simplified)
  * Covers IS (Corporate Income Tax) with progressive brackets and TVA (VAT).
  *
  * All monetary amounts are in MAD (not centimes).

@@ -2,7 +2,7 @@
  * HNSA — Immutable Audit Logging Library
  *
  * Provides non-blocking audit logging for all security-relevant actions
- * across the HireNova platform. Records are immutable once written.
+ * across the BazNova platform. Records are immutable once written.
  *
  * @module hnsa/audit
  */
@@ -14,7 +14,7 @@ import type { SIEMEventType, SIEMSeverity } from './siem';
 // ===== Standard Audit Action Types =====
 
 /**
- * Categorized constant of all standard audit action types used across HireNova.
+ * Categorized constant of all standard audit action types used across BazNova.
  * Use these values when calling `logAudit()` to ensure consistent action naming.
  */
 export const AUDIT_ACTIONS = {

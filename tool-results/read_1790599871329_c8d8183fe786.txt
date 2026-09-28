@@ -1,0 +1,482 @@
+   900→              className="text-center mb-12"
+   901→              initial={{ opacity: 0, y: 30 }}
+   902→              whileInView={{ opacity: 1, y: 0 }}
+   903→              viewport={{ once: true, margin: '-100px' }}
+   904→              transition={{ duration: 0.5 }}
+   905→            >
+   906→              <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4 border border-emerald-200">
+   907→                <HelpCircle className="w-4 h-4" />
+   908→                <span>FAQ</span>
+   909→              </div>
+   910→              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t(language, 'faqTitle')}</h2>
+   911→              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t(language, 'faqSubtitle')}</p>
+   912→            </motion.div>
+   913→
+   914→            <div className="space-y-4">
+   915→              {([
+   916→                { q: 'faqQ1' as const, a: 'faqA1' as const },
+   917→                { q: 'faqQ2' as const, a: 'faqA2' as const },
+   918→                { q: 'faqQ3' as const, a: 'faqA3' as const },
+   919→                { q: 'faqQ4' as const, a: 'faqA4' as const },
+   920→                { q: 'faqQ5' as const, a: 'faqA5' as const },
+   921→                { q: 'faqQ6' as const, a: 'faqA6' as const },
+   922→                { q: 'faqQ7' as const, a: 'faqA7' as const },
+   923→                { q: 'faqQ8' as const, a: 'faqA8' as const },
+   924→              ]).map((item, index) => (
+   925→                <FAQItem key={item.q} question={t(language, item.q)} answer={t(language, item.a)} index={index} />
+   926→              ))}
+   927→            </div>
+   928→          </div>
+   929→        </section>
+   930→
+   931→        {/* Trust / Social Proof Section — SEO */}
+   932→        <section className="relative py-16 sm:py-20 bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40">
+   933→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+   934→            <motion.div
+   935→              className="text-center mb-12"
+   936→              initial={{ opacity: 0, y: 30 }}
+   937→              whileInView={{ opacity: 1, y: 0 }}
+   938→              viewport={{ once: true, margin: '-100px' }}
+   939→              transition={{ duration: 0.5 }}
+   940→            >
+   941→              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">{t(language, 'trustTitle')}</h2>
+   942→              <p className="text-muted-foreground max-w-xl mx-auto">{t(language, 'trustSubtitle')}</p>
+   943→            </motion.div>
+   944→            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+   945→              {([
+   946→                { icon: Users, value: liveStats.satisfiedUsers > 0 ? String(liveStats.satisfiedUsers) : '—', label: t(language, 'trustStats'), color: 'emerald' },
+   947→                { icon: ThumbsUp, value: liveStats.avgRating > 0 ? `${liveStats.avgRating}/5` : '—', label: t(language, 'trustAvgRating'), color: 'amber' },
+   948→                { icon: Lock, value: '100%', label: t(language, 'trustDataSecured'), color: 'teal' },
+   949→              ]).map((item, index) => (
+   950→                <motion.div
+   951→                  key={item.label}
+   952→                  initial={{ opacity: 0, y: 30 }}
+   953→                  whileInView={{ opacity: 1, y: 0 }}
+   954→                  viewport={{ once: true, margin: '-50px' }}
+   955→                  transition={{ duration: 0.4, delay: index * 0.1 }}
+   956→                >
+   957→                  <Card className="border-0 shadow-sm bg-white text-center">
+   958→                    <CardContent className="p-6">
+   959→                      <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center mx-auto mb-3`}>
+   960→                        <item.icon className={`w-6 h-6 text-${item.color}-600`} />
+   961→                      </div>
+   962→                      <div className="text-2xl font-extrabold text-foreground mb-1">{item.value}</div>
+   963→                      <div className="text-sm text-muted-foreground">{item.label}</div>
+   964→                    </CardContent>
+   965→                  </Card>
+   966→                </motion.div>
+   967→              ))}
+   968→            </div>
+   969→            <motion.div
+   970→              className="mt-8 text-center"
+   971→              initial={{ opacity: 0 }}
+   972→              whileInView={{ opacity: 1 }}
+   973→              viewport={{ once: true }}
+   974→              transition={{ delay: 0.3 }}
+   975→            >
+   976→              <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">{t(language, 'trustGuarantee')}</p>
+   977→            </motion.div>
+   978→          </div>
+   979→        </section>
+   980→
+   981→        {/* BazNova Jobs Section */}
+   982→        <section className="py-16 sm:py-20 bg-gradient-to-b from-emerald-50/50 to-white">
+   983→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+   984→            <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
+   985→              <Badge className="mb-3 bg-emerald-100 text-emerald-700 hover:bg-emerald-100"><Briefcase className="w-3 h-3 mr-1" /> Marketplace</Badge>
+   986→              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{t(language, 'jobsTitle')}</h2>
+   987→              <p className="text-muted-foreground max-w-xl mx-auto">{t(language, 'jobsSubtitle')}</p>
+   988→            </motion.div>
+   989→            <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+   990→              <div className="text-center"><p className="text-2xl font-bold text-emerald-600">0</p><p className="text-xs text-muted-foreground">{t(language, 'jobsActiveOffers')}</p></div>
+   991→              <div className="w-px h-8 bg-border" />
+   992→              <div className="text-center"><p className="text-2xl font-bold text-teal-600">0</p><p className="text-xs text-muted-foreground">{t(language, 'jobsCompanies')}</p></div>
+   993→              <div className="w-px h-8 bg-border" />
+   994→              <div className="text-center"><p className="text-2xl font-bold text-amber-600">0</p><p className="text-xs text-muted-foreground">{t(language, 'jobsApplications')}</p></div>
+   995→            </div>
+   996→            <div className="text-center">
+   997→              <p className="text-sm text-muted-foreground mb-4">{t(language, 'jobsComingSoon')}</p>
+   998→              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+   999→                <Button onClick={() => setStep('jobMarket')} className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"><Briefcase className="w-4 h-4 mr-2" /> {t(language, 'jobsViewAll')}</Button>
+  1000→                <Button variant="outline" onClick={() => setStep('employerPostJob')} className="cursor-pointer"><PlusCircle className="w-4 h-4 mr-2" /> {t(language, 'jobsPostOffer')}</Button>
+  1001→              </div>
+  1002→            </div>
+  1003→          </div>
+  1004→        </section>
+  1005→
+  1006→        {/* BazNova API Section */}
+  1007→        <section className="py-16 sm:py-20">
+  1008→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  1009→            <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
+  1010→              <Badge className="mb-3 bg-amber-100 text-amber-700 hover:bg-amber-100"><Code2 className="w-3 h-3 mr-1" /> {t(language, 'apiB2BBadge')}</Badge>
+  1011→              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{t(language, 'apiTitle')}</h2>
+  1012→              <p className="text-muted-foreground max-w-xl mx-auto">{t(language, 'apiSubtitle')}</p>
+  1013→            </motion.div>
+  1014→            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+  1015→              {[
+  1016→                { icon: FileText, title: t(language, 'apiGenCV'), desc: t(language, 'apiGenCVDesc') },
+  1017→                { icon: PenLine, title: t(language, 'apiCoverLetter'), desc: t(language, 'apiCoverLetterDesc') },
+  1018→                { icon: Shield, title: t(language, 'apiAtsAnalysis'), desc: t(language, 'apiAtsAnalysisDesc') },
+  1019→                { icon: BarChart3, title: t(language, 'apiTracking'), desc: t(language, 'apiTrackingDesc') }
+  1020→              ].map((f, i) => (
+  1021→                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+  1022→                  <Card className="text-center p-4 hover:shadow-md transition-shadow"><f.icon className="w-8 h-8 mx-auto text-emerald-600 mb-2" /><h3 className="text-sm font-semibold">{f.title}</h3><p className="text-xs text-muted-foreground mt-1">{f.desc}</p></Card>
+  1023→                </motion.div>
+  1024→              ))}
+  1025→            </div>
+  1026→            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+  1027→              {[
+  1028→                { name: 'Starter', price: '49€', credits: '100', plan: 'starter_api' },
+  1029→                { name: 'Business', price: '149€', credits: '500', plan: 'business_api' },
+  1030→                { name: 'Enterprise', price: '399€', credits: '∞', plan: 'enterprise' }
+  1031→              ].map((p, i) => (
+  1032→                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+  1033→                  <Card
+  1034→                    onClick={() => {
+  1035→                      if (p.plan === 'enterprise') {
+  1036→                        setEnterpriseFormOpen(true)
+  1037→                      } else {
+  1038→                        requireAuthAndPlan('apiRegister')
+  1039→                      }
+  1040→                    }}
+  1041→                    className={`text-center p-6 transition-all cursor-pointer hover:shadow-lg hover:-translate-y-1 ${i === 1 ? 'border-emerald-500 ring-2 ring-emerald-500/20 bg-emerald-50/30' : 'hover:border-emerald-200'}`}
+  1042→                  >
+  1043→                    <h3 className="font-bold text-lg">{p.name}</h3>
+  1044→                    <div className="text-3xl font-bold text-emerald-600 my-2">{p.price}<span className="text-sm font-normal text-muted-foreground">{t(language, 'apiPerMonth')}</span></div>
+  1045→                    <p className="text-sm text-muted-foreground">{p.credits === '∞' ? t(language, 'apiUnlimited') : `${p.credits} ${t(language, 'apiCredits')}`}{t(language, 'apiPerMonth')}</p>
+  1046→                    <Button size="sm" className={`mt-4 ${i === 1 ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-foreground hover:bg-foreground/90'} text-white cursor-pointer`}>
+  1047→                      {p.plan === 'enterprise' ? t(language, 'apiContactSales') : t(language, 'apiGetKey')}
+  1048→                      <ArrowRight className="w-3.5 h-3.5 ml-1" />
+  1049→                    </Button>
+  1050→                  </Card>
+  1051→                </motion.div>
+  1052→              ))}
+  1053→            </div>
+  1054→            <p className="text-center text-xs text-muted-foreground mb-6">{t(language, 'apiClientsLine')}</p>
+  1055→            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+  1056→              <Button onClick={() => setStep('apiDocs')} className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"><Code2 className="w-4 h-4 mr-2" /> {t(language, 'apiDocumentation')}</Button>
+  1057→              <Button variant="outline" onClick={() => setStep('apiRegister')} className="cursor-pointer"><Rocket className="w-4 h-4 mr-2" /> {t(language, 'apiGetKey')}</Button>
+  1058→            </div>
+  1059→          </div>
+  1060→        </section>
+  1061→
+  1062→        {/* BazNova Global Section */}
+  1063→        <section className="py-16 sm:py-20">
+  1064→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  1065→            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
+  1066→              <Badge className="mb-3 bg-teal-100 text-teal-700 hover:bg-teal-100"><Globe className="w-3 h-3 mr-1" /> {t(language, 'intlBadge')}</Badge>
+  1067→              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{t(language, 'intlTitle')}</h2>
+  1068→              <p className="text-muted-foreground mb-6 max-w-2xl">{t(language, 'intlSubtitle')}</p>
+  1069→            </motion.div>
+  1070→            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+  1071→              {[
+  1072→                { icon: Globe, title: t(language, 'intlCountries'), desc: t(language, 'intlWorldOffers') },
+  1073→                { icon: Shield, title: t(language, 'intlVisaSponsorship'), desc: t(language, 'intlVisaDesc') },
+  1074→                { icon: Plane, title: t(language, 'intlRelocation'), desc: t(language, 'intlRelocationDesc') },
+  1075→              ].map((f, i) => (
+  1076→                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+  1077→                  <Card className="border-teal-100 hover:border-teal-200 transition-colors">
+  1078→                    <CardContent className="p-5 text-center">
+  1079→                      <f.icon className="w-8 h-8 mx-auto text-teal-600 mb-3" />
+  1080→                      <h3 className="font-semibold">{f.title}</h3>
+  1081→                      <p className="text-xs text-muted-foreground mt-1">{f.desc}</p>
+  1082→                    </CardContent>
+  1083→                  </Card>
+  1084→                </motion.div>
+  1085→              ))}
+  1086→            </div>
+  1087→            <div className="flex flex-col sm:flex-row items-center gap-3">
+  1088→              <Button onClick={() => setStep('globalMarket')} className="bg-teal-600 hover:bg-teal-700 cursor-pointer"><Globe className="w-4 h-4 mr-2" /> {t(language, 'intlExplore')}</Button>
+  1089→              <Button variant="outline" onClick={() => setStep('globalEmployerDashboard')} className="cursor-pointer"><PlusCircle className="w-4 h-4 mr-2" /> {t(language, 'intlEmployerDashboard')}</Button>
+  1090→            </div>
+  1091→          </div>
+  1092→        </section>
+  1093→
+  1094→        {/* BazNova Mobilité Section */}
+  1095→        <section className="py-16 sm:py-20 bg-gradient-to-b from-teal-50/30 to-white">
+  1096→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  1097→            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
+  1098→              <Badge className="mb-3 bg-purple-100 text-purple-700 hover:bg-purple-100"><Plane className="w-3 h-3 mr-1" /> {t(language, 'mobilityBadge')}</Badge>
+  1099→              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{t(language, 'mobilityTitle')}</h2>
+  1100→              <p className="text-muted-foreground mb-6 max-w-2xl">{t(language, 'mobilitySubtitle')}</p>
+  1101→            </motion.div>
+  1102→            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+  1103→              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+  1104→                <Card className="h-full border-purple-100">
+  1105→                  <CardContent className="p-6">
+  1106→                    <div className="flex items-center gap-3 mb-4">
+  1107→                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center"><Search className="w-5 h-5 text-purple-600" /></div>
+  1108→                      <h3 className="font-semibold">{t(language, 'mobilityStep1')}</h3>
+  1109→                    </div>
+  1110→                    <p className="text-sm text-muted-foreground">{t(language, 'mobilityStep1Desc')}</p>
+  1111→                  </CardContent>
+  1112→                </Card>
+  1113→              </motion.div>
+  1114→              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+  1115→                <Card className="h-full border-purple-100">
+  1116→                  <CardContent className="p-6">
+  1117→                    <div className="flex items-center gap-3 mb-4">
+  1118→                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center"><Bot className="w-5 h-5 text-purple-600" /></div>
+  1119→                      <h3 className="font-semibold">{t(language, 'mobilityStep2')}</h3>
+  1120→                    </div>
+  1121→                    <p className="text-sm text-muted-foreground">{t(language, 'mobilityStep2Desc')}</p>
+  1122→                  </CardContent>
+  1123→                </Card>
+  1124→              </motion.div>
+  1125→            </div>
+  1126→            <div className="flex flex-wrap justify-center gap-2 mb-6">
+  1127→              {([['🇫🇷', 'mobilityCountryFr' as TranslationKey], ['🇬🇧', 'mobilityCountryUk' as TranslationKey], ['🇺🇸', 'mobilityCountryUs' as TranslationKey], ['🇨🇦', 'mobilityCountryCa' as TranslationKey], ['🇩🇪', 'mobilityCountryDe' as TranslationKey], ['🇦🇪', 'mobilityCountryAe' as TranslationKey], ['🇨🇭', 'mobilityCountryCh' as TranslationKey], ['🇧🇪', 'mobilityCountryBe' as TranslationKey], ['🇪🇸', 'mobilityCountryEs' as TranslationKey], ['🇮🇹', 'mobilityCountryIt' as TranslationKey], ['🇯🇵', 'mobilityCountryJp' as TranslationKey], ['🇦🇺', 'mobilityCountryAu' as TranslationKey]]).map(([flag, key]) => (
+  1128→                <Badge key={key} variant="outline" className="text-xs px-3 py-1.5">{flag} {t(language, key)}</Badge>
+  1129→              ))}
+  1130→            </div>
+  1131→            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+  1132→              <Button onClick={() => setStep('mobilityHome')} className="bg-purple-600 hover:bg-purple-700 cursor-pointer"><Plane className="w-4 h-4 mr-2" /> {t(language, 'mobilityAdaptCv')}</Button>
+  1133→            </div>
+  1134→          </div>
+  1135→        </section>
+  1136→
+  1137→        {/* BazNova LinkedIn Section */}
+  1138→        <section className="py-16 sm:py-20 bg-gradient-to-b from-sky-50/30 to-white">
+  1139→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  1140→            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
+  1141→              <Badge className="mb-3 bg-sky-100 text-sky-700 hover:bg-sky-100"><Linkedin className="w-3 h-3 mr-1" /> {t(language, 'linkedinBadge')}</Badge>
+  1142→              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{t(language, 'linkedinSectionTitle')}</h2>
+  1143→              <p className="text-muted-foreground mb-6 max-w-2xl">{t(language, 'landingLinkedinDesc')}</p>
+  1144→            </motion.div>
+  1145→            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  1146→              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+  1147→                <Card className="h-full border-sky-100">
+  1148→                  <CardContent className="p-6">
+  1149→                    <div className="flex items-center gap-3 mb-4">
+  1150→                      <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center"><BarChart3 className="w-5 h-5 text-sky-600" /></div>
+  1151→                      <h3 className="font-semibold">{t(language, 'linkedinAnalyze')}</h3>
+  1152→                    </div>
+  1153→                    <p className="text-sm text-muted-foreground">{t(language, 'linkedinStep2Desc')}</p>
+  1154→                  </CardContent>
+  1155→                </Card>
+  1156→              </motion.div>
+  1157→              <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+  1158→                <Card className="h-full border-sky-100">
+  1159→                  <CardContent className="p-6">
+  1160→                    <div className="flex items-center gap-3 mb-4">
+  1161→                      <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center"><Wand2 className="w-5 h-5 text-sky-600" /></div>
+  1162→                      <h3 className="font-semibold">{t(language, 'linkedinGenerate')}</h3>
+  1163→                    </div>
+  1164→                    <p className="text-sm text-muted-foreground">{t(language, 'linkedinStep3Desc')}</p>
+  1165→                  </CardContent>
+  1166→                </Card>
+  1167→              </motion.div>
+  1168→              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+  1169→                <Card className="h-full border-sky-100">
+  1170→                  <CardContent className="p-6">
+  1171→                    <div className="flex items-center gap-3 mb-4">
+  1172→                      <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center"><Sparkles className="w-5 h-5 text-sky-600" /></div>
+  1173→                      <h3 className="font-semibold">{t(language, 'linkedinProfileScore')}</h3>
+  1174→                    </div>
+  1175→                    <p className="text-sm text-muted-foreground">{t(language, 'linkedinScoreExplanation')}</p>
+  1176→                  </CardContent>
+  1177→                </Card>
+  1178→              </motion.div>
+  1179→            </div>
+  1180→            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+  1181→              <Button onClick={() => setStep('linkedinHome')} className="bg-sky-600 hover:bg-sky-700 cursor-pointer"><Linkedin className="w-4 h-4 mr-2" /> {t(language, 'linkedinOptimizeProfile')}</Button>
+  1182→            </div>
+  1183→          </div>
+  1184→        </section>
+  1185→
+  1186→        {/* CTA Section */}
+  1187→        <section className="relative py-16 sm:py-20">
+  1188→          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  1189→            <motion.div
+  1190→              className="relative text-center bg-gradient-to-br from-emerald-600 via-teal-600 to-emerald-700 rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden"
+  1191→              initial={{ opacity: 0, scale: 0.95 }}
+  1192→              whileInView={{ opacity: 1, scale: 1 }}
+  1193→              viewport={{ once: true, margin: '-100px' }}
+  1194→              transition={{ duration: 0.6 }}
+  1195→            >
+  1196→              <div className="absolute inset-0">
+  1197→                <Image src="/images/gradient-emerald.jpg" alt="" fill className="object-cover opacity-20" />
+  1198→              </div>
+  1199→              <div className="relative z-10">
+  1200→              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
+  1201→                {t(language, 'ctaReadyTitle')}
+  1202→              </h2>
+  1203→              <p className="text-emerald-100 text-lg mb-8 max-w-xl mx-auto">
+  1204→                {t(language, 'ctaReadyDesc')}
+  1205→              </p>
+  1206→              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+  1207→                <Button
+  1208→                  size="lg"
+  1209→                  className="bg-white text-emerald-700 hover:bg-emerald-50 px-8 py-6 text-lg rounded-xl font-semibold shadow-lg transition-all cursor-pointer"
+  1210→                  onClick={() => {
+  1211→                    if (!isLoggedIn) {
+  1212→                      setAuthMode('register')
+  1213→                      setAuthModalOpen(true)
+  1214→                      return
+  1215→                    }
+  1216→                    scrollToEcosystem()
+  1217→                  }}
+  1218→                >
+  1219→                  <UserPlus className="mr-2 w-5 h-5" />
+  1220→                  {t(language, 'ctaChooseProfile')}
+  1221→                  <ArrowRight className="ml-2 w-5 h-5" />
+  1222→                </Button>
+  1223→                <Button
+  1224→                  size="lg"
+  1225→                  variant="outline"
+  1226→                  className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-xl font-semibold transition-all cursor-pointer"
+  1227→                  onClick={scrollToEcosystem}
+  1228→                >
+  1229→                  <Compass className="mr-2 w-5 h-5" />
+  1230→                  {t(language, 'clCta')}
+  1231→                  <ArrowRight className="ml-2 w-5 h-5" />
+  1232→                </Button>
+  1233→              </div>
+  1234→              </div>
+  1235→            </motion.div>
+  1236→          </div>
+  1237→        </section>
+  1238→      </main>
+  1239→
+  1240→      {/* Auth Modal */}
+  1241→      <AuthModal
+  1242→        isOpen={authModalOpen}
+  1243→        onClose={() => setAuthModalOpen(false)}
+  1244→        initialMode={authMode}
+  1245→        onAuthSuccess={handleAuthSuccess}
+  1246→      />
+  1247→
+  1248→      {/* Enterprise Contact Form Modal */}
+  1249→      <EnterpriseContactForm
+  1250→        isOpen={enterpriseFormOpen}
+  1251→        onClose={() => setEnterpriseFormOpen(false)}
+  1252→      />
+  1253→
+  1254→      {/* Payment Success Modal — shows auto-generated invoice + receipt */}
+  1255→      <AnimatePresence>
+  1256→        {paymentSuccess && (
+  1257→          <motion.div
+  1258→            initial={{ opacity: 0 }}
+  1259→            animate={{ opacity: 1 }}
+  1260→            exit={{ opacity: 0 }}
+  1261→            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+  1262→            onClick={() => setPaymentSuccess(null)}
+  1263→          >
+  1264→            <motion.div
+  1265→              initial={{ scale: 0.9, y: 20 }}
+  1266→              animate={{ scale: 1, y: 0 }}
+  1267→              exit={{ scale: 0.9, y: 20 }}
+  1268→              className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+  1269→              onClick={(e) => e.stopPropagation()}
+  1270→            >
+  1271→              {/* Header */}
+  1272→              <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-6 text-center">
+  1273→                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+  1274→                  <CheckCircle2 className="w-10 h-10 text-white" />
+  1275→                </div>
+  1276→                <h3 className="text-xl font-bold text-white">{t(language, 'paymentSuccess')}</h3>
+  1277→                <p className="text-emerald-100 text-sm mt-1">
+  1278→                  {t(language, 'paymentPlanActivated').replace('{plan}', paymentSuccess.plan).replace('{amount}', paymentSuccess.amount.toFixed(2)).replace('{currency}', paymentSuccess.currency)}
+  1279→                </p>
+  1280→              </div>
+  1281→
+  1282→              {/* Body */}
+  1283→              <div className="p-6 space-y-4">
+  1284→                <div className="text-center">
+  1285→                  <p className="text-sm text-muted-foreground">
+  1286→                    {t(language, 'paymentAutoGenerated')}
+  1287→                  </p>
+  1288→                </div>
+  1289→
+  1290→                {/* Invoice */}
+  1291→                <div className="flex items-center justify-between p-3 rounded-lg border bg-emerald-50/50">
+  1292→                  <div className="flex items-center gap-2">
+  1293→                    <FileText className="w-5 h-5 text-emerald-600" />
+  1294→                    <div>
+  1295→                      <p className="text-xs text-muted-foreground">{t(language, 'paymentInvoice')}</p>
+  1296→                      <p className="text-sm font-semibold font-mono">{paymentSuccess.invoice.number}</p>
+  1297→                    </div>
+  1298→                  </div>
+  1299→                  <Button
+  1300→                    size="sm"
+  1301→                    variant="outline"
+  1302→                    className="cursor-pointer"
+  1303→                    onClick={() => downloadDocument(paymentSuccess.invoice.downloadUrl, `facture-${paymentSuccess.invoice.number}.pdf`)}
+  1304→                  >
+  1305→                    <Download className="w-3.5 h-3.5 mr-1" />
+  1306→                    PDF
+  1307→                  </Button>
+  1308→                </div>
+  1309→
+  1310→                {/* Receipt */}
+  1311→                <div className="flex items-center justify-between p-3 rounded-lg border bg-amber-50/50">
+  1312→                  <div className="flex items-center gap-2">
+  1313→                    <FileText className="w-5 h-5 text-amber-600" />
+  1314→                    <div>
+  1315→                      <p className="text-xs text-muted-foreground">{t(language, 'paymentReceipt')}</p>
+  1316→                      <p className="text-sm font-semibold font-mono">{paymentSuccess.receipt.number}</p>
+  1317→                    </div>
+  1318→                  </div>
+  1319→                  <Button
+  1320→                    size="sm"
+  1321→                    variant="outline"
+  1322→                    className="cursor-pointer"
+  1323→                    onClick={() => downloadDocument(paymentSuccess.receipt.downloadUrl, `recu-${paymentSuccess.receipt.number}.pdf`)}
+  1324→                  >
+  1325→                    <Download className="w-3.5 h-3.5 mr-1" />
+  1326→                    PDF
+  1327→                  </Button>
+  1328→                </div>
+  1329→
+  1330→                <div className="text-[10px] text-muted-foreground bg-slate-50 rounded-md p-2 border">
+  1331→                  {t(language, 'paymentLegal')}
+  1332→                </div>
+  1333→
+  1334→                <Button
+  1335→                  className="w-full cursor-pointer bg-emerald-600 hover:bg-emerald-700"
+  1336→                  onClick={() => setPaymentSuccess(null)}
+  1337→                >
+  1338→                  {t(language, 'paymentContinue')}
+  1339→                </Button>
+  1340→              </div>
+  1341→            </motion.div>
+  1342→          </motion.div>
+  1343→        )}
+  1344→      </AnimatePresence>
+  1345→
+  1346→      <AdminDashboard isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
+  1347→
+  1348→      {/* Chatbot Widget - always visible */}
+  1349→      <ChatbotWidget />
+  1350→
+  1351→      {/* Footer */}
+  1352→      <footer className="border-t bg-gradient-to-r from-emerald-50/50 via-white to-amber-50/30 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
+  1353→        <div className="max-w-6xl mx-auto flex flex-col items-center gap-3 text-sm text-muted-foreground">
+  1354→          <p>{t(language, 'footerText')} &copy; 2026 BazNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
+  1355→          <div className="flex items-center flex-wrap justify-center gap-2 text-xs">
+  1356→            <span className="text-emerald-600 font-medium">{t(language, 'footerSecuredBy')}</span>
+  1357→            <span>🇫🇷 FR</span><span>🇧🇪 BE</span><span>🇨🇭 CH</span><span>🇱🇺 LU</span><span>🇲🇨 MC</span><span>🇪🇸 ES</span><span>🇬🇧 UK</span><span>🇺🇸 US</span><span>🇨🇦 CA</span><span>🇦🇺 AU</span><span>🇸🇦 SA</span><span>🇦🇪 AE</span><span>🇶🇦 QA</span><span>🇰🇼 KW</span><span>🇧🇭 BH</span><span>🇴🇲 OM</span>
+  1358→          </div>
+  1359→          <div className="flex items-center flex-wrap justify-center gap-4 text-xs">
+  1360→            <button onClick={() => { document.dispatchEvent(new CustomEvent('open-legal')) }} className="text-emerald-600 hover:underline cursor-pointer">{t(language, 'footerLegal')}</button>
+  1361→            <button onClick={() => setStep('campus')} className="text-emerald-600 hover:underline cursor-pointer flex items-center gap-1">
+  1362→              <GraduationCap className="w-3 h-3" />
+  1363→              {t(language, 'footerCampus')}
+  1364→            </button>
+  1365→            <button onClick={() => setStep('referral')} className="text-emerald-600 hover:underline cursor-pointer flex items-center gap-1">
+  1366→              <Gift className="w-3 h-3" />
+  1367→              {t(language, 'footerReferral')}
+  1368→            </button>
+  1369→            {isAdmin && (
+  1370→              <button onClick={() => setStep('admin')} className="text-emerald-700 hover:underline cursor-pointer flex items-center gap-1 font-semibold">
+  1371→                <Shield className="w-3 h-3" />
+  1372→                {t(language, 'footerAdmin')}
+  1373→              </button>
+  1374→            )}
+  1375→          </div>
+  1376→        </div>
+  1377→      </footer>
+  1378→    </div>
+  1379→  )
+  1380→}
+  1381→

@@ -1,7 +1,7 @@
 /**
  * @module tax-maroc
  * @description
- * HireNova — Moroccan Tax & Financial System
+ * BazNova — Moroccan Tax & Financial System
  *
  * Server-side only library for Moroccan tax calculations, invoice generation helpers,
  * revenue/expense tracking, tax declaration preparation, and financial reporting.

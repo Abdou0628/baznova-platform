@@ -33,7 +33,7 @@ export async function GET() {
     return new NextResponse(JSON.stringify(safeUser, null, 2), {
       headers: {
         'Content-Type': 'application/json',
-        'Content-Disposition': 'attachment; filename="hirenova-data-export.json"',
+        'Content-Disposition': 'attachment; filename="baznova-data-export.json"',
       },
     })
   } catch (error) {

@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Adapters — Base Interface & Types
+ * BazNova Payment Adapters — Base Interface & Types
  *
  * Defines the abstract PaymentAdapter interface that every payment provider
  * MUST implement. Also contains all shared input/output types used across
@@ -76,7 +76,7 @@ export interface AdapterPaymentResult {
   success: boolean;
   /** Provider-specific payment/transaction ID */
   providerPaymentId?: string;
-  /** HireNova-mapped payment status */
+  /** BazNova-mapped payment status */
   status?: string;
   /** Client-facing secret or token (e.g., Stripe client_secret, PayMob payment_url) */
   clientSecret?: string;
@@ -108,7 +108,7 @@ export interface AdapterRefundResult {
   amount?: number;
   /** Currency of the refund */
   currency?: string;
-  /** HireNova-mapped status of the refund (e.g., 'pending', 'succeeded') */
+  /** BazNova-mapped status of the refund (e.g., 'pending', 'succeeded') */
   status?: string;
   /** ISO 8601 timestamp of the refund */
   timestamp?: string;

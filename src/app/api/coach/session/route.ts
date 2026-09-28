@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { withAuth } from '@/lib/hnsa'
 
-const COACH_SYSTEM_PROMPT = `You are "HireNova IA Coach", a warm, motivational, and actionable AI career coach. 
+const COACH_SYSTEM_PROMPT = `You are "BazNova IA Coach", a warm, motivational, and actionable AI career coach. 
 Your personality:
 - Empathetic and encouraging, like a supportive mentor
 - Action-oriented: always suggest concrete next steps

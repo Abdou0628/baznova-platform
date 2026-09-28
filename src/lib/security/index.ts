@@ -1,7 +1,7 @@
 /**
- * HireNova Security Architecture (HNSA) — Main Entry Point
+ * BazNova Security Architecture (HNSA) — Main Entry Point
  *
- * CTO: "Je baptiserais cette couche : HireNova Security Architecture — HNSA"
+ * CTO: "Je baptiserais cette couche : BazNova Security Architecture — HNSA"
  * 8 piliers : Identity, Zero Trust, Application, API, Payment, Data, Infrastructure, Monitoring
  *
  * Usage in API routes:

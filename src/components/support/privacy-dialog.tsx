@@ -20,9 +20,9 @@ const sections = [
     title: '1. Responsable du Traitement',
     content: (
       <div className="bg-muted/50 rounded-xl p-4 space-y-1">
-        <p><strong>Responsable :</strong> HireNova Technologies SARL</p>
+        <p><strong>Responsable :</strong> BazNova Technologies SARL</p>
         <p><strong>Siège social :</strong> 123 Avenue Mohammed V, Guéliz, 40000 Marrakech, Maroc</p>
-        <p><strong>Contact DPO :</strong> <a href="mailto:privacy@hirenova.com" className="text-emerald-600 hover:underline">privacy@hirenova.com</a></p>
+        <p><strong>Contact DPO :</strong> <a href="mailto:privacy@baznova.com" className="text-emerald-600 hover:underline">privacy@baznova.com</a></p>
         <p className="text-xs text-muted-foreground mt-2">
           Autorités de contrôle compétentes : CNDP (Maroc) — CNIL (France, pour les utilisateurs résidant dans l&rsquo;UE).
         </p>
@@ -34,7 +34,7 @@ const sections = [
     title: '2. Données Collectées',
     content: (
       <div className="space-y-3">
-        <p className="text-muted-foreground">HireNova collecte les catégories de données suivantes :</p>
+        <p className="text-muted-foreground">BazNova collecte les catégories de données suivantes :</p>
         <div className="grid gap-2">
           {[
             { cat: 'Identité', data: 'Nom, prénom, adresse email, photo de profil', base: 'Exécution du contrat' },
@@ -77,7 +77,7 @@ const sections = [
     title: '4. Sous-traitants',
     content: (
       <div className="space-y-3">
-        <p className="text-muted-foreground text-sm">HireNova fait appel aux sous-traitants suivants :</p>
+        <p className="text-muted-foreground text-sm">BazNova fait appel aux sous-traitants suivants :</p>
         <div className="bg-muted/50 rounded-xl p-4 space-y-3 text-sm">
           <div>
             <p className="font-medium">Vercel Inc.</p>
@@ -124,7 +124,7 @@ const sections = [
           ))}
         </div>
         <p className="text-xs text-muted-foreground">
-          Pour exercer vos droits : <a href="mailto:privacy@hirenova.com" className="text-emerald-600 hover:underline font-medium">privacy@hirenova.com</a>
+          Pour exercer vos droits : <a href="mailto:privacy@baznova.com" className="text-emerald-600 hover:underline font-medium">privacy@baznova.com</a>
         </p>
         <p className="text-xs text-muted-foreground">
           Vous pouvez également supprimer votre compte ou exporter vos données depuis votre espace personnel (Dashboard).
@@ -160,8 +160,8 @@ const sections = [
     title: '8. Contact',
     content: (
       <div className="bg-muted/50 rounded-xl p-4 space-y-2">
-        <p className="flex items-center gap-2"><Shield className="w-4 h-4 text-emerald-600" /> <strong>Données personnelles :</strong> <a href="mailto:privacy@hirenova.com" className="text-emerald-600 hover:underline">privacy@hirenova.com</a></p>
-        <p className="flex items-center gap-2"><Scale className="w-4 h-4 text-emerald-600" /> <strong>Juridique :</strong> <a href="mailto:legal@hirenova.com" className="text-emerald-600 hover:underline">legal@hirenova.com</a></p>
+        <p className="flex items-center gap-2"><Shield className="w-4 h-4 text-emerald-600" /> <strong>Données personnelles :</strong> <a href="mailto:privacy@baznova.com" className="text-emerald-600 hover:underline">privacy@baznova.com</a></p>
+        <p className="flex items-center gap-2"><Scale className="w-4 h-4 text-emerald-600" /> <strong>Juridique :</strong> <a href="mailto:legal@baznova.com" className="text-emerald-600 hover:underline">legal@baznova.com</a></p>
         <p className="text-xs text-muted-foreground mt-2">
           Réponse sous 30 jours conformément aux exigences du RGPD.
         </p>
@@ -207,7 +207,7 @@ export default function PrivacyDialog({ open, onClose }: PrivacyDialogProps) {
             Dernière mise à jour : 25/07/2025
           </p>
           <p className="text-xs text-muted-foreground text-center font-medium">
-            © HireNova Technologies SARL — Tous droits réservés.
+            © BazNova Technologies SARL — Tous droits réservés.
           </p>
         </div>
       </DialogContent>

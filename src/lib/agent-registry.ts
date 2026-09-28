@@ -1,5 +1,5 @@
 // =============================================================================
-// HireNova IA — Agent Registry & Orchestration System
+// BazNova IA — Agent Registry & Orchestration System
 // Organigramme Numérique des Agents IA
 // CTO Principal coordonne 19 agents spécialisés en 4 langues
 // =============================================================================
@@ -45,7 +45,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'cv',
     name: 'Agent CV',
-    module: 'HireNova IA CV',
+    module: 'BazNova IA CV',
     tier: 'specialized',
     category: 'candidate',
     icon: 'FileText',
@@ -73,7 +73,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'ats',
     name: 'Agent ATS',
-    module: 'HireNova IA ATS',
+    module: 'BazNova IA ATS',
     tier: 'specialized',
     category: 'candidate',
     icon: 'Search',
@@ -98,7 +98,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'interview',
     name: 'Agent Interview',
-    module: 'HireNova IA INTERVIEW',
+    module: 'BazNova IA INTERVIEW',
     tier: 'specialized',
     category: 'candidate',
     icon: 'MessageCircle',
@@ -124,7 +124,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'linkedin',
     name: 'Agent LinkedIn',
-    module: 'HireNova IA LINKEDIN',
+    module: 'BazNova IA LINKEDIN',
     tier: 'specialized',
     category: 'candidate',
     icon: 'Linkedin',
@@ -149,7 +149,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'career',
     name: 'Agent Career',
-    module: 'HireNova IA CAREER',
+    module: 'BazNova IA CAREER',
     tier: 'specialized',
     category: 'candidate',
     icon: 'Compass',
@@ -176,7 +176,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'coach',
     name: 'Agent Coach',
-    module: 'HireNova IA COACH',
+    module: 'BazNova IA COACH',
     tier: 'specialized',
     category: 'candidate',
     icon: 'Bot',
@@ -202,7 +202,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'formation',
     name: 'Agent Formation',
-    module: 'HireNova IA FORMATION',
+    module: 'BazNova IA FORMATION',
     tier: 'specialized',
     category: 'candidate',
     icon: 'BookOpen',
@@ -232,7 +232,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'jobs',
     name: 'Agent Jobs',
-    module: 'HireNova IA JOBS',
+    module: 'BazNova IA JOBS',
     tier: 'specialized',
     category: 'employment',
     icon: 'Briefcase',
@@ -259,7 +259,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'recruiter',
     name: 'Agent Recruiter',
-    module: 'HireNova IA RECRUITER',
+    module: 'BazNova IA RECRUITER',
     tier: 'specialized',
     category: 'employment',
     icon: 'UserCheck',
@@ -286,7 +286,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'freelance',
     name: 'Agent Freelance',
-    module: 'HireNova IA FREELANCE',
+    module: 'BazNova IA FREELANCE',
     tier: 'specialized',
     category: 'employment',
     icon: 'Laptop',
@@ -312,7 +312,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'global',
     name: 'Agent Global',
-    module: 'HireNova IA GLOBAL',
+    module: 'BazNova IA GLOBAL',
     tier: 'specialized',
     category: 'employment',
     icon: 'Globe',
@@ -342,7 +342,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'api',
     name: 'Agent API',
-    module: 'HireNova IA API',
+    module: 'BazNova IA API',
     tier: 'specialized',
     category: 'platform',
     icon: 'Code2',
@@ -367,7 +367,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'intelligence',
     name: 'Agent Intelligence',
-    module: 'HireNova IA INTELLIGENCE',
+    module: 'BazNova IA INTELLIGENCE',
     tier: 'specialized',
     category: 'platform',
     icon: 'Brain',
@@ -396,7 +396,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'mobility',
     name: 'Agent Mobility',
-    module: 'HireNova IA MOBILITY',
+    module: 'BazNova IA MOBILITY',
     tier: 'specialized',
     category: 'platform',
     icon: 'Plane',
@@ -422,7 +422,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'chatbot',
     name: 'Agent Chatbot',
-    module: 'HireNova IA CHAT BOT ADVANCED',
+    module: 'BazNova IA CHAT BOT ADVANCED',
     tier: 'specialized',
     category: 'platform',
     icon: 'MessageSquare',
@@ -445,7 +445,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'campus',
     name: 'Agent Campus',
-    module: 'HireNova IA CAMPUS SaaS',
+    module: 'BazNova IA CAMPUS SaaS',
     tier: 'specialized',
     category: 'platform',
     icon: 'GraduationCap',
@@ -469,7 +469,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'marketplace',
     name: 'Agent Community',
-    module: 'HireNova IA COMMUNITY ET MARKETPLACE',
+    module: 'BazNova IA COMMUNITY ET MARKETPLACE',
     tier: 'specialized',
     category: 'platform',
     icon: 'Store',
@@ -494,7 +494,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'whiteLabel',
     name: 'Agent White Label',
-    module: 'HireNova IA WHITE LABEL',
+    module: 'BazNova IA WHITE LABEL',
     tier: 'specialized',
     category: 'platform',
     icon: 'Building2',
@@ -519,7 +519,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'legal',
     name: 'Agent Legal',
-    module: 'HireNova IA LEGAL',
+    module: 'BazNova IA LEGAL',
     tier: 'specialized',
     category: 'platform',
     icon: 'Scale',
@@ -549,7 +549,7 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: 'payment',
     name: 'Agent Paiement',
-    module: 'HireNova IA Paiement',
+    module: 'BazNova IA Paiement',
     tier: 'specialized',
     category: 'platform',
     icon: 'CreditCard',

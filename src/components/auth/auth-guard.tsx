@@ -65,7 +65,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
         console.log(`[AuthGuard] Unauthenticated access to "${step}" — redirecting to landing`)
         // Clear the persisted step from localStorage to prevent loop
         try {
-          localStorage.removeItem('hirenova-step')
+          localStorage.removeItem('baznova-step')
         } catch {
           // Ignore localStorage errors (SSR, etc.)
         }

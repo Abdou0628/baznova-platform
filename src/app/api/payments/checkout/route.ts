@@ -4,11 +4,11 @@ import { db } from '@/lib/db'
 
 const PLAN_CONFIG = {
   pro: {
-    product_name: 'HireNova Pro',
+    product_name: 'BazNova Pro',
     unit_amount: 14900, // 149.00 MAD in centimes
   },
   elite: {
-    product_name: 'HireNova Elite',
+    product_name: 'BazNova Elite',
     unit_amount: 39900, // 399.00 MAD in centimes
   },
 } as const

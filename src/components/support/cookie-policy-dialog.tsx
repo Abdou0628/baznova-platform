@@ -88,7 +88,7 @@ export default function CookiePolicyDialog({ open, onClose }: CookiePolicyDialog
           {/* Section 5: Contact */}
           <section>
             <h3 className="font-bold text-base mb-2">5. Contact</h3>
-            <p className="text-muted-foreground">Pour toute question relative à cette politique : <a href="mailto:privacy@hirenova.com" className="text-emerald-600 hover:underline">privacy@hirenova.com</a></p>
+            <p className="text-muted-foreground">Pour toute question relative à cette politique : <a href="mailto:privacy@baznova.com" className="text-emerald-600 hover:underline">privacy@baznova.com</a></p>
           </section>
 
           <Separator />

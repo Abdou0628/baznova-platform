@@ -194,7 +194,7 @@ export default function ChatbotWidget() {
                     <Bot className="w-4 h-4" aria-hidden="true" />
                   </div>
                   <div>
-                    <span className="font-semibold text-sm block leading-tight">{t(lang, 'chatbotHireNovaAI')}</span>
+                    <span className="font-semibold text-sm block leading-tight">{t(lang, 'chatbotBazNovaAI')}</span>
                     <span className="text-emerald-100 text-[10px]">{t(lang, MODE_TABS.find(t2 => t2.mode === mode)!.labelKey)}</span>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 /**
- * HireNova — Server-side Layer 2 Anti-Bot Verification System
+ * BazNova — Server-side Layer 2 Anti-Bot Verification System
  *
  * Works alongside security.ts (input scanning) and rate-limit.ts (API rate limiting)
  * to provide comprehensive registration protection against automated bots.

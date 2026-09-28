@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Input Sanitizer
+ * BazNova Security Architecture (HNSA) — Input Sanitizer
  *
  * Comprehensive input validation and sanitization layer.
  * Implements CTO Pillar #3: Application Security

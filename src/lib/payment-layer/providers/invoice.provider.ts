@@ -62,7 +62,7 @@ export class InvoiceProvider implements IPaymentProvider {
     // 3. Store the invoice in the database
     // For now, we return a URL that points to the invoice page
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hirenova.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://baznova.com';
     const invoiceUrl = `${baseUrl}/invoice/${invoiceNumber}?userId=${userId}&plan=${planId}`;
 
     return {

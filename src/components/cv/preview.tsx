@@ -196,7 +196,7 @@ export default function Preview() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex flex-col items-center">
-              <Image src="/hirenova-logo.png" alt="HireNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">{t(lang, 'poweredByIa')}</span>
             </div>
             <div>
@@ -534,7 +534,7 @@ export default function Preview() {
             <Globe className="w-4 h-4 text-emerald-600" />
             <span className="text-xs font-medium text-emerald-700">{t(lang, 'previewEqualOpportunity')}</span>
           </div>
-          <p>{t(lang, 'footerText')} &copy; 2026 HireNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
+          <p>{t(lang, 'footerText')} &copy; 2026 BazNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
           <button onClick={() => { document.dispatchEvent(new CustomEvent('open-legal')) }} className="text-xs text-emerald-600 hover:underline cursor-pointer">{t(lang, 'footerLegal')}</button>
         </div>
       </footer>

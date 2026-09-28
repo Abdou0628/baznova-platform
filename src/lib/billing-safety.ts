@@ -1,6 +1,6 @@
 /**
  * @module billing-safety
- * @description HireNova Billing Safety Layer — payment idempotency, validation,
+ * @description BazNova Billing Safety Layer — payment idempotency, validation,
  *   grace-period management, entitlement revocation/restoration, webhook
  *   signature verification, and transaction logging.
  *
@@ -60,7 +60,7 @@ const VALID_PLANS_SET = new Set([
   // Legacy plans
   'starter', 'pro', 'career_plus', 'employer', 'annual',
   // B2C bundles
-  'hirenova_start', 'hirenova_career', 'hirenova_professional', 'hirenova_ai_power',
+  'baznova_start', 'baznova_career', 'baznova_professional', 'baznova_ai_power',
   // Individual modules
   'mod_cv', 'mod_ats', 'mod_jobs', 'mod_global', 'mod_mobility',
   'mod_interview', 'mod_linkedin', 'mod_career', 'mod_coach',
@@ -72,7 +72,7 @@ const VALID_PLANS_SET = new Set([
  */
 const SUBSCRIPTION_PLANS = new Set([
   'starter', 'pro', 'career_plus', 'employer', 'annual',
-  'hirenova_start', 'hirenova_career', 'hirenova_professional', 'hirenova_ai_power',
+  'baznova_start', 'baznova_career', 'baznova_professional', 'baznova_ai_power',
 ])
 
 /**
@@ -81,10 +81,10 @@ const SUBSCRIPTION_PLANS = new Set([
  */
 const PLAN_TIER_ORDER: string[] = [
   'free',
-  'hirenova_start', 'starter',
-  'hirenova_career', 'career_plus',
-  'hirenova_professional', 'pro',
-  'hirenova_ai_power',
+  'baznova_start', 'starter',
+  'baznova_career', 'career_plus',
+  'baznova_professional', 'pro',
+  'baznova_ai_power',
   'employer', 'annual',
 ]
 
@@ -145,7 +145,7 @@ export async function validatePaymentIntent(params: {
 
   let expectedPrice: number | null = null
 
-  if (planType.startsWith('hirenova_')) {
+  if (planType.startsWith('baznova_')) {
     const result = getB2CBundlePrice(planType, peCurrency, peBilling)
     expectedPrice = result ? Math.round(result.price) : null
   } else if (planType.startsWith('mod_')) {

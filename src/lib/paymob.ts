@@ -1,5 +1,5 @@
 /**
- * HireNova PayMob Integration — Morocco MAD payments
+ * BazNova PayMob Integration — Morocco MAD payments
  *
  * Handles PayMob authentication, order creation, payment key generation,
  * iframe checkout URLs, and webhook HMAC verification.
@@ -22,7 +22,7 @@ export type PaymobPlan = 'starter' | 'pro' | 'career_plus' | 'employer' | 'annua
 
 /**
  * PayMob prices in MAD (integer, not cents).
- * Aligned with HireNova PLAN_PRICES.mad from stripe.ts
+ * Aligned with BazNova PLAN_PRICES.mad from stripe.ts
  */
 export const PAYMOB_PRICES: Record<PaymobPlan, number> = {
   starter:     90,    // ~9 EUR equivalent
@@ -162,7 +162,7 @@ async function getPaymentKey(
 /**
  * Create a PayMob checkout session and return the iframe URL.
  *
- * The merchant_order_id encodes: `hirenova-{planType}-{userId}-{timestamp}`
+ * The merchant_order_id encodes: `baznova-{planType}-{userId}-{timestamp}`
  * This allows the webhook to extract the plan type directly, avoiding fragile
  * amount-based detection.
  */
@@ -176,7 +176,7 @@ export async function createPaymobCheckout(params: {
   const { userId, userEmail, userName, planType, billingData } = params
   const amount = PAYMOB_PRICES[planType]
   // Encode plan type in merchant_order_id for webhook retrieval
-  const merchantOrderId = `hirenova-${planType}-${userId}-${Date.now()}`
+  const merchantOrderId = `baznova-${planType}-${userId}-${Date.now()}`
 
   const token = await getAuthToken()
   const orderId = await createOrder(token, amount, merchantOrderId)
@@ -246,10 +246,10 @@ export function verifyPaymobWebhook(payload: Record<string, unknown>): boolean {
 
 /**
  * Extract plan type from the PayMob order's merchant_order_id.
- * Format: `hirenova-{planType}-{userId}-{timestamp}`
+ * Format: `baznova-{planType}-{userId}-{timestamp}`
  */
 export function extractPlanFromMerchantOrderId(merchantOrderId: string): PaymobPlan | null {
-  const match = merchantOrderId.match(/^hirenova-([a-z_]+)-/)
+  const match = merchantOrderId.match(/^baznova-([a-z_]+)-/)
   if (!match) return null
   const plan = match[1] as PaymobPlan
   if (plan in PAYMOB_PRICES) return plan

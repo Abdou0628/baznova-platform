@@ -206,7 +206,7 @@ function generateRecommendations(
           recs.push({
             id: 'rec-cv',
             title: 'Générez votre premier CV',
-            description: 'Utilisez le générateur de CV d\'HireNova pour créer un CV professionnel optimisé ATS.',
+            description: 'Utilisez le générateur de CV d\'BazNova pour créer un CV professionnel optimisé ATS.',
             priority: 'high',
             dimension: 'documents',
             impact: 25,
@@ -261,7 +261,7 @@ function generateRecommendations(
           recs.push({
             id: 'rec-mobility',
             title: 'Explorez la mobilité internationale',
-            description: 'Utilisez HireNova Mobilité pour évaluer vos opportunités à l\'international et adapter votre CV.',
+            description: 'Utilisez BazNova Mobilité pour évaluer vos opportunités à l\'international et adapter votre CV.',
             priority: 'low',
             dimension: 'mobility',
             impact: 10,
@@ -285,7 +285,7 @@ function generateRecommendations(
       {
         id: 'rec-interview',
         title: 'Pratiquez les entretiens',
-        description: 'Utilisez le simulateur d\'entretien d\'HireNova pour vous entraîner et gagner en confiance.',
+        description: 'Utilisez le simulateur d\'entretien d\'BazNova pour vous entraîner et gagner en confiance.',
         priority: 'medium',
         dimension: 'experience',
         impact: 12,
@@ -401,7 +401,7 @@ function buildNextSteps(
     steps.push({
       id: 'step-cv',
       action: 'Créer votre premier CV',
-      description: 'Générez un CV professionnel optimisé ATS avec le constructeur HireNova.',
+      description: 'Générez un CV professionnel optimisé ATS avec le constructeur BazNova.',
       priority,
       dimension: 'documents',
     })
@@ -485,7 +485,7 @@ function buildNextSteps(
     steps.push({
       id: 'step-mobility',
       action: 'Explorer la mobilité internationale',
-      description: 'Découvrez vos options à l\'international avec HireNova Mobilité.',
+      description: 'Découvrez vos options à l\'international avec BazNova Mobilité.',
       priority,
       dimension: 'mobility',
     })

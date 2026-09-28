@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Security Audit Logger
+ * BazNova Security Architecture (HNSA) — Security Audit Logger
  *
  * Immutable, append-only security audit trail.
  * Implements CTO Pillar #9: Audit Log immuable

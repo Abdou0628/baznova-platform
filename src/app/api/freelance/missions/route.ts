@@ -24,7 +24,7 @@ async function seedDemoMissions() {
         data: missingClients.map(id => ({
           id,
           name: getClientName(id),
-          email: `${id}@hirenova.demo`,
+          email: `${id}@baznova.demo`,
           plan: 'free' as const,
         })),
       })

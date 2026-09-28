@@ -1,12 +1,12 @@
 /**
- * HireNova Payment Orchestrator — Public API
+ * BazNova Payment Orchestrator — Public API
  *
  * Independent orchestration layer for payment processing.
  * Wraps the existing Payment Gateway Abstraction without modifying it.
  *
  * Architecture (per CTO specification):
  *
- *   HireNova AI Command Center
+ *   BazNova AI Command Center
  *         │
  *   ┌─────▼──────┐
  *   │  Checkout   │

@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Adapter Factory
+ * BazNova Payment Adapter Factory
  *
  * Provides a centralized factory for obtaining payment adapter instances.
  * Adapter instances are cached for the lifetime of the process.

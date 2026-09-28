@@ -40,7 +40,7 @@ export default function JobApplicationPreview() {
               <ArrowLeft className="w-4 h-4" />
               {t(language, 'jaBack')}
             </Button>
-            <Image src="/hirenova-logo.png" alt="HireNova" width={32} height={32} className="rounded-lg" />
+            <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
           </div>
         </header>
         <main className="flex-1 flex items-center justify-center">
@@ -133,7 +133,7 @@ export default function JobApplicationPreview() {
               <span className="hidden sm:inline">{t(language, 'jaBack')}</span>
             </Button>
             <div className="flex items-center gap-2">
-              <Image src="/hirenova-logo.png" alt="HireNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <div>
                 <span className="font-semibold text-foreground text-sm">{t(language, 'siteTitle')}</span>
                 <div className="flex items-center gap-1.5 text-xs text-emerald-600">
@@ -287,7 +287,7 @@ export default function JobApplicationPreview() {
       <footer className="border-t py-4 px-4 sm:px-6 bg-gradient-to-r from-emerald-50/50 via-white to-amber-50/30 mt-auto">
         <div className="max-w-3xl mx-auto flex flex-col items-center gap-1.5 text-xs text-muted-foreground">
           <p className="text-center">{t(language, 'previewEqualOpportunity')}</p>
-          <p>{t(language, 'footerText')} &copy; 2026 HireNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
+          <p>{t(language, 'footerText')} &copy; 2026 BazNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
         </div>
       </footer>
     </div>

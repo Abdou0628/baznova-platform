@@ -35,7 +35,7 @@ function scanUrl(url: string): { isClean: boolean; sqlInjection: boolean; xss: b
 }
 
 // ============================================================================
-// HNSA — HireNova Security Architecture
+// HNSA — BazNova Security Architecture
 // Proxy: Security Headers + Rate Limiting + Input Scanning
 // ============================================================================
 

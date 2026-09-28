@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — Type Definitions
+ * BazNova Payment Orchestrator — Type Definitions
  *
  * Central type definitions for the payment system including enums,
  * interfaces, and valid state transition maps.

@@ -5,7 +5,7 @@ import { withAuth } from '@/lib/hnsa'
 
 /**
  * Generate referral code and auto-generate referral agreement (contrat de parrainage)
- * with HireNova logo + electronic signature.
+ * with BazNova logo + electronic signature.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const origin = req.headers.get('origin') || 'https://hirenova.app'
+    const origin = req.headers.get('origin') || 'https://baznova.app'
     const shareUrl = `${origin}/?ref=${code}`
 
     // Auto-generate referral agreement (contrat de parrainage)
@@ -85,10 +85,10 @@ export async function POST(req: NextRequest) {
         referralCode: code,
         shareUrl,
         shareLinks: {
-          whatsapp: `https://wa.me/?text=${encodeURIComponent("Découvrez HireNova — Générez des CV professionnels avec l'IA ! Utilisez mon code de parrainage : " + code + "\n\n" + shareUrl)}`,
+          whatsapp: `https://wa.me/?text=${encodeURIComponent("Découvrez BazNova — Générez des CV professionnels avec l'IA ! Utilisez mon code de parrainage : " + code + "\n\n" + shareUrl)}`,
           linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-          twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent("Découvrez @HireNova — CV IA professionnel en 60 secondes !")}&url=${encodeURIComponent(shareUrl)}`,
-          email: `mailto:?subject=${encodeURIComponent('Invitation à rejoindre HireNova')}&body=${encodeURIComponent("Salut !\n\nDécouvre HireNova, la plateforme qui génère des CV professionnels avec l'IA.\n\nMon code de parrainage : " + code + "\n\n" + shareUrl)}`,
+          twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent("Découvrez @BazNova — CV IA professionnel en 60 secondes !")}&url=${encodeURIComponent(shareUrl)}`,
+          email: `mailto:?subject=${encodeURIComponent('Invitation à rejoindre BazNova')}&body=${encodeURIComponent("Salut !\n\nDécouvre BazNova, la plateforme qui génère des CV professionnels avec l'IA.\n\nMon code de parrainage : " + code + "\n\n" + shareUrl)}`,
         },
         agreement: agreement ? {
           number: agreement.number,

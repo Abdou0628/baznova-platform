@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Gateway Registry
+ * BazNova Payment Gateway Registry
  *
  * Singleton registry that holds all registered gateway adapters.
  * Consumer code resolves the correct gateway by currency, ID, or preference.

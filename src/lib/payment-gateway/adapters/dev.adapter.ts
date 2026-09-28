@@ -103,7 +103,7 @@ class DevGateway implements IPaymentGateway {
         userName,
         amount,
         currency: currencyLabel,
-        description: `Abonnement ${request.planId} — HireNova (Simulation)`,
+        description: `Abonnement ${request.planId} — BazNova (Simulation)`,
         userId: request.userId,
         paidAt: now,
       })

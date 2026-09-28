@@ -14,14 +14,14 @@ export type AppStep =
   | 'candidateApplications'
   // API Portal
   | 'apiDocs' | 'apiRegister' | 'apiDashboard'
-  // HireNova Global — International Recruitment
+  // BazNova Global — International Recruitment
   | 'globalMarket' | 'globalJobDetail' | 'globalApply'
   | 'globalEmployerDashboard' | 'globalPostJob'
-  // HireNova Mobilité — OCR + NLP Pipeline
+  // BazNova Mobilité — OCR + NLP Pipeline
   | 'mobilityHome' | 'mobilityUpload' | 'mobilityProfile' | 'mobilityResult'
   // Programme Parrainage
   | 'referral'
-  // HireNova Campus — Universités Partenaires
+  // BazNova Campus — Universités Partenaires
   | 'campus'
   // User Dashboard — Mon Espace personnel
   | 'dashboard'
@@ -29,33 +29,33 @@ export type AppStep =
   | 'interview'
   // Admin Dashboard — Supervision globale
   | 'admin'
-  // HireNova LinkedIn — Profil Optimizer
+  // BazNova LinkedIn — Profil Optimizer
   | 'linkedinHome' | 'linkedinAnalyzer' | 'linkedinGenerator'
-  // HireNova Recruiter — AI Recruitment Pipeline
+  // BazNova Recruiter — AI Recruitment Pipeline
   | 'recruiterHome' | 'recruiterPipeline' | 'recruiterCandidates' | 'recruiterMatch'
-  // HireNova Career — Career Roadmap & Assessment
+  // BazNova Career — Career Roadmap & Assessment
   | 'careerHome' | 'careerAssessment' | 'careerRoadmap' | 'careerSkills'
-  // HireNova Coach — AI Career Coach
+  // BazNova Coach — AI Career Coach
   | 'coachHome' | 'coachSession' | 'coachGoals' | 'coachHistory'
-  // HireNova Formation — Training & Certification
+  // BazNova Formation — Training & Certification
   | 'formationHome' | 'formationCatalog' | 'formationCourse' | 'formationCert'
-  // HireNova Freelance — Freelance Marketplace
+  // BazNova Freelance — Freelance Marketplace
   | 'freelanceHome' | 'freelanceBrowse' | 'freelanceMission' | 'freelanceDashboard'
-  // HireNova IA COMMUNITY ET MARKETPLACE
+  // BazNova IA COMMUNITY ET MARKETPLACE
   | 'marketplaceHome' | 'marketplaceCommunity' | 'marketplaceEvents' | 'marketplaceProfile'
-  // HireNova IA INTELLIGENCE
+  // BazNova IA INTELLIGENCE
   | 'intelligenceHome' | 'intelligenceTrends' | 'intelligenceSalary' | 'intelligenceForecast'
-  // HireNova IA WHITE LABEL
+  // BazNova IA WHITE LABEL
   | 'whiteLabelHome' | 'whiteLabelSetup' | 'whiteLabelDashboard' | 'whiteLabelPricing'
-  // HireNova IA LEGAL
+  // BazNova IA LEGAL
   | 'legalHome' | 'legalContracts' | 'legalCompliance' | 'legalTemplates'
-  // HireNova IA COMMAND CENTER — Orchestration
+  // BazNova IA COMMAND CENTER — Orchestration
   | 'orchestrationHub' | 'orchestrationDispatch' | 'orchestrationCollab'
   // Job Application — Demande d'emploi adaptative
   | 'jobApplication' | 'jobApplicationPreview'
   // Payment & Accounting Dashboard
   | 'paymentDashboard'
-  // HireNova SaaLabour — Software as Labour Mission Control
+  // BazNova SaaLabour — Software as Labour Mission Control
   | 'saalabourHub'
 
 export type TemplateStyle = 'modern' | 'classic' | 'creative'
@@ -288,7 +288,7 @@ export const useCVStore = create<CVStore>()(
       }),
     }),
     {
-      name: 'baznova-step',
+      name: 'baznova-v2-step',
       // Persist step, stepData, and language so navigation + language survive reloads
       partialize: (state) => ({ step: state.step, stepData: state.stepData, language: state.language }),
     }

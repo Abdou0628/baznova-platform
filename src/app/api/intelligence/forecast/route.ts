@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     if (industry) filterParts.push(`Target Industry: ${industry}`)
     if (region) filterParts.push(`Target Region: ${region}`)
 
-    const systemPrompt = `You are HireNova Intelligence, an expert AI market analyst. You provide labor market forecasts, skill demand predictions, and career opportunity assessments based on current 2025 market data. Respond in ${responseLang}. Always provide structured, data-driven insights. Respond with JSON ONLY, no markdown.`
+    const systemPrompt = `You are BazNova Intelligence, an expert AI market analyst. You provide labor market forecasts, skill demand predictions, and career opportunity assessments based on current 2025 market data. Respond in ${responseLang}. Always provide structured, data-driven insights. Respond with JSON ONLY, no markdown.`
 
     const userPrompt = `Generate a detailed market intelligence forecast for the next 6-12 months (mid-2025 to early 2026).
 

@@ -165,7 +165,7 @@ export default function FormationCert() {
 </style></head>
 <body>
   <div class="cert">
-    <div class="logo">HireNova</div>
+    <div class="logo">BazNova</div>
     <div class="subtitle">E-Society 2050</div>
     <div class="divider"></div>
     <div class="title">${t(language, 'formationCertOfAchievement')}</div>
@@ -182,7 +182,7 @@ export default function FormationCert() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `HireNova-Cert-${cert.certId}.html`
+    a.download = `BazNova-Cert-${cert.certId}.html`
     a.click()
     URL.revokeObjectURL(url)
   }

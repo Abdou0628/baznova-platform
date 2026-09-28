@@ -25,14 +25,14 @@ import {
   STRIPE_WEBHOOK_SECRET,
   STRIPE_PRICE_IDS,
   PLAN_PRICES,
-  type HireNovaPlan,
+  type BazNovaPlan,
   type Currency as StripeCurrency,
 } from '@/lib/stripe'
 import { db } from '@/lib/db'
 
 // ─── Mappings ──────────────────────────────────────────
 
-const PLAN_ID_TO_STRIPE: Record<string, HireNovaPlan> = {
+const PLAN_ID_TO_STRIPE: Record<string, BazNovaPlan> = {
   starter: 'starter',
   pro: 'pro',
   career_plus: 'career_plus',
@@ -210,7 +210,7 @@ class StripeGateway implements IPaymentGateway {
             await db.user.update({
               where: { id: userId },
               data: {
-                plan: (PLAN_ID_TO_STRIPE[planType || ''] || 'pro') as HireNovaPlan,
+                plan: (PLAN_ID_TO_STRIPE[planType || ''] || 'pro') as BazNovaPlan,
                 stripeCustomerId: (session.customer as string) || undefined,
               },
             })

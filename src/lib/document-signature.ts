@@ -1,12 +1,12 @@
 /**
- * HireNova Electronic Signature Engine
+ * BazNova Electronic Signature Engine
  *
  * Generates a cryptographic fingerprint (SHA-256) for each document and
  * renders a professional signature block on the PDF.
  *
  * The signature block includes:
  *   - A visual seal/badge (geometric shield)
- *   - Signer identity (HireNova — E-Society 2050)
+ *   - Signer identity (BazNova — E-Society 2050)
  *   - Signature hash (truncated SHA-256, verifiable)
  *   - Signature serial number (SIG-YYYY-NNNNNN)
  *   - Timestamp (ISO 8601, UTC)
@@ -55,7 +55,7 @@ export interface AppliedSignature {
 // ============= Hash generation =============
 
 const SIGNATURE_SALT =
-  process.env.DOCUMENT_SIGNATURE_SALT || 'hirenova-esign-salt-2026-e-society-2050'
+  process.env.DOCUMENT_SIGNATURE_SALT || 'baznova-esign-salt-2026-e-society-2050'
 
 /**
  * Compute the SHA-256 fingerprint of a document.
@@ -137,7 +137,7 @@ const SIG_COLORS = {
  *
  *  ┌──────────────────────────────────────────────────────────────┐
  *  │  [SEAL]  SIGNATURE ÉLECTRONIQUE                              │
- *  │  ┌──┐    Signé par HireNova — E-Society 2050                 │
+ *  │  ┌──┐    Signé par BazNova — E-Society 2050                 │
  *  │  │HN│    Hash SHA-256: A3F2B1C9…7E4D8F01                     │
  *  │  └──┘    N° SIG-2026-000001 · 27/07/2026 14:32 UTC           │
  *  │          Document authentifié — toute modification invalide  │
@@ -292,7 +292,7 @@ export function drawSignatureBlock(
 
   textY -= 12
   // Verification note
-  page.drawText('Document authentifié par HireNova — toute modification invalide cette signature.', {
+  page.drawText('Document authentifié par BazNova — toute modification invalide cette signature.', {
     x: textX,
     y: textY,
     size: 7,
@@ -311,7 +311,7 @@ export function drawSignatureBlock(
  */
 export async function applySignature(
   fp: SignatureFingerprint,
-  signedBy = 'HireNova — E-Society 2050'
+  signedBy = 'BazNova — E-Society 2050'
 ): Promise<AppliedSignature> {
   const hash = computeSignatureHash(fp)
   const serial = await nextSignatureSerial()

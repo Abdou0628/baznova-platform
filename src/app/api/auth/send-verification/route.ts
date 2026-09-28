@@ -7,7 +7,7 @@ import type { CVLanguage } from '@/lib/i18n'
 import crypto from 'crypto'
 
 const TOKEN_EXPIRY_MINUTES = 30
-const SITE_URL = process.env.NEXTAUTH_URL || 'https://hirenova.com'
+const SITE_URL = process.env.NEXTAUTH_URL || 'https://baznova.com'
 
 export async function POST(request: NextRequest) {
   try {

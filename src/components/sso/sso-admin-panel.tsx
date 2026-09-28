@@ -82,7 +82,7 @@ export default function SSOAdminPanel({ language = 'fr' }: SSOAdminPanelProps) {
   })
 
   const isAdmin = session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ||
-    session?.user?.email === 'admin@hirenova.com'
+    session?.user?.email === 'admin@baznova.com'
 
   // Fetch configs
   const fetchConfigs = useCallback(async () => {

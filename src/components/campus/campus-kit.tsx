@@ -29,12 +29,12 @@ export default function CampusKit() {
 
   function downloadBrochure() {
     events.track('campus_brochure_downloaded')
-    const brochure = `HireNova IA CAMPUS SaaS — ${t(language, 'campusSubtitle')}\n\nE-Society 2050 — HireNova\n© 2026\n`
+    const brochure = `BazNova IA CAMPUS SaaS — ${t(language, 'campusSubtitle')}\n\nE-Society 2050 — BazNova\n© 2026\n`
     const blob = new Blob([brochure], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'HireNova-Campus-Brochure.txt'
+    a.download = 'BazNova-Campus-Brochure.txt'
     a.click()
     URL.revokeObjectURL(url)
     toast.success(t(language, 'campusBrochureDownloaded'))
@@ -113,16 +113,16 @@ export default function CampusKit() {
         <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className={`flex flex-wrap justify-center gap-4 text-xs text-muted-foreground ${isRtl ? 'flex-row-reverse' : ''}`}>
             <span className={`flex items-center gap-1.5 ${isRtl ? 'flex-row-reverse' : ''}`}>
-              <Mail className="w-3.5 h-3.5 text-emerald-600" />campus@hirenova.com
+              <Mail className="w-3.5 h-3.5 text-emerald-600" />campus@baznova.com
             </span>
             <span className={`flex items-center gap-1.5 ${isRtl ? 'flex-row-reverse' : ''}`}>
               <Phone className="w-3.5 h-3.5 text-emerald-600" />+212 (0) 5 22 00 00 00
             </span>
             <span className={`flex items-center gap-1.5 ${isRtl ? 'flex-row-reverse' : ''}`}>
-              <Globe className="w-3.5 h-3.5 text-emerald-600" />hirenova.com
+              <Globe className="w-3.5 h-3.5 text-emerald-600" />baznova.com
             </span>
           </div>
-          <p className="text-[10px] text-muted-foreground">© 2026 E-Society 2050 — HireNova IA CAMPUS SaaS</p>
+          <p className="text-[10px] text-muted-foreground">© 2026 E-Society 2050 — BazNova IA CAMPUS SaaS</p>
         </div>
       </footer>
     </div>

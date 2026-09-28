@@ -1,5 +1,5 @@
 /**
- * HireNova LemonSqueezy Payment Adapter
+ * BazNova LemonSqueezy Payment Adapter
  *
  * Implements the PaymentAdapter interface for LemonSqueezy.
  * Handles checkout creation, order status retrieval, refunds,
@@ -37,7 +37,7 @@ const LEMONSQUEEZY_WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET || '
 // ===== Status Mapping =====
 
 /**
- * Maps LemonSqueezy OrderStatus to HireNova PaymentStatus.
+ * Maps LemonSqueezy OrderStatus to BazNova PaymentStatus.
  *
  * LemonSqueezy statuses: 'pending', 'failed', 'paid', 'refunded'
  */

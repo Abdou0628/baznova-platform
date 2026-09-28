@@ -464,7 +464,7 @@ export default function AIMarketingHub({ onScrollToPricing }: { onScrollToPricin
       // Fallback to default result
       setResult({
         success: true,
-        bundle: { id: 'hirenova_start', name: 'HireNova Start', price: '€9.90/mois', reason: hubT('whyThisBundle', language), savings: '' },
+        bundle: { id: 'baznova_start', name: 'BazNova Start', price: '€9.90/mois', reason: hubT('whyThisBundle', language), savings: '' },
         products: [
           { slug: 'cv', name: 'CV IA', reason: '', priority: 'primary' },
           { slug: 'cover-letter', name: 'Lettre de Motivation', reason: '', priority: 'secondary' },

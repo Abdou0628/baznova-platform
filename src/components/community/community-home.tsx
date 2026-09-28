@@ -58,7 +58,7 @@ const marketplaceActors = [
   {
     icon: Code2,
     title: 'Développeurs & Agences',
-    desc: 'Proposez des intégrations API, plugins et solutions techniques autour de HireNova.',
+    desc: 'Proposez des intégrations API, plugins et solutions techniques autour de BazNova.',
     color: 'rose' as const,
     tag: 'Tech',
   },
@@ -167,15 +167,15 @@ const steps = [
   {
     num: '03',
     title: 'Développez votre activité',
-    desc: 'La communauté HireNova devient votre moteur de revenus et de visibilité.',
+    desc: 'La communauté BazNova devient votre moteur de revenus et de visibilité.',
   },
 ]
 
 const benefits = [
   { icon: TrendingUp, title: 'Moteur économique', desc: 'La communauté génère de l\'activité économique réelle pour chaque acteur.' },
   { icon: ShoppingCart, title: 'Marketplace intégrée', desc: 'Vendez services, cours et prestations directement dans l\'écosystème.' },
-  { icon: Star, title: 'Visibilité employer brand', desc: 'Votre marque en avant dans l\'écosystème HireNova et au-delà.' },
-  { icon: Target, title: 'Talents qualifiés', desc: 'Accès direct à la base de candidats et professionnels HireNova.' },
+  { icon: Star, title: 'Visibilité employer brand', desc: 'Votre marque en avant dans l\'écosystème BazNova et au-delà.' },
+  { icon: Target, title: 'Talents qualifiés', desc: 'Accès direct à la base de candidats et professionnels BazNova.' },
   { icon: BarChart3, title: 'ROI mesurable', desc: 'Analytics complets sur vos ventes, interactions et conversions.' },
   { icon: Zap, title: 'Simplicité', desc: 'Tout-en-un — communauté + marketplace + recrutement en une seule plateforme.' },
 ]
@@ -312,7 +312,7 @@ export default function CommunityHome() {
               <ShoppingCart className="w-5 h-5 text-white" />
             </div>
             <div className="min-w-0">
-              <h1 className="font-bold text-base leading-tight truncate">HireNova Community & Marketplace</h1>
+              <h1 className="font-bold text-base leading-tight truncate">BazNova Community & Marketplace</h1>
               <p className="text-[10px] text-muted-foreground leading-tight">Communauté + Marché</p>
             </div>
           </div>
@@ -344,7 +344,7 @@ export default function CommunityHome() {
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Coaches, formateurs, cabinets RH, freelances — vendez vos services, cours et prestations
-            dans l&apos;écosystème HireNova. La communauté devient un moteur de revenus.
+            dans l&apos;écosystème BazNova. La communauté devient un moteur de revenus.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button
@@ -434,7 +434,7 @@ export default function CommunityHome() {
                     Un moteur d&apos;activité économique
                   </h2>
                   <p className="text-sm text-slate-400 mt-2 max-w-xl mx-auto">
-                    La commission HireNova sur chaque transaction finance la plateforme.
+                    La commission BazNova sur chaque transaction finance la plateforme.
                     Plus la communauté grandit, plus l&apos;écosystème prospère.
                   </p>
                 </div>
@@ -607,7 +607,7 @@ export default function CommunityHome() {
         <section className="mb-12 sm:mb-16">
           <Card className="bg-gradient-to-br from-teal-50/50 via-white to-emerald-50/30 border-teal-200">
             <CardContent className="p-6 sm:p-8">
-              <h2 className="text-2xl font-bold text-center mb-8">Pourquoi HireNova Community & Marketplace ?</h2>
+              <h2 className="text-2xl font-bold text-center mb-8">Pourquoi BazNova Community & Marketplace ?</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {benefits.map((b, idx) => (
                   <motion.div
@@ -757,15 +757,15 @@ export default function CommunityHome() {
           <div className="flex flex-wrap justify-center gap-6">
             <span className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-emerald-600" />
-              community@hirenova.com
+              community@baznova.com
             </span>
             <span className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-emerald-600" />
-              marketplace.hirenova.com
+              marketplace.baznova.com
             </span>
           </div>
           <p className="text-xs text-muted-foreground">
-            &copy; 2026 E-Society 2050 — HireNova Community & Marketplace. Casablanca, Maroc.
+            &copy; 2026 E-Society 2050 — BazNova Community & Marketplace. Casablanca, Maroc.
           </p>
         </div>
       </footer>

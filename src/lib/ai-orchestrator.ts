@@ -1,4 +1,4 @@
-// ─── HireNova AI Orchestrator — Job Copilot Engine ──────────────────────────
+// ─── BazNova AI Orchestrator — Job Copilot Engine ──────────────────────────
 // Central orchestration engine for the Job Copilot pipeline.
 // Maps user plan entitlements to pipeline steps, computes match scores,
 // and determines upgrade paths for blocked features.
@@ -84,7 +84,7 @@ const STEP_REQUIREMENTS: Record<CopilotStep, { modules: string[]; features: stri
     modules: ['mod_ats'],
     features: ['ats_analyze'],
     action: 'ats_analyze',
-    label: 'HireNova Match Score\u2122',
+    label: 'BazNova Match Score\u2122',
     description: 'Score de compatibilité CV↔offre basé sur 7 critères pondérés.',
   },
   optimize_cv: {
@@ -260,7 +260,7 @@ export function getBlockedStepsUpgradePath(
 }
 
 /**
- * Calculates the HireNova Match Score™ from weighted components.
+ * Calculates the BazNova Match Score™ from weighted components.
  * Grade: 90+ Excellent, 75-89 Bon, 60-74 Moyen, 40-59 Faible, <40 Insuffisant
  */
 export function calculateMatchScore(components: MatchScoreInput): MatchScoreOutput {

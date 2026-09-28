@@ -1,5 +1,5 @@
 /**
- * HireNova Subscription Management — Public API
+ * BazNova Subscription Management — Public API
  *
  * Import from '@/lib/subscription' to use any subscription function.
  */
@@ -7,7 +7,7 @@
 // ─── Types ────────────────────────────────────────────
 
 export type {
-  HireNovaPlan,
+  BazNovaPlan,
   PlanFeatures,
   AccessCheckResult,
   SubscriptionEvent,

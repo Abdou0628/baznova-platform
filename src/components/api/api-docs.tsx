@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { useCVStore } from '@/store/cv-store'
 import { t } from '@/lib/i18n'
 
-const curlExample = `curl -X POST https://api.hirenova.com/api/v1/cv/generate \
+const curlExample = `curl -X POST https://api.baznova.com/api/v1/cv/generate \
   -H "X-API-Key: hnv_live_abc123..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -22,7 +22,7 @@ const curlExample = `curl -X POST https://api.hirenova.com/api/v1/cv/generate \
     "language": "fr"
   }'`
 
-const jsExample = `const response = await fetch('https://api.hirenova.com/api/v1/cv/generate', {
+const jsExample = `const response = await fetch('https://api.baznova.com/api/v1/cv/generate', {
   method: 'POST',
   headers: {
     'X-API-Key': 'hnv_live_abc123...',

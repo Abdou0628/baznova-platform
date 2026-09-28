@@ -32,7 +32,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (isChunkError && typeof window !== 'undefined') {
       setTimeout(() => {
         // Clear persisted step to avoid infinite loop on reload
-        try { localStorage.removeItem('hirenova-step') } catch {}
+        try { localStorage.removeItem('baznova-step') } catch {}
         this.setState({ hasError: false, error: null })
         window.location.reload()
       }, 1500)
@@ -48,7 +48,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (typeof window !== 'undefined') {
       // Reset persisted step to 'landing' so we don't get stuck on the failing module
       try {
-        localStorage.removeItem('hirenova-step')
+        localStorage.removeItem('baznova-step')
       } catch {}
       window.location.reload()
     }

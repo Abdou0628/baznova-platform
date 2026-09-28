@@ -105,10 +105,10 @@ const CTA_SEE_PLAN: Record<string, string> = {
 }
 
 const PLAN_DISPLAY_NAMES: Record<string, Record<string, string>> = {
-  hirenova_career: { fr: 'Career', en: 'Career', ar: 'كاريير', es: 'Carrera' },
-  hirenova_professional: { fr: 'Professionnel', en: 'Professional', ar: 'بروفيسيونال', es: 'Profesional' },
-  hirenova_ai_power: { fr: 'AI Power', en: 'AI Power', ar: 'AI باور', es: 'AI Power' },
-  hirenova_start: { fr: 'Start', en: 'Start', ar: 'ستارت', es: 'Start' },
+  baznova_career: { fr: 'Career', en: 'Career', ar: 'كاريير', es: 'Carrera' },
+  baznova_professional: { fr: 'Professionnel', en: 'Professional', ar: 'بروفيسيونال', es: 'Profesional' },
+  baznova_ai_power: { fr: 'AI Power', en: 'AI Power', ar: 'AI باور', es: 'AI Power' },
+  baznova_start: { fr: 'Start', en: 'Start', ar: 'ستارت', es: 'Start' },
 }
 
 // ─── localStorage key ───────────────────────────────────────────────────
@@ -176,7 +176,7 @@ export function SmartUpgradeBanner({
 
   // Determine message and CTA
   const message = data?.message || MESSAGES[context]?.[language] || MESSAGES.default[language]
-  const targetPlan = data?.upgradePath?.targetPlan || 'hirenova_career'
+  const targetPlan = data?.upgradePath?.targetPlan || 'baznova_career'
   const cost = data?.upgradePath?.additionalCost || 19.90
   const planName = PLAN_DISPLAY_NAMES[targetPlan]?.[language] || targetPlan
   const ctaLabel = data?.cta || `${CTA_SEE_PLAN[language]} ${planName} — €${cost.toFixed(2)}/${t(language, 'lot3_smartUpgradeBanner_month')}`

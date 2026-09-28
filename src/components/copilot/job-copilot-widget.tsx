@@ -377,7 +377,7 @@ export default function JobCopilotWidget() {
     toast.info(t(language, 'copStepInProgress'))
   }, [language])
 
-  const planName = (result?.upgradeInfo?.targetPlan || '').replace('hirenova_', 'HireNova ').replace(/_/g, ' ')
+  const planName = (result?.upgradeInfo?.targetPlan || '').replace('baznova_', 'BazNova ').replace(/_/g, ' ')
   const bundlePrice = result?.cheapestBundle?.price
   const bundleName = result?.cheapestBundle?.name
 

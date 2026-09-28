@@ -1,5 +1,5 @@
 /**
- * HireNova Payment State Machine
+ * BazNova Payment State Machine
  *
  * Enforces valid state transitions per CTO specification.
  * A payment cannot jump from CREATED directly to SUCCEEDED —

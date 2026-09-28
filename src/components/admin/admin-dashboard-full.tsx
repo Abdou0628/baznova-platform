@@ -1201,7 +1201,7 @@ function CampusTab({ stats }: { stats: ComprehensiveStats }) {
         <CardHeader>
           <CardTitle className="text-base font-semibold flex items-center gap-2">
             <GraduationCap className="w-5 h-5 text-emerald-600" />
-            HireNova IA CAMPUS SaaS
+            BazNova IA CAMPUS SaaS
           </CardTitle>
           <CardDescription>
             {t(language, 'adminFull.campusPartnerships')}
@@ -1501,7 +1501,7 @@ export default function AdminDashboardFull() {
                   {t(language, 'adminFull.dashboardAdmin')}
                 </h1>
                 <p className="text-xs text-muted-foreground leading-tight">
-                  HireNova — E-Society 2050
+                  BazNova — E-Society 2050
                 </p>
               </div>
             </div>

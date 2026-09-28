@@ -1,15 +1,15 @@
 /**
- * HireNova Subscription Plans — SINGLE SOURCE OF TRUTH
+ * BazNova Subscription Plans — SINGLE SOURCE OF TRUTH
  *
  * Every product / feature gate in the application MUST reference this file.
  * Do NOT duplicate plan logic elsewhere.
  */
 
-import type { HireNovaPlan, PlanFeatures } from './types'
+import type { BazNovaPlan, PlanFeatures } from './types'
 
 // ─── All valid plan IDs ─────────────────────────────────
 
-export const ALL_PLANS: HireNovaPlan[] = [
+export const ALL_PLANS: BazNovaPlan[] = [
   'free',
   'starter',
   'pro',
@@ -23,7 +23,7 @@ export const ALL_PLANS: HireNovaPlan[] = [
 
 // ─── Features matrix ───────────────────────────────────
 
-const PLAN_FEATURES_MAP: Record<HireNovaPlan, PlanFeatures> = {
+const PLAN_FEATURES_MAP: Record<BazNovaPlan, PlanFeatures> = {
   free: {
     planId: 'free',
     cvLimit: 2,
@@ -150,9 +150,9 @@ const PLAN_FEATURES_MAP: Record<HireNovaPlan, PlanFeatures> = {
  * Returns the full feature set for a given plan.
  * Falls back to `free` plan if an unknown plan ID is provided.
  */
-export function getPlanFeatures(planId: HireNovaPlan): PlanFeatures {
+export function getPlanFeatures(planId: BazNovaPlan): PlanFeatures {
   return PLAN_FEATURES_MAP[planId] ?? PLAN_FEATURES_MAP.free
 }
 
 // Re-export types so consumers can import from this single file
-export type { HireNovaPlan, PlanFeatures } from './types'
+export type { BazNovaPlan, PlanFeatures } from './types'

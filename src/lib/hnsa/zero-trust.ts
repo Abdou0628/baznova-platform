@@ -16,7 +16,7 @@ import { logAudit, AUDIT_ACTIONS } from './audit';
 
 // ===== Types =====
 
-/** Role values in the HireNova system. */
+/** Role values in the BazNova system. */
 export type Role = 'candidate' | 'employer' | 'admin';
 
 /** All possible resource-action combinations used in the RBAC matrix. */

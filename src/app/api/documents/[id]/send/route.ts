@@ -36,11 +36,11 @@ export async function POST(
     }
 
     const typeLabels: Record<string, { label: string; subject: string }> = {
-      invoice: { label: 'facture', subject: `Facture ${doc.number} — HireNova` },
-      quote: { label: 'devis', subject: `Devis ${doc.number} — HireNova` },
-      agreement: { label: 'contrat', subject: `Contrat ${doc.number} — HireNova` },
-      receipt: { label: 'reçu', subject: `Reçu de paiement ${doc.number} — HireNova` },
-      credit_note: { label: 'avoir', subject: `Avoir ${doc.number} — HireNova` },
+      invoice: { label: 'facture', subject: `Facture ${doc.number} — BazNova` },
+      quote: { label: 'devis', subject: `Devis ${doc.number} — BazNova` },
+      agreement: { label: 'contrat', subject: `Contrat ${doc.number} — BazNova` },
+      receipt: { label: 'reçu', subject: `Reçu de paiement ${doc.number} — BazNova` },
+      credit_note: { label: 'avoir', subject: `Avoir ${doc.number} — BazNova` },
     }
 
     const meta = typeLabels[doc.type] || { label: 'document', subject: `Document ${doc.number}` }
@@ -51,7 +51,7 @@ export async function POST(
         Bonjour ${doc.recipientName},
       </h2>
       <p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">
-        Veuillez trouver ci-joint votre <strong>${meta.label} ${doc.number}</strong> émis par HireNova.
+        Veuillez trouver ci-joint votre <strong>${meta.label} ${doc.number}</strong> émis par BazNova.
       </p>
       ${customMessage ? `<p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">${customMessage}</p>` : ''}
       <table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;background:#f0fdf4;border-radius:8px;">
@@ -66,11 +66,11 @@ export async function POST(
         </td></tr>
       </table>
       <p style="font-size:15px;line-height:1.7;color:#475569;margin:0 0 16px 0;">
-        Pour toute question, n'hésitez pas à nous contacter à <a href="mailto:hello@hirenova.com" style="color:#059669;">hello@hirenova.com</a>.
+        Pour toute question, n'hésitez pas à nous contacter à <a href="mailto:hello@baznova.com" style="color:#059669;">hello@baznova.com</a>.
       </p>
       <p style="font-size:13px;color:#94a3b8;margin:0;">
         Cordialement,<br>
-        <strong>L'équipe HireNova — E-Society 2050</strong>
+        <strong>L'équipe BazNova — E-Society 2050</strong>
       </p>
     `
 
@@ -91,7 +91,7 @@ export async function POST(
       await sendEmail({
         to: recipientEmail,
         subject: meta.subject,
-        html: html + `<p style="font-size:13px;color:#94a3b8;margin-top:16px;padding:12px;background:#fef3c7;border-radius:6px;">📎 Le document est disponible dans votre espace HireNova. Connectez-vous pour le télécharger.</p>`,
+        html: html + `<p style="font-size:13px;color:#94a3b8;margin-top:16px;padding:12px;background:#fef3c7;border-radius:6px;">📎 Le document est disponible dans votre espace BazNova. Connectez-vous pour le télécharger.</p>`,
       })
     }
 
@@ -142,7 +142,7 @@ async function sendEmailWithAttachment(params: {
     })
 
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || 'HireNova <noreply@hirenova.com>',
+      from: process.env.EMAIL_FROM || 'BazNova <noreply@baznova.com>',
       to: params.to,
       subject: params.subject,
       html: params.html,

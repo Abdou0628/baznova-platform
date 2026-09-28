@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator
+ * BazNova Payment Orchestrator
  *
  * The main orchestration layer that ties together:
  *   - Smart routing (ProviderRegistry)
@@ -18,7 +18,7 @@
  * ⚠️ CRITICAL (CTO §5): The browser is NEVER the source of truth.
  *   Official confirmation comes from the provider via webhook.
  *
- * ⚠️ CRITICAL (CTO §3): HireNova does NOT store card data.
+ * ⚠️ CRITICAL (CTO §3): BazNova does NOT store card data.
  *   Only tokens/reference IDs from the provider.
  */
 

@@ -1,11 +1,11 @@
-// ─── HireNova AI Contextual Upsell Recommendation Engine ─────────────────
+// ─── BazNova AI Contextual Upsell Recommendation Engine ─────────────────
 // Rule-based recommendation engine that analyzes user context and returns
 // relevant upsell suggestions. No LLM calls needed for core logic.
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export interface UserContext {
-  currentPlan: string          // 'free' | 'hirenova_start' | 'hirenova_career' | etc.
+  currentPlan: string          // 'free' | 'baznova_start' | 'baznova_career' | etc.
   modulesUsed: string[]        // which module steps the user has visited (from analytics)
   cvCount: number              // CVs generated this month
   clCount: number              // cover letters generated
@@ -75,7 +75,7 @@ function ruleFreeUserWithCV(ctx: UserContext): UpsellRecommendation | null {
   if (ctx.currentPlan === 'free' && ctx.cvCount >= 1) {
     return {
       id: 'r1-cv-to-career',
-      targetId: 'hirenova_career',
+      targetId: 'baznova_career',
       targetType: 'bundle',
       title: t({ fr: 'HIRENOVA CAREER', en: 'HIRENOVA CAREER', ar: 'هيرينوفا كاريير', es: 'HIRENOVA CARRERA' }, ctx.locale),
       description: t({
@@ -145,7 +145,7 @@ function ruleFreeUserVisitedInterview(ctx: UserContext): UpsellRecommendation | 
   ) {
     return {
       id: 'r3-interview-career',
-      targetId: 'hirenova_career',
+      targetId: 'baznova_career',
       targetType: 'bundle',
       title: t({ fr: 'HIRENOVA CAREER', en: 'HIRENOVA CAREER', ar: 'هيرينوفا كاريير', es: 'HIRENOVA CARRERA' }, ctx.locale),
       description: t({
@@ -172,10 +172,10 @@ function ruleFreeUserVisitedInterview(ctx: UserContext): UpsellRecommendation | 
  * Rule 4: Start plan user → upgrade to Career
  */
 function ruleStartPlanUpgrade(ctx: UserContext): UpsellRecommendation | null {
-  if (ctx.currentPlan === 'hirenova_start') {
+  if (ctx.currentPlan === 'baznova_start') {
     return {
       id: 'r4-start-to-career',
-      targetId: 'hirenova_career',
+      targetId: 'baznova_career',
       targetType: 'bundle',
       title: t({
         fr: 'Passez à HIRENOVA CAREER',
@@ -207,12 +207,12 @@ function ruleStartPlanUpgrade(ctx: UserContext): UpsellRecommendation | null {
  */
 function ruleCareerMobilityUpgrade(ctx: UserContext): UpsellRecommendation | null {
   if (
-    ctx.currentPlan === 'hirenova_career' &&
+    ctx.currentPlan === 'baznova_career' &&
     ctx.modulesUsed.some(m => m.toLowerCase().includes('mobility') || m.toLowerCase().includes('mobilité'))
   ) {
     return {
       id: 'r5-career-to-pro',
-      targetId: 'hirenova_professional',
+      targetId: 'baznova_professional',
       targetType: 'bundle',
       title: t({
         fr: 'HIRENOVA PROFESSIONNEL',
@@ -262,10 +262,10 @@ function ruleBundleSavings(ctx: UserContext): UpsellRecommendation | null {
 
     // Find cheapest bundle covering all
     const bundles = [
-      { id: 'hirenova_start', price: 9.9, modules: ['CV', 'ATS'] },
-      { id: 'hirenova_career', price: 19.9, modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'INTERVIEW', 'LINKEDIN', 'CAREER'] },
-      { id: 'hirenova_professional', price: 29.9, modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE'] },
-      { id: 'hirenova_ai_power', price: 39.9, modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE', 'Intelligence'] },
+      { id: 'baznova_start', price: 9.9, modules: ['CV', 'ATS'] },
+      { id: 'baznova_career', price: 19.9, modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'INTERVIEW', 'LINKEDIN', 'CAREER'] },
+      { id: 'baznova_professional', price: 29.9, modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE'] },
+      { id: 'baznova_ai_power', price: 39.9, modules: ['CV', 'ATS', 'JOBS', 'GLOBAL', 'MOBILITY', 'INTERVIEW', 'LINKEDIN', 'CAREER', 'COACH', 'FORMATION', 'FREELANCE', 'Intelligence'] },
     ]
 
     const covering = bundles
@@ -281,7 +281,7 @@ function ruleBundleSavings(ctx: UserContext): UpsellRecommendation | null {
         id: 'r6-bundle-savings',
         targetId: best.id,
         targetType: 'bundle',
-        title: best.id.replace('hirenova_', '').toUpperCase(),
+        title: best.id.replace('baznova_', '').toUpperCase(),
         description: t({
           fr: `Économisez ${savings}% avec un bundle`,
           en: `Save ${savings}% with a bundle`,
@@ -307,10 +307,10 @@ function ruleBundleSavings(ctx: UserContext): UpsellRecommendation | null {
  * Rule 7: User approaching monthly limit on Start plan
  */
 function ruleApproachingLimit(ctx: UserContext): UpsellRecommendation | null {
-  if (ctx.currentPlan === 'hirenova_start' && (ctx.cvCount >= 3 || ctx.clCount >= 2)) {
+  if (ctx.currentPlan === 'baznova_start' && (ctx.cvCount >= 3 || ctx.clCount >= 2)) {
     return {
       id: 'r7-approaching-limit',
-      targetId: 'hirenova_career',
+      targetId: 'baznova_career',
       targetType: 'bundle',
       title: t({
         fr: 'Augmentez vos limites',
@@ -378,7 +378,7 @@ function ruleRegisteredFreeUrgency(ctx: UserContext): UpsellRecommendation | nul
   if (ctx.currentPlan === 'free' && ctx.daysSinceRegistration >= 7) {
     return {
       id: 'r9-registered-free',
-      targetId: 'hirenova_start',
+      targetId: 'baznova_start',
       targetType: 'bundle',
       title: t({
         fr: 'Offre de lancement',
@@ -410,10 +410,10 @@ function ruleRegisteredFreeUrgency(ctx: UserContext): UpsellRecommendation | nul
  * Rule 10: Professional plan user → AI Power
  */
 function ruleProfessionalToAIPower(ctx: UserContext): UpsellRecommendation | null {
-  if (ctx.currentPlan === 'hirenova_professional') {
+  if (ctx.currentPlan === 'baznova_professional') {
     return {
       id: 'r10-pro-to-ai',
-      targetId: 'hirenova_ai_power',
+      targetId: 'baznova_ai_power',
       targetType: 'bundle',
       title: t({
         fr: 'HIRENOVA AI POWER',
@@ -536,7 +536,7 @@ function ruleHighSpenderBundling(ctx: UserContext): UpsellRecommendation | null 
 
     return {
       id: 'r13-high-spender-bundle',
-      targetId: 'hirenova_professional',
+      targetId: 'baznova_professional',
       targetType: 'bundle',
       title: t({
         fr: 'HIRENOVA PROFESSIONNEL',
@@ -572,7 +572,7 @@ function ruleReferralChampion(ctx: UserContext): UpsellRecommendation | null {
   if ((ctx.referralCount ?? 0) >= 2) {
     return {
       id: 'r14-referral-champion',
-      targetId: 'hirenova_ai_power',
+      targetId: 'baznova_ai_power',
       targetType: 'bundle',
       title: t({
         fr: 'Merci pour vos recommandations !',
@@ -587,10 +587,10 @@ function ruleReferralChampion(ctx: UserContext): UpsellRecommendation | null {
         es: 'Descuento exclusivo en HIRENOVA AI POWER como agradecimiento',
       }, ctx.locale),
       reason: t({
-        fr: 'Vous avez recommandé HireNova : profitez d\'une réduction exclusive sur AI POWER',
-        en: "You've referred others to HireNova: enjoy an exclusive AI POWER discount",
-        ar: 'أوصيت بـ HireNova: استمتع بخصم حصري على آي باور',
-        es: 'Has recomendado HireNova: disfruta de un descuento exclusivo en AI POWER',
+        fr: 'Vous avez recommandé BazNova : profitez d\'une réduction exclusive sur AI POWER',
+        en: "You've referred others to BazNova: enjoy an exclusive AI POWER discount",
+        ar: 'أوصيت بـ BazNova: استمتع بخصم حصري على آي باور',
+        es: 'Has recomendado BazNova: disfruta de un descuento exclusivo en AI POWER',
       }, ctx.locale),
       priority: 8,
       discountPercent: 25,

@@ -1,9 +1,9 @@
 /**
- * HireNova — AI Marketing Content Generator
+ * BazNova — AI Marketing Content Generator
  *
  * POST /api/ai/marketing-content
  *
- * Generates AI-powered marketing content for HireNova products using the LLM.
+ * Generates AI-powered marketing content for BazNova products using the LLM.
  * Any authenticated user can access this endpoint.
  *
  * @module api/ai/marketing-content
@@ -148,8 +148,8 @@ function buildSystemPrompt(params: {
   const toneDirective = TONE_DIRECTIVES[tone]
 
   const brandIdentity = [
-    'You are the marketing copywriter for "HireNova by E-Society 2050" — a Premium AI Recruitment Platform.',
-    'HireNova is the all-in-one AI-powered recruitment and career platform that helps candidates, professionals, freelancers, and employers succeed.',
+    'You are the marketing copywriter for "BazNova by E-Society 2050" — a Premium AI Recruitment Platform.',
+    'BazNova is the all-in-one AI-powered recruitment and career platform that helps candidates, professionals, freelancers, and employers succeed.',
     'Key differentiators:',
     '- AI-powered: All features leverage cutting-edge artificial intelligence',
     '- Multi-language: Available in French, English, Arabic, and Spanish',
@@ -165,7 +165,7 @@ function buildSystemPrompt(params: {
 
   const productContext = productName
     ? `\n\nFocus product: ${productName} (slug: ${product}, bundle: ${bundleName}, price: ${PRODUCTS[product!]?.price})`
-    : '\n\nYou may reference any HireNova product naturally. The full product catalog includes: CV IA, Lettre de Motivation IA, Analyse ATS, Simulateur Entretien, LinkedIn Optimizer, Career Roadmap, Coach IA, Formation & Certification, Freelance Marketplace, Mobilité Internationale, Job Marketplace.'
+    : '\n\nYou may reference any BazNova product naturally. The full product catalog includes: CV IA, Lettre de Motivation IA, Analyse ATS, Simulateur Entretien, LinkedIn Optimizer, Career Roadmap, Coach IA, Formation & Certification, Freelance Marketplace, Mobilité Internationale, Job Marketplace.'
 
   const typeInstructions = getTypeInstructions(type)
 
@@ -268,7 +268,7 @@ function getTypeInstructions(type: ContentType): string {
         'For each testimonial, provide:',
         '- Name: A realistic localised name matching the content language',
         '- Role: Job title and company (realistic but fictional)',
-        '- Quote: 2-3 sentences describing their experience with HireNova, specific results, and emotional impact',
+        '- Quote: 2-3 sentences describing their experience with BazNova, specific results, and emotional impact',
         '- Rating: A number from 4 to 5 (e.g., ⭐⭐⭐⭐⭐ or 5/5)',
         '',
         'Format:',

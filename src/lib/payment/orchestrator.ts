@@ -1,5 +1,5 @@
 /**
- * HireNova Payment Orchestrator — Main Orchestration Layer
+ * BazNova Payment Orchestrator — Main Orchestration Layer
  *
  * Core payment operations: create, status lookup, event recording,
  * status updates, and idempotency checks. All amounts are in CENTS.

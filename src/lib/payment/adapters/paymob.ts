@@ -1,5 +1,5 @@
 /**
- * HireNova PayMob Payment Adapter
+ * BazNova PayMob Payment Adapter
  *
  * Implements the PaymentAdapter interface for PayMob (Egyptian/Moroccan PSP).
  * Handles authentication, order creation, payment key generation, iframe checkout,
@@ -78,7 +78,7 @@ interface PaymobRefundResponse {
 // ===== Status Mapping =====
 
 /**
- * Maps PayMob transaction state to HireNova PaymentStatus.
+ * Maps PayMob transaction state to BazNova PaymentStatus.
  *
  * PayMob uses boolean flags (success, pending, is_refunded, is_voided, error_occured)
  * rather than a single status field.
@@ -216,7 +216,7 @@ export class PaymobAdapter implements PaymentAdapter {
    */
   async createPayment(input: CreatePaymentAdapterInput): Promise<AdapterPaymentResult> {
     try {
-      const merchantOrderId = input.idempotencyKey || `hirenova-${Date.now()}`;
+      const merchantOrderId = input.idempotencyKey || `baznova-${Date.now()}`;
       const token = await getAuthToken();
       const orderId = await createOrder(token, input.amount, merchantOrderId);
       const paymentKey = await createPaymentKey(

@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
         description,
         dueDate: dueDate ? new Date(dueDate) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         lineItems: JSON.stringify([
-          { description: description || 'HireNova Subscription', amount, quantity: 1 },
+          { description: description || 'BazNova Subscription', amount, quantity: 1 },
         ]),
       },
     })

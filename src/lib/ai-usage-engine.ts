@@ -1,4 +1,4 @@
-// ─── HireNova AI Usage Engine ────────────────────────────────────────────
+// ─── BazNova AI Usage Engine ────────────────────────────────────────────
 // Tracks AI consumption per user: quota → consumption → cost → limit → alert.
 // In-memory Map with JSON file persistence. Non-blocking writes.
 //
@@ -74,12 +74,12 @@ const MODULE_QUOTAS_BY_AI_LEVEL: Record<string, Record<string, number>> = {
 const COST_CAPS: Record<string, number> = {
   free:                  0.50,
   starter:                5.00,
-  hirenova_start:         5.00,
+  baznova_start:         5.00,
   career_plus:           20.00,
-  hirenova_career:       20.00,
+  baznova_career:       20.00,
   pro:                   50.00,
-  hirenova_professional: 50.00,
-  hirenova_ai_power:    200.00,
+  baznova_professional: 50.00,
+  baznova_ai_power:    200.00,
   employer:              50.00,
   annual:                50.00,
 }

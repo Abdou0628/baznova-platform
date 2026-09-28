@@ -1,7 +1,7 @@
 /**
- * HireNova Document Logo Loader
+ * BazNova Document Logo Loader
  *
- * Loads and caches the HireNova logo PNG for embedding in PDF documents.
+ * Loads and caches the BazNova logo PNG for embedding in PDF documents.
  * Two variants:
  *   - mark (emerald square + white HN)  → for white/light document body
  *   - mark-white (white HN, transparent) → for colored header bands
@@ -13,8 +13,8 @@ import { PDFDocument, PNG } from 'pdf-lib'
 type LogoVariant = 'color' | 'white'
 
 const LOGO_PATHS: Record<LogoVariant, string> = {
-  color: join(process.cwd(), 'public', 'hirenova-mark.png'),
-  white: join(process.cwd(), 'public', 'hirenova-mark-white.png'),
+  color: join(process.cwd(), 'public', 'baznova-mark.png'),
+  white: join(process.cwd(), 'public', 'baznova-mark-white.png'),
 }
 
 // In-memory cache so we only read from disk once per server lifetime.
@@ -28,14 +28,14 @@ function getLogoBuffer(variant: LogoVariant): Buffer {
 }
 
 /**
- * Embed the HireNova logo into a PDFDocument.
+ * Embed the BazNova logo into a PDFDocument.
  * Returns the embedded PNG, ready to be drawn on a page via page.drawImage().
  *
  * @param pdfDoc  The PDFDocument to embed the logo into
  * @param variant 'color' (emerald square, for light backgrounds)
  *                or 'white' (white HN only, for colored header bands)
  */
-export async function embedHireNovaLogo(
+export async function embedBazNovaLogo(
   pdfDoc: PDFDocument,
   variant: LogoVariant = 'color'
 ) {

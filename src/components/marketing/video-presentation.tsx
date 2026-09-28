@@ -49,7 +49,7 @@ const SLIDES: Slide[] = [
 ]
 
 const LABELS: Record<string, Record<string, string>> = {
-  videoSlide1Title: { fr: 'Découvrez HireNova IA', en: 'Discover HireNova AI', ar: 'اكتشف HireNova الذكي', es: 'Descubre HireNova IA' },
+  videoSlide1Title: { fr: 'Découvrez BazNova IA', en: 'Discover BazNova AI', ar: 'اكتشف BazNova الذكي', es: 'Descubre BazNova IA' },
   videoSlide1Text: {
     fr: 'Votre plateforme IA de gestion de carrière et recrutement. Créez des CV professionnels, optimisez votre profil LinkedIn, et préparez-vous aux entretiens.',
     en: 'Your AI-powered career management and recruitment platform. Create professional resumes, optimize your LinkedIn profile, and prepare for interviews.',
@@ -72,10 +72,10 @@ const LABELS: Record<string, Record<string, string>> = {
   },
   videoSlide4Title: { fr: 'Rejoignez-nous', en: 'Join Us', ar: 'انضم إلينا', es: 'Únete a Nosotros' },
   videoSlide4Text: {
-    fr: 'Des milliers de professionnels font confiance à HireNova. L\'intelligence artificielle au service de votre réussite professionnelle.',
-    en: 'Thousands of professionals trust HireNova. Artificial intelligence at the service of your professional success.',
-    ar: 'آلاف المحترفين يثقون في HireNova. الذكاء الاصطناعي في خدمة نجاحك المهني.',
-    es: 'Miles de profesionales confían en HireNova. Inteligencia artificial al servicio de tu éxito profesional.',
+    fr: 'Des milliers de professionnels font confiance à BazNova. L\'intelligence artificielle au service de votre réussite professionnelle.',
+    en: 'Thousands of professionals trust BazNova. Artificial intelligence at the service of your professional success.',
+    ar: 'آلاف المحترفين يثقون في BazNova. الذكاء الاصطناعي في خدمة نجاحك المهني.',
+    es: 'Miles de profesionales confían en BazNova. Inteligencia artificial al servicio de tu éxito profesional.',
   },
   play: { fr: 'Lecture', en: 'Play', ar: 'تشغيل', es: 'Reproducir' },
   pause: { fr: 'Pause', en: 'Pause', ar: 'إيقاف', es: 'Pausar' },

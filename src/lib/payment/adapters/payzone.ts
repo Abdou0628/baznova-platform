@@ -1,5 +1,5 @@
 /**
- * HireNova PayZone Payment Adapter
+ * BazNova PayZone Payment Adapter
  *
  * Implements the PaymentAdapter interface for PayZone — a Moroccan
  * Payment Service Provider for CMI (Centre Monétique Interbancaire) cards.
@@ -76,7 +76,7 @@ interface PayZoneErrorResponse {
 // ===== Status Mapping =====
 
 /**
- * Maps PayZone payment statuses to HireNova PaymentStatus.
+ * Maps PayZone payment statuses to BazNova PaymentStatus.
  *
  * PayZone statuses: INITIATED, PENDING, PROCESSING, AUTHORIZED,
  *   CAPTURED, COMPLETED, FAILED, CANCELLED, EXPIRED, REFUNDED
@@ -193,7 +193,7 @@ export class PayZoneAdapter implements PaymentAdapter {
         amount: input.amount,
         currency: input.currency || 'MAD',
         description: input.description,
-        merchantOrderId: input.idempotencyKey || `hirenova-${Date.now()}`,
+        merchantOrderId: input.idempotencyKey || `baznova-${Date.now()}`,
         customerEmail: input.customerEmail,
         customerName: input.customerName,
         returnUrl: input.returnUrl,

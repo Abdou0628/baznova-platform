@@ -19,7 +19,7 @@ export function CodeDownloadButton() {
       const blob = new Blob([arr], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = 'hirenova-latest.bundle';
+      a.href = url; a.download = 'baznova-latest.bundle';
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       URL.revokeObjectURL(url);
       setStatus('done');

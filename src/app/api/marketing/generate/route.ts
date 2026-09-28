@@ -1,5 +1,5 @@
 /**
- * HireNova — AI Marketing Copy Generator
+ * BazNova — AI Marketing Copy Generator
  *
  * POST /api/marketing/generate
  *

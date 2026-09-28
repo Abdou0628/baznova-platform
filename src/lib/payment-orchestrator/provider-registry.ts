@@ -1,5 +1,5 @@
 /**
- * HireNova Provider Capability Registry
+ * BazNova Provider Capability Registry
  *
  * Enhanced registry with full capability descriptors per CTO specification.
  * This wraps the existing PaymentGateway registry and adds:

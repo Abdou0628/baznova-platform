@@ -39,7 +39,7 @@ export default function LegalDialog({ open, onClose }: LegalDialogProps) {
               <h3 className="font-bold text-base">{t(language, 'legalEditorTitle')}</h3>
             </div>
             <div className="bg-muted/50 rounded-xl p-4 space-y-1">
-              <p><strong>HireNova</strong></p>
+              <p><strong>BazNova</strong></p>
               <p>{t(language, 'legalEditor')} : <strong>E-Society 2050</strong></p>
               <p>{t(language, 'legalEmail')} : <a href="mailto:abdellahbazhani053@gmail.com" className="text-emerald-600 hover:underline">abdellahbazhani053@gmail.com</a></p>
               <p>{t(language, 'legalCountry')} : {t(language, 'legalCountryMorocco')}</p>

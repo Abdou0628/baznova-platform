@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       internship: 'Internship',
     }
 
-    const systemPrompt = `You are HireNova IA LEGAL, an expert legal AI assistant specializing in employment law and contract drafting across multiple jurisdictions (Morocco, France, EU, Saudi Arabia, UAE). Generate professional, legally-sound contracts. Respond in ${responseLang}. Always use formal legal language and structure.`
+    const systemPrompt = `You are BazNova IA LEGAL, an expert legal AI assistant specializing in employment law and contract drafting across multiple jurisdictions (Morocco, France, EU, Saudi Arabia, UAE). Generate professional, legally-sound contracts. Respond in ${responseLang}. Always use formal legal language and structure.`
 
     const userPrompt = `Generate a complete, professional ${typeLabels[contractType] || contractType} employment contract with the following details:
 

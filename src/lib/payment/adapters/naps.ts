@@ -1,5 +1,5 @@
 /**
- * HireNova NAPS Payment Adapter
+ * BazNova NAPS Payment Adapter
  *
  * Implements the PaymentAdapter interface for NAPS — the Moroccan
  * interbank card payment service operated by Al Barid Bank.
@@ -71,7 +71,7 @@ interface NapsRefundResponse {
 // ===== Status Mapping =====
 
 /**
- * Maps NAPS transaction statuses to HireNova PaymentStatus.
+ * Maps NAPS transaction statuses to BazNova PaymentStatus.
  *
  * NAPS statuses: NEW, PENDING_AUTH, AUTHORIZED, CAPTURED, COMPLETED,
  *   AUTH_FAILED, CANCELLED, EXPIRED, REFUNDED, PARTIALLY_REFUNDED
@@ -197,7 +197,7 @@ export class NapsAdapter implements PaymentAdapter {
         amount: input.amount,
         currency: input.currency || 'MAD',
         description: input.description,
-        merchantTransactionId: input.idempotencyKey || `hirenova-${Date.now()}`,
+        merchantTransactionId: input.idempotencyKey || `baznova-${Date.now()}`,
         customerEmail: input.customerEmail,
         customerName: input.customerName,
         returnUrl: input.returnUrl,

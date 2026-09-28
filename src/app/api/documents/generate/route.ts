@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       }
 
       const items: DocumentItem[] = body.items || [
-        { description: `Licence Enterprise HireNova — ${inquiry.usersCount || '50-200'} utilisateurs / an`, quantity: 1, unitPrice: 12000, total: 12000 },
+        { description: `Licence Enterprise BazNova — ${inquiry.usersCount || '50-200'} utilisateurs / an`, quantity: 1, unitPrice: 12000, total: 12000 },
         { description: 'Pack onboarding & formation équipe (1 journée)', quantity: 1, unitPrice: 1500, total: 1500 },
         { description: 'Support dédié 24/7 + SLA 99.9%', quantity: 1, unitPrice: 3000, total: 3000 },
       ]
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
         userName: body.recipientName,
         amount: body.amount || 19,
         currency: body.currency || 'EUR',
-        description: body.description || 'Abonnement HireNova Pro',
+        description: body.description || 'Abonnement BazNova Pro',
         userId: body.userId,
         paidAt: body.paidAt ? new Date(body.paidAt) : new Date(),
       })

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const langMap: Record<string, string> = { fr: 'French', en: 'English', ar: 'Arabic', es: 'Spanish' }
     const responseLang = langMap[lang] || 'English'
 
-    const systemPrompt = `You are HireNova IA LEGAL, an expert legal compliance AI specializing in employment law and GDPR compliance across Morocco, France, EU, Saudi Arabia, and UAE. Provide structured compliance analysis. Respond in ${responseLang}.`
+    const systemPrompt = `You are BazNova IA LEGAL, an expert legal compliance AI specializing in employment law and GDPR compliance across Morocco, France, EU, Saudi Arabia, and UAE. Provide structured compliance analysis. Respond in ${responseLang}.`
 
     const userPrompt = `Perform a comprehensive employment law compliance analysis for the following jurisdiction: ${jurisdictionInfo[j] || j}
 

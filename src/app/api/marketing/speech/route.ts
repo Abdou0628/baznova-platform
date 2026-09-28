@@ -1,5 +1,5 @@
 /**
- * HireNova — AI Speech (TTS) Generator
+ * BazNova — AI Speech (TTS) Generator
  *
  * POST /api/marketing/speech
  *

@@ -1,5 +1,5 @@
 /**
- * HireNova — AI Backend Utility (Dual-Mode)
+ * BazNova — AI Backend Utility (Dual-Mode)
  *
  * Handles graceful fallback between:
  *   1. Z.ai SDK (z-ai-web-dev-sdk) — available only in Z.ai environment

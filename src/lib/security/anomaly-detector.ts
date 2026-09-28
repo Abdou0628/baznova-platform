@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Anomaly Detector
+ * BazNova Security Architecture (HNSA) — Anomaly Detector
  *
  * Detects suspicious patterns across the platform.
  * Implements CTO Pillar #8: Security Monitoring & Incident Response

@@ -1,5 +1,5 @@
 /**
- * HireNova Security Architecture (HNSA) — Rate Limiter
+ * BazNova Security Architecture (HNSA) — Rate Limiter
  *
  * In-memory sliding window rate limiter with configurable rules per route.
  * Implements CTO Pillar #4: API Security

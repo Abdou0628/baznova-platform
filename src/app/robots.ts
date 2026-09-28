@@ -19,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/'],
       },
     ],
-    sitemap: 'https://hirenova.com/sitemap.xml',
+    sitemap: 'https://baznova.com/sitemap.xml',
   }
 }

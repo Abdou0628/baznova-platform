@@ -1,5 +1,5 @@
 /**
- * HireNova Stripe Payment Adapter
+ * BazNova Stripe Payment Adapter
  *
  * Implements the PaymentAdapter interface for Stripe.
  * Handles PaymentIntent creation, capture, refund, cancel, and status retrieval.
@@ -21,10 +21,10 @@ import type {
 } from './base';
 import { PaymentStatus } from '../types';
 
-// ===== Stripe Status → HireNova Status Mapping =====
+// ===== Stripe Status → BazNova Status Mapping =====
 
 /**
- * Maps Stripe PaymentIntent statuses to HireNova PaymentStatus values.
+ * Maps Stripe PaymentIntent statuses to BazNova PaymentStatus values.
  *
  * Stripe statuses: requires_payment_method, requires_confirmation, requires_action,
  *   processing, requires_capture, canceled, succeeded, requires_payment_method

@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
           console.warn('[autonomous/marketing] LLM unavailable, using template:', llmError)
           // Fallback template content
           const templates: Record<string, string> = {
-            social_post: `🚀 Transform your job search with AI — BazNova creates optimized CVs, aces ATS systems, and auto-applies to matching positions. Start free today → hirenova.ai`,
+            social_post: `🚀 Transform your job search with AI — BazNova creates optimized CVs, aces ATS systems, and auto-applies to matching positions. Start free today → baznova.ai`,
             email_subject: `1. Your AI career advantage starts now\n2. Stop sending CVs that get ignored\n3. 3x more interviews with AI optimization`,
             blog_intro: `The job market is evolving faster than ever. While candidates spend hours crafting resumes and applying manually, AI-powered platforms are transforming the entire process. BazNova stands at the forefront of this revolution — using autonomous agents to optimize every step from CV creation to interview preparation.`,
             ad_copy: `AI that works your career for you — optimized CVs, ATS-crushing cover letters, and smart job matching. BazNova: where AI meets ambition.`,

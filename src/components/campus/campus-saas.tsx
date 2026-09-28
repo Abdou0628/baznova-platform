@@ -212,7 +212,7 @@ export default function CampusSaaS() {
             <div className="flex items-center gap-2">
               <GraduationCap className="size-5 text-emerald-600" />
               <div className="leading-tight">
-                <span className="font-semibold text-sm">HireNova Campus</span>
+                <span className="font-semibold text-sm">BazNova Campus</span>
                 <span className="hidden sm:inline text-xs text-muted-foreground ml-1.5">
                   {t(language, 'campusSaaS.platformBadge')}
                 </span>
@@ -954,15 +954,15 @@ export default function CampusSaaS() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <GraduationCap className="size-5 text-emerald-600" />
-              <span className="font-semibold text-sm">HireNova Campus</span>
+              <span className="font-semibold text-sm">BazNova Campus</span>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
               <a
-                href="mailto:campus@hirenova.com"
+                href="mailto:campus@baznova.com"
                 className="flex items-center gap-1.5 hover:text-foreground transition-colors"
               >
                 <Mail className="size-3.5" />
-                campus@hirenova.com
+                campus@baznova.com
               </a>
               <a
                 href="tel:+2120522000000"

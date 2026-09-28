@@ -10,7 +10,7 @@ import ErrorBoundary from '@/components/error-boundary'
 import AnalyticsBootstrap from '@/components/analytics-bootstrap'
 import { events } from '@/lib/analytics'
 import { toast } from 'sonner'
-import EarlyAccess from '@/components/cv/early-access'
+// EarlyAccess removed — BazNova is now the full platform (no V1 gate)
 
 // Email verification toast handler
 function VerificationHandlerInner() {
@@ -50,7 +50,7 @@ function Loading() {
   )
 }
 
-// EarlyAccess imported directly (dynamic import has chunk loading issue in dev mode)
+// BazNova — Landing page is the default entry (no Early Access gate)
 const Landing = dynamic(() => import('@/components/cv/landing'), { ssr: false, loading: () => <Loading /> })
 const CVForm = dynamic(() => import('@/components/cv/form'), { ssr: false, loading: () => <Loading /> })
 const Generating = dynamic(() => import('@/components/cv/generating'), { ssr: false, loading: () => <Loading /> })
@@ -72,7 +72,7 @@ const ApiDocs = dynamic(() => import('@/components/api/api-docs'), { ssr: false,
 const ApiRegister = dynamic(() => import('@/components/api/api-register'), { ssr: false, loading: () => <Loading /> })
 const ApiDashboard = dynamic(() => import('@/components/api/api-dashboard'), { ssr: false, loading: () => <Loading /> })
 
-// HireNova Global — International Recruitment
+// BazNova Global — International Recruitment
 const GlobalMarket = dynamic(() => import('@/components/global/global-market'), { ssr: false, loading: () => <Loading /> })
 const GlobalJobDetail = dynamic(() => import('@/components/global/global-job-detail'), { ssr: false, loading: () => <Loading /> })
 const GlobalApply = dynamic(() => import('@/components/global/global-apply'), { ssr: false, loading: () => <Loading /> })
@@ -82,71 +82,71 @@ const GlobalPostJob = dynamic(() => import('@/components/global/global-post-job'
 
 // Programme Parrainage
 const ReferralDashboard = dynamic(() => import('@/components/referral/referral-dashboard'), { ssr: false, loading: () => <Loading /> })
-// HireNova Campus
+// BazNova Campus
 const CampusKit = dynamic(() => import('@/components/campus/campus-kit'), { ssr: false, loading: () => <Loading /> })
 // User Dashboard — Mon Espace personnel
 const UserDashboard = dynamic(() => import('@/components/dashboard/user-dashboard'), { ssr: false, loading: () => <Loading /> })
 // Admin Dashboard (full page)
 const AdminDashboardFull = dynamic(() => import('@/components/admin/admin-dashboard-full'), { ssr: false, loading: () => <Loading /> })
-// HireNova Mobilité — OCR + NLP Pipeline
+// BazNova Mobilité — OCR + NLP Pipeline
 const MobilityHome = dynamic(() => import('@/components/mobility/mobility-home'), { ssr: false, loading: () => <Loading /> })
 const MobilityUpload = dynamic(() => import('@/components/mobility/mobility-upload'), { ssr: false, loading: () => <Loading /> })
 const MobilityProfile = dynamic(() => import('@/components/mobility/mobility-profile'), { ssr: false, loading: () => <Loading /> })
 const MobilityResult = dynamic(() => import('@/components/mobility/mobility-result'), { ssr: false, loading: () => <Loading /> })
 // Simulateur Entretien IA (wrapper to avoid SWC parse issue with interview-simulator.tsx)
 const InterviewSimulator = dynamic(() => import('@/components/interview/interview-wrapper'), { ssr: false, loading: () => <Loading /> })
-// HireNova LinkedIn — Profile Optimizer
+// BazNova LinkedIn — Profile Optimizer
 const LinkedInHome = dynamic(() => import('@/components/linkedin/linkedin-home'), { ssr: false, loading: () => <Loading /> })
 const LinkedInAnalyzer = dynamic(() => import('@/components/linkedin/linkedin-analyzer'), { ssr: false, loading: () => <Loading /> })
 const LinkedInGenerator = dynamic(() => import('@/components/linkedin/linkedin-generator'), { ssr: false, loading: () => <Loading /> })
-// HireNova Recruiter — AI Recruitment Pipeline
+// BazNova Recruiter — AI Recruitment Pipeline
 const RecruiterHome = dynamic(() => import('@/components/recruiter/recruiter-home'), { ssr: false, loading: () => <Loading /> })
 const RecruiterPipeline = dynamic(() => import('@/components/recruiter/recruiter-pipeline'), { ssr: false, loading: () => <Loading /> })
 const RecruiterCandidates = dynamic(() => import('@/components/recruiter/recruiter-candidates'), { ssr: false, loading: () => <Loading /> })
 const RecruiterMatch = dynamic(() => import('@/components/recruiter/recruiter-match'), { ssr: false, loading: () => <Loading /> })
-// HireNova Career — Career Roadmap & Assessment
+// BazNova Career — Career Roadmap & Assessment
 const CareerHome = dynamic(() => import('@/components/career/career-home'), { ssr: false, loading: () => <Loading /> })
 const CareerAssessment = dynamic(() => import('@/components/career/career-assessment'), { ssr: false, loading: () => <Loading /> })
 const CareerRoadmap = dynamic(() => import('@/components/career/career-roadmap'), { ssr: false, loading: () => <Loading /> })
 const CareerSkills = dynamic(() => import('@/components/career/career-skills'), { ssr: false, loading: () => <Loading /> })
-// HireNova Coach — AI Career Coach
+// BazNova Coach — AI Career Coach
 const CoachHome = dynamic(() => import('@/components/coach/coach-home'), { ssr: false, loading: () => <Loading /> })
 const CoachSession = dynamic(() => import('@/components/coach/coach-session'), { ssr: false, loading: () => <Loading /> })
 const CoachGoals = dynamic(() => import('@/components/coach/coach-goals'), { ssr: false, loading: () => <Loading /> })
 const CoachHistory = dynamic(() => import('@/components/coach/coach-history'), { ssr: false, loading: () => <Loading /> })
-// HireNova Formation — Training & Certification
+// BazNova Formation — Training & Certification
 const FormationHome = dynamic(() => import('@/components/formation/formation-home'), { ssr: false, loading: () => <Loading /> })
 const FormationCatalog = dynamic(() => import('@/components/formation/formation-catalog'), { ssr: false, loading: () => <Loading /> })
 const FormationCourse = dynamic(() => import('@/components/formation/formation-course'), { ssr: false, loading: () => <Loading /> })
 const FormationCert = dynamic(() => import('@/components/formation/formation-cert'), { ssr: false, loading: () => <Loading /> })
-// HireNova Freelance — Freelance Marketplace
+// BazNova Freelance — Freelance Marketplace
 const FreelanceHome = dynamic(() => import('@/components/freelance/freelance-home'), { ssr: false, loading: () => <Loading /> })
 const FreelanceBrowse = dynamic(() => import('@/components/freelance/freelance-browse'), { ssr: false, loading: () => <Loading /> })
 const FreelanceMission = dynamic(() => import('@/components/freelance/freelance-mission'), { ssr: false, loading: () => <Loading /> })
 const FreelanceDashboard = dynamic(() => import('@/components/freelance/freelance-dashboard'), { ssr: false, loading: () => <Loading /> })
-// HireNova IA Marketplace & Community
+// BazNova IA Marketplace & Community
 const MarketplaceHome = dynamic(() => import('@/components/marketplace/marketplace-home'), { ssr: false, loading: () => <Loading /> })
 const MarketplaceCommunity = dynamic(() => import('@/components/marketplace/marketplace-community'), { ssr: false, loading: () => <Loading /> })
 const MarketplaceEvents = dynamic(() => import('@/components/marketplace/marketplace-events'), { ssr: false, loading: () => <Loading /> })
 const MarketplaceProfile = dynamic(() => import('@/components/marketplace/marketplace-profile'), { ssr: false, loading: () => <Loading /> })
-// HireNova IA INTELLIGENCE
+// BazNova IA INTELLIGENCE
 const IntelligenceHome = dynamic(() => import('@/components/intelligence/intelligence-home'), { ssr: false, loading: () => <Loading /> })
 const IntelligenceTrends = dynamic(() => import('@/components/intelligence/intelligence-trends'), { ssr: false, loading: () => <Loading /> })
 const IntelligenceSalary = dynamic(() => import('@/components/intelligence/intelligence-salary'), { ssr: false, loading: () => <Loading /> })
 const IntelligenceForecast = dynamic(() => import('@/components/intelligence/intelligence-forecast'), { ssr: false, loading: () => <Loading /> })
-// HireNova IA WHITE LABEL
+// BazNova IA WHITE LABEL
 const WhiteLabelHome = dynamic(() => import('@/components/white-label/white-label-home'), { ssr: false, loading: () => <Loading /> })
 const WhiteLabelSetup = dynamic(() => import('@/components/white-label/white-label-setup'), { ssr: false, loading: () => <Loading /> })
 const WhiteLabelDashboard = dynamic(() => import('@/components/white-label/white-label-dashboard'), { ssr: false, loading: () => <Loading /> })
 const WhiteLabelPricing = dynamic(() => import('@/components/white-label/white-label-pricing'), { ssr: false, loading: () => <Loading /> })
-// HireNova IA LEGAL
+// BazNova IA LEGAL
 const LegalHome = dynamic(() => import('@/components/legal/legal-home'), { ssr: false, loading: () => <Loading /> })
 const LegalContracts = dynamic(() => import('@/components/legal/legal-contracts'), { ssr: false, loading: () => <Loading /> })
 const LegalCompliance = dynamic(() => import('@/components/legal/legal-compliance'), { ssr: false, loading: () => <Loading /> })
 const LegalTemplates = dynamic(() => import('@/components/legal/legal-templates'), { ssr: false, loading: () => <Loading /> })
-// HireNova IA Command Center — Orchestration
+// BazNova IA Command Center — Orchestration
 const OrchestrationHub = dynamic(() => import('@/components/orchestration/orchestration-hub'), { ssr: false, loading: () => <Loading /> })
-// HireNova SaaLabour — Software as Labour Mission Control
+// BazNova SaaLabour — Software as Labour Mission Control
 const SaalabourHub = dynamic(() => import('@/components/saalabour/saalabour-hub'), { ssr: false, loading: () => <Loading /> })
 // Job Application — Demande d'emploi
 const JobApplicationForm = dynamic(() => import('@/components/cv/job-application-form'), { ssr: false, loading: () => <Loading /> })
@@ -165,8 +165,7 @@ export default function Home() {
     <SessionProvider refetchOnWindowFocus refetchInterval={0}>
       <VerificationHandler />
       <AnalyticsBootstrap />
-      <ErrorBoundary stepName="HireNova">
-        {step === 'earlyAccess' && <EarlyAccess />}
+      <ErrorBoundary stepName="BazNova Platform">
         {step === 'landing' && <Landing />}
         {step === 'form' && <CVForm />}
         {step === 'generating' && <Generating />}
@@ -188,78 +187,78 @@ export default function Home() {
         {step === 'apiRegister' && <ApiRegister />}
         {step === 'apiDashboard' && <ApiDashboard />}
 
-        {/* HireNova Global */}
+        {/* BazNova Global */}
         {step === 'globalMarket' && <GlobalMarket />}
         {step === 'globalJobDetail' && <GlobalJobDetail />}
         {step === 'globalApply' && <GlobalApply />}
         {step === 'globalEmployerDashboard' && <GlobalEmployerDashboard />}
         {step === 'globalPostJob' && <GlobalPostJob />}
 
-        {/* HireNova Mobilité */}
+        {/* BazNova Mobilité */}
         {step === 'mobilityHome' && <MobilityHome />}
         {step === 'mobilityUpload' && <MobilityUpload />}
         {step === 'mobilityProfile' && <MobilityProfile />}
         {step === 'mobilityResult' && <MobilityResult />}
         {/* Programme Parrainage */}
         {step === 'referral' && <ReferralDashboard />}
-        {/* HireNova Campus */}
+        {/* BazNova Campus */}
         {step === 'campus' && <CampusKit />}
         {/* User Dashboard — Mon Espace */}
         {step === 'dashboard' && <UserDashboard />}
-        {/* HireNova LinkedIn */}
+        {/* BazNova LinkedIn */}
         {step === 'linkedinHome' && <LinkedInHome />}
         {step === 'linkedinAnalyzer' && <LinkedInAnalyzer />}
         {step === 'linkedinGenerator' && <LinkedInGenerator />}
-        {/* HireNova Recruiter */}
+        {/* BazNova Recruiter */}
         {step === 'recruiterHome' && <RecruiterHome />}
         {step === 'recruiterPipeline' && <RecruiterPipeline />}
         {step === 'recruiterCandidates' && <RecruiterCandidates />}
         {step === 'recruiterMatch' && <RecruiterMatch />}
-        {/* HireNova Career */}
+        {/* BazNova Career */}
         {step === 'careerHome' && <CareerHome />}
         {step === 'careerAssessment' && <CareerAssessment />}
         {step === 'careerRoadmap' && <CareerRoadmap />}
         {step === 'careerSkills' && <CareerSkills />}
-        {/* HireNova Coach */}
+        {/* BazNova Coach */}
         {step === 'coachHome' && <CoachHome />}
         {step === 'coachSession' && <CoachSession />}
         {step === 'coachGoals' && <CoachGoals />}
         {step === 'coachHistory' && <CoachHistory />}
-        {/* HireNova Formation */}
+        {/* BazNova Formation */}
         {step === 'formationHome' && <FormationHome />}
         {step === 'formationCatalog' && <FormationCatalog />}
         {step === 'formationCourse' && <FormationCourse />}
         {step === 'formationCert' && <FormationCert />}
-        {/* HireNova Freelance */}
+        {/* BazNova Freelance */}
         {step === 'freelanceHome' && <FreelanceHome />}
         {step === 'freelanceBrowse' && <FreelanceBrowse />}
         {step === 'freelanceMission' && <FreelanceMission />}
         {step === 'freelanceDashboard' && <FreelanceDashboard />}
-        {/* HireNova IA Marketplace & Community */}
+        {/* BazNova IA Marketplace & Community */}
         {step === 'marketplaceHome' && <MarketplaceHome />}
         {step === 'marketplaceCommunity' && <MarketplaceCommunity />}
         {step === 'marketplaceEvents' && <MarketplaceEvents />}
         {step === 'marketplaceProfile' && <MarketplaceProfile />}
-        {/* HireNova IA INTELLIGENCE */}
+        {/* BazNova IA INTELLIGENCE */}
         {step === 'intelligenceHome' && <IntelligenceHome />}
         {step === 'intelligenceTrends' && <IntelligenceTrends />}
         {step === 'intelligenceSalary' && <IntelligenceSalary />}
         {step === 'intelligenceForecast' && <IntelligenceForecast />}
-        {/* HireNova IA WHITE LABEL */}
+        {/* BazNova IA WHITE LABEL */}
         {step === 'whiteLabelHome' && <WhiteLabelHome />}
         {step === 'whiteLabelSetup' && <WhiteLabelSetup />}
         {step === 'whiteLabelDashboard' && <WhiteLabelDashboard />}
         {step === 'whiteLabelPricing' && <WhiteLabelPricing />}
-        {/* HireNova IA LEGAL */}
+        {/* BazNova IA LEGAL */}
         {step === 'legalHome' && <LegalHome />}
         {step === 'legalContracts' && <LegalContracts />}
         {step === 'legalCompliance' && <LegalCompliance />}
         {step === 'legalTemplates' && <LegalTemplates />}
-        {/* HireNova IA Command Center — Orchestration */}
+        {/* BazNova IA Command Center — Orchestration */}
         {step === 'orchestrationHub' && <OrchestrationHub />}
         {step === 'orchestrationDispatch' && <OrchestrationHub />}
         {step === 'orchestrationCollab' && <OrchestrationHub />}
-        {/* HireNova SaaLabour — Software as Labour */}
+        {/* BazNova SaaLabour — Software as Labour */}
         {step === 'saalabourHub' && <SaalabourHub />}
         {/* Job Application — Demande d'emploi */}
         {step === 'jobApplication' && <JobApplicationForm />}
