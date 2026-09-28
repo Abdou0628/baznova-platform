@@ -95,7 +95,7 @@ export default function CoverLetterPreview() {
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex flex-col items-center">
-              <Image src="/baznova-logo.png?v=3" alt="BazNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">{t(language, 'poweredByIa')}</span>
             </div>
             <div>

@@ -21,7 +21,7 @@ export default function CoverLetterGenerating() {
       >
       {/* Logo */}
       <div className="flex flex-col items-center mb-6">
-        <Image src="/baznova-logo.png?v=3" alt="BazNova" width={48} height={48} className="rounded-xl shadow-md" />
+        <Image src="/baznova-logo.png" alt="BazNova" width={48} height={48} className="rounded-xl shadow-md" />
         <span className="text-[10px] font-semibold text-emerald-600 tracking-widest mt-1">{t(language, 'poweredByIa')}</span>
       </div>
 

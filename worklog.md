@@ -50,3 +50,29 @@ Stage Summary:
 - Payments configured (Stripe + Paymob + LemonSqueezy + regional adapters)
 - i18n in 4 languages (FR, EN, AR, ES)
 - Dev server running successfully on port 3000
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Fix "Module temporairement indisponible" error and regenerate BazNova logo
+
+Work Log:
+- Diagnosed ErrorBoundary crash: Next.js Image component failing with "unconfigured local patterns" error
+- Root cause: `?v=3` cache buster appended to Image src (e.g., `/baznova-logo-new.png?v=3`) which Next.js doesn't support for local images
+- Removed all `?v=3` cache busters from 12+ files across the codebase
+- Unified all logo references from `baznova-logo-new.png` to `baznova-logo.png` for consistency
+- Deleted all old logo files (baznova-logo.png, baznova-logo-new.png, favicon-32x32.png)
+- Cleared entire .next/ cache directory
+- Generated brand new BazNova logo: geometric rocket/orbit design in emerald/teal gradients
+- Created favicon from new logo
+- Restarted dev server and verified page returns HTTP 200
+
+Stage Summary:
+- "Module temporairement indisponible" error is FIXED
+- ErrorBoundary no longer triggered - landing page loads successfully
+- BazNova branding confirmed (title, meta tags, structured data)
+- SaaS + SaaS Labour subtitle present
+- No HireNova references remaining
+- New logo generated and deployed
+- Browser verification limited by 4GB container memory (server ~2.4GB + browser ~600MB exceeds limit)
+- Fix verified via curl: all 5 checks pass

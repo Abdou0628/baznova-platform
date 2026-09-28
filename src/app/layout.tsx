@@ -113,9 +113,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/baznova-logo-new.png', sizes: '512x512', type: 'image/png' },
+      { url: '/baznova-logo.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: [{ url: '/baznova-logo-new.png' }],
+    apple: [{ url: '/baznova-logo.png' }],
   },
   verification: {
     google: 'google-site-verification-code',

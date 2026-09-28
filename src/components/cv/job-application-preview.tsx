@@ -40,7 +40,7 @@ export default function JobApplicationPreview() {
               <ArrowLeft className="w-4 h-4" />
               {t(language, 'jaBack')}
             </Button>
-            <Image src="/baznova-logo.png?v=3" alt="BazNova" width={32} height={32} className="rounded-lg" />
+            <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
           </div>
         </header>
         <main className="flex-1 flex items-center justify-center">
@@ -133,7 +133,7 @@ export default function JobApplicationPreview() {
               <span className="hidden sm:inline">{t(language, 'jaBack')}</span>
             </Button>
             <div className="flex items-center gap-2">
-              <Image src="/baznova-logo.png?v=3" alt="BazNova" width={32} height={32} className="rounded-lg" />
+              <Image src="/baznova-logo.png" alt="BazNova" width={32} height={32} className="rounded-lg" />
               <div>
                 <span className="font-semibold text-foreground text-sm">{t(language, 'siteTitle')}</span>
                 <div className="flex items-center gap-1.5 text-xs text-emerald-600">
