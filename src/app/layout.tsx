@@ -23,7 +23,7 @@ const SITE_DESCRIPTION_ES =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'BazNova V1 — Early Access | Plateforme IA de Carrière & Recrutement',
+    default: 'BazNova — Plateforme IA de Carrière & Recrutement | SaaS + SaaS Labour',
     template: '%s | BazNova',
   },
   description: SITE_DESCRIPTION_FR,
@@ -91,21 +91,21 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: 'BazNova V1 — Early Access | Plateforme IA de Carrière & Recrutement',
+    title: 'BazNova — Plateforme IA de Carrière & Recrutement | SaaS + SaaS Labour',
     description: SITE_DESCRIPTION_FR,
     images: [
       {
         url: '/images/hero-career.jpg',
         width: 1200,
         height: 630,
-        alt: 'BazNova V1 — Plateforme IA de Carrière & Recrutement',
+        alt: 'BazNova — Plateforme IA de Carrière & Recrutement',
         type: 'image/jpeg',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BazNova V1 — Early Access | Plateforme IA de Carrière & Recrutement',
+    title: 'BazNova — Plateforme IA de Carrière & Recrutement | SaaS + SaaS Labour',
     description: SITE_DESCRIPTION_FR,
     images: ['/images/hero-career.jpg'],
     creator: '@baznova_ai',

@@ -240,7 +240,7 @@ const initialCLFormData: CoverLetterFormData = {
 export const useCVStore = create<CVStore>()(
   persist(
     (set) => ({
-      step: 'earlyAccess' as AppStep,
+      step: 'landing' as AppStep,
       stepData: {},
       formStep: 0,
       language: 'fr',
@@ -272,13 +272,13 @@ export const useCVStore = create<CVStore>()(
       setMobilityResult: (mobilityResult) => set({ mobilityResult }),
       setIsProcessing: (isProcessing) => set({ isProcessing }),
       resetCL: () => set({
-        step: 'earlyAccess' as AppStep, stepData: {},
+        step: 'landing' as AppStep, stepData: {},
         clFormData: { ...initialCLFormData },
         generatedCL: null, isCLGenerating: false, clError: null,
         atsResult: null, isATSAnalyzing: false, atsError: null,
       }),
       reset: () => set({
-        step: 'earlyAccess' as AppStep, stepData: {}, formStep: 0, template: 'modern',
+        step: 'landing' as AppStep, stepData: {}, formStep: 0, template: 'modern',
         formData: { ...initialFormData },
         generatedCV: null, isGenerating: false, error: null, selectedPersona: null,
         clFormData: { ...initialCLFormData },
@@ -288,7 +288,7 @@ export const useCVStore = create<CVStore>()(
       }),
     }),
     {
-      name: 'hirenova-step',
+      name: 'baznova-step',
       // Persist step, stepData, and language so navigation + language survive reloads
       partialize: (state) => ({ step: state.step, stepData: state.stepData, language: state.language }),
     }
