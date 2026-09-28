@@ -155,8 +155,6 @@ const JobApplicationPreview = dynamic(() => import('@/components/cv/job-applicat
 const PaymentDashboard = dynamic(() => import('@/components/payment/payment-dashboard'), { ssr: false, loading: () => <Loading /> })
 // Cookie Consent
 import { CookieConsent } from '@/components/support/cookie-consent'
-// Beta Feedback Widget
-import { BetaFeedback } from '@/components/support/beta-feedback'
 
 export default function Home() {
   const { step } = useCVStore()
@@ -269,7 +267,6 @@ export default function Home() {
         {step === 'paymentDashboard' && <PaymentDashboard />}
       </ErrorBoundary>
       <CookieConsent />
-      <BetaFeedback />
     </SessionProvider>
   )
 }
