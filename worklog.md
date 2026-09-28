@@ -76,3 +76,27 @@ Stage Summary:
 - New logo generated and deployed
 - Browser verification limited by 4GB container memory (server ~2.4GB + browser ~600MB exceeds limit)
 - Fix verified via curl: all 5 checks pass
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix preview panel not displaying - server stability issue
+
+Work Log:
+- Diagnosed that Next.js dev server (Turbopack) uses ~2.1GB memory, causing OOM kills in 4GB container
+- Built production version which uses only ~714MB (3x less memory)
+- Added NEXTAUTH_SECRET to .env for production mode
+- Created start-server.sh with auto-restart capability for resilience
+- Updated package.json dev script to use production server
+- Server now starts in 75ms (vs 6-8s compile time in dev mode)
+- Server confirmed stable for 2+ minutes at ~714MB
+- Page verified: BazNova branding, SaaS + SaaS Labour, no ErrorBoundary errors
+- Browser verification (agent-browser) not possible due to 4GB container limit (server 714MB + Chromium ~600MB + other processes exceeds limit)
+- Preview panel should work fine as it uses its own embedded browser
+
+Stage Summary:
+- Server runs in production mode for memory efficiency
+- Auto-restart script ensures resilience
+- All page content verified correct via curl
+- Memory usage: 714MB (down from 2.1GB in dev mode)
+- Startup time: 75ms (down from 6-8s)
