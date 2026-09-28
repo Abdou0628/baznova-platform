@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireNova Update</title>
+<style>
+body{font-family:Segoe UI,system-ui,sans-serif;background:#fff;color:#111;padding:30px;max-width:700px;margin:0 auto}
+h1{color:#059669;margin-bottom:8px}
+p.sub{color:#666;margin-bottom:24px}
+.file{border:1px solid #e5e7eb;border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.file .name{font-family:Consolas,monospace;font-size:13px;color:#333}
+.file .info{font-size:11px;color:#888;margin-top:2px}
+a.dl{background:#059669;color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+a.dl:hover{background:#047857}
+.steps{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:18px;margin-top:24px}
+.steps h2{color:#059669;font-size:16px;margin-bottom:10px}
+.steps ol{padding-left:20px;font-size:13px;line-height:2}
+.steps code{background:#e5e7eb;padding:2px 6px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<h1>HireNova Mise a jour</h1>
+<p class="sub">Repositionnement + Auth enhancements — telechargez chaque fichier</p>
+
+<div class="file">
+  <div><div class="name">src/lib/i18n.ts</div><div class="info">Repositionnement FR/EN/AR/ES + force mdp + confirm</div></div>
+  <a class="dl" href="/updates/i18n_ts" download="i18n.ts">Telecharger</a>
+</div>
+<div class="file">
+  <div><div class="name">src/app/layout.tsx</div><div class="info">Titre + TrustedHTML polyfill</div></div>
+  <a class="dl" href="/updates/layout_tsx" download="layout.tsx">Telecharger</a>
+</div>
+<div class="file">
+  <div><div class="name">src/components/auth/auth-modal.tsx</div><div class="info">Barre force mdp + oeil + confirm mdp</div></div>
+  <a class="dl" href="/updates/auth-modal_tsx" download="auth-modal.tsx">Telecharger</a>
+</div>
+<div class="file">
+  <div><div class="name">src/app/manifest.ts</div><div class="info">Repositionnement PWA</div></div>
+  <a class="dl" href="/updates/manifest_ts" download="manifest.ts">Telecharger</a>
+</div>
+<div class="file">
+  <div><div class="name">package.json</div><div class="info">Suppression tee</div></div>
+  <a class="dl" href="/updates/package_json" download="package.json">Telecharger</a>
+</div>
+<div class="file">
+  <div><div class="name">src/app/api/auth/reset-password/route.ts</div><div class="info">8 caracteres minimum</div></div>
+  <a class="dl" href="/updates/reset-password-route_ts" download="route.ts">Telecharger</a>
+</div>
+<div class="file">
+  <div><div class="name">public/trusted-types.js</div><div class="info">Polyfill TrustedHTML</div></div>
+  <a class="dl" href="/updates/trusted-types_js" download="trusted-types.js">Telecharger</a>
+</div>
+
+<div class="steps">
+  <h2>Installation</h2>
+  <ol>
+    <li>Telechargez les 7 fichiers ci-dessus</li>
+    <li>Dans PowerShell, restaurez puis copiez :
+      <br><code>cd C:\Users\espacegamers\Desktop\HireNova; git checkout -- .</code></li>
+    <li>Remplacez chaque fichier :
+      <br><code>Copy-Item "$HOME\Downloads\i18n.ts" "src\lib\i18n.ts" -Force</code>
+      <br><code>Copy-Item "$HOME\Downloads\layout.tsx" "src\app\layout.tsx" -Force</code>
+      <br><code>Copy-Item "$HOME\Downloads\auth-modal.tsx" "src\components\auth\auth-modal.tsx" -Force</code>
+      <br><code>Copy-Item "$HOME\Downloads\manifest.ts" "src\app\manifest.ts" -Force</code>
+      <br><code>Copy-Item "$HOME\Downloads\package.json" "package.json" -Force</code>
+      <br><code>Copy-Item "$HOME\Downloads\route.ts" "src\app\api\auth\reset-password\route.ts" -Force</code>
+      <br><code>Copy-Item "$HOME\Downloads\trusted-types.js" "public\trusted-types.js" -Force</code></li>
+    <li>Relancez :
+      <br><code>taskkill /F /IM node.exe 2>$null; bun run dev</code></li>
+  </ol>
+</div>
+</body>
+</html>

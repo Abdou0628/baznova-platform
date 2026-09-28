@@ -1,0 +1,634 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                        HIRENOVA - SAUVEGARDE DU PROJET                       ║
+║                         Date: 30 Juillet 2026 - 00:40                        ║
+║                 CTO: E-Society 2050 | Plateforme IA RH                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 1. PRÉSENTATION DU PROJET
+════════════════════════════════════════════════════════════════════════════════
+
+HireNova est une plateforme SaaS de recrutement propulsée par l'IA, conçue
+pour le marché marocain et international. Elle comprend:
+
+  - Générateur de CV IA (ATS-optimized)
+  - Générateur de Lettres de Motivation IA
+  - Analyse ATS (Applicant Tracking System)
+  - Marché d'emploi (local + international)
+  - Simulation d'entretien IA
+  - Mobilité internationale (formatage CV/CL par pays)
+  - Écosystème de 19 agents IA spécialisés
+  - Chatbot IA avancé (3 modes: Conseil, Support, Produits)
+  - Programme de parrainage
+  - Campus HireNova Kit
+  - Portail API pour développeurs
+  - Dashboard employeur
+  - Système anti-bot CAPTCHA intelligent
+  - Mot de passe oublié (code 6 chiffres)
+  - Tracking utilisateur + Admin analytics
+  - Paiements: PayMob + Stripe
+  - 4 langues: Français, Anglais, Arabe, Espagnol
+
+Stack Technique:
+  - Framework: Next.js 16 (App Router, TypeScript)
+  - Styling: Tailwind CSS 4 + shadcn/ui (New York style)
+  - Base de données: Prisma ORM + SQLite
+  - Auth: NextAuth.js v4
+  - State: Zustand (client) + TanStack Query (server)
+  - Animations: Framer Motion
+  - Charts: Recharts
+  - Icons: Lucide React
+  - AI: z-ai-web-dev-sdk
+  - Toast: Sonner
+  - Theme: next-themes
+
+Statistiques du projet:
+  - 113 commits git
+  - 47 148 lignes de code source (TypeScript/TSX)
+  - 87 composants React
+  - 65+ API routes
+  - 24 modèles Prisma
+  - 4 langues supportées
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 2. ARCHITECTURE DU PROJET
+════════════════════════════════════════════════════════════════════════════════
+
+/home/z/my-project/
+├── prisma/
+│   ├── schema.prisma          # 24 modèles: User, Resume, CoverLetter, etc.
+│   └── db/                    # Base SQLite
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx         # Layout principal + Providers + Toaster
+│   │   ├── page.tsx           # Route racine (/)
+│   │   ├── page-client.tsx    # Client-side rendering principal
+│   │   ├── manifest.ts        # PWA manifest
+│   │   ├── robots.ts          # SEO robots
+│   │   ├── middleware.ts      # Auth + security + no-cache headers
+│   │   └── api/               # 65+ API routes
+│   │       ├── auth/
+│   │       │   ├── register/route.ts        # Inscription avec anti-bot
+│   │       │   ├── send-reset-code/route.ts # Envoi code 6 chiffres
+│   │       │   ├── verify-reset-code/route.ts
+│   │       │   ├── reset-password/route.ts
+│   │       │   └── user/route.ts
+│   │       ├── admin/
+│   │       │   ├── tracking/route.ts         # Admin tracking API
+│   │       │   ├── stats/route.ts
+│   │       │   ├── users/route.ts
+│   │       │   ├── documents/route.ts
+│   │       │   ├── comprehensive-stats/route.ts
+│   │       │   ├── security-alerts/route.ts
+│   │       │   ├── support/route.ts
+│   │       │   ├── satisfaction/route.ts
+│   │       │   ├── enterprise-inquiries/route.ts
+│   │       │   ├── config/route.ts
+│   │       │   └── unlock/route.ts
+│   │       ├── chatbot/route.ts              # Chatbot IA (4 langues)
+│   │       ├── generate-cv/route.ts          # Génération CV
+│   │       ├── generate-cover-letter/route.ts
+│   │       ├── analyze-ats/route.ts          # Analyse ATS
+│   │       ├── interview/                    # Simulation entretien
+│   │       ├── global-jobs/                  # Marché international
+│   │       ├── mobility/                     # Mobilité internationale
+│   │       ├── referral/                    # Programme parrainage
+│   │       ├── track/route.ts                # Tracking utilisateur
+│   │       ├── checkout/route.ts
+│   │       ├── stripe/                       # Paiements Stripe
+│   │       ├── paymob/                       # Paiements PayMob
+│   │       ├── blog/
+│   │       ├── campus/
+│   │       ├── email/onboarding/route.ts
+│   │       ├── documents/generate/route.ts
+│   │       └── ...
+│   ├── components/
+│   │   ├── ui/                    # 67 composants shadcn/ui
+│   │   ├── auth/
+│   │   │   ├── auth-modal.tsx     # Modal connexion/inscription/forgot
+│   │   │   ├── smart-captcha.tsx  # CAPTCHA anti-robot intelligent
+│   │   │   └── profile-button.tsx
+│   │   ├── cv/                    # CV (form, preview, document, ATS)
+│   │   ├── cl/                    # Lettres de motivation
+│   │   ├── jobs/                  # Marché emploi
+│   │   ├── global/                # Recrutement international
+│   │   ├── admin/                 # Dashboard admin + tracking
+│   │   ├── chatbot/               # Chatbot IA 3 modes
+│   │   ├── ecosystem/             # Détail produit modal
+│   │   ├── campus/                # Campus Kit
+│   │   ├── api/                   # Portail API
+│   │   ├── enterprise/            # Contact entreprise
+│   │   ├── interview/             # Simulation entretien
+│   │   ├── mobility/              # Mobilité internationale
+│   │   ├── referral/              # Parrainage
+│   │   ├── support/               # Support légal
+│   │   ├── providers.tsx          # ThemeProvider (next-themes)
+│   │   ├── error-boundary.tsx
+│   │   └── analytics-bootstrap.tsx
+│   └── lib/
+│       ├── db.ts                  # Client Prisma
+│       ├── i18n.ts                # Internationalisation (4 langues)
+│       ├── security.ts            # Hash passwords, tokens
+│       ├── rate-limit.ts          # Rate limiting
+│       ├── anti-bot.ts            # Vérification anti-bot serveur
+│       ├── tracking.ts            # Tracking client-side
+│       └── ...
+├── mini-services/
+│   ├── dev-proxy.js               # Proxy keepalive dev server
+│   ├── static-proxy/index.js      # Serveur statique proxy
+│   ├── static-server.js           # Serveur statique
+│   ├── prod-keepalive.js          # Keepalive production
+│   └── hirenova-server/index.js   # Serveur indépendant
+├── public/                        # Assets statiques
+├── next.config.ts                 # Config Next.js + no-cache
+├── package.json                   # Dépendances
+├── start-server.sh                # Script démarrage production
+├── worklog.md                     # Journal de développement
+└── db/                            # Base de données SQLite
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 3. BASE DE DONNÉES - MODÈLES PRISMA (24 modèles)
+════════════════════════════════════════════════════════════════════════════════
+
+  N° | Modèle               | Description
+  ───┼──────────────────────┼─────────────────────────────────────────────
+   1 | User                 | Utilisateurs (candidate/employer) + anti-bot
+   2 | Resume               | CV générés
+   3 | CoverLetter           | Lettres de motivation
+   4 | JobListing            | Offres d'emploi locales
+   5 | Application          | Candidatures locales
+   6 | GlobalJobListing      | Offres d'emploi internationales
+   7 | GlobalApplication     | Candidatures internationales
+   8 | MobilityProfile       | Profils mobilité internationale
+   9 | InterviewSession      | Sessions simulation entretien
+  10 | InterviewMessage      | Messages entretien IA
+  11 | SecurityLog           | Logs sécurité
+  12 | SatisfactionRating    | Évaluations satisfaction
+  13 | SupportTicket         | Tickets support
+  14 | ApiSubscriber         | Abonnés API
+  15 | ApiUsageLog           | Logs utilisation API
+  16 | Referral              | Programme parrainage
+  17 | EnterpriseInquiry    | Demandes devis entreprise
+  18 | Document              | Documents PDF (factures, devis, bilans)
+  19 | EmailLog              | Logs emails envoyés
+  20 | AccountingEntry      | Entrées comptables
+  21 | RegistrationAttempt  | Tentatives d'inscription (anti-bot)
+  22 | UserTrackingEvent     | Événements tracking utilisateur
+  23 | DashboardWidget       | Widgets dashboard
+  24 | BlogPost              | Articles blog
+
+Modèle User - Champs Anti-Bot:
+  - trackingId: String? @unique (HNV-XXXXXXX)
+  - fingerprintHash: String?
+  - verificationScore: Float @default(0) (0-100)
+  - verificationMethod: String? (smart_captcha, admin_manual)
+  - isVerifiedHuman: Boolean @default(false)
+  - botFlags: String? (JSON)
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 4. MODIFICATIONS AJOURD'HUI (Session Anti-Bot + Mot de passe oublié)
+════════════════════════════════════════════════════════════════════════════════
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ FICHIERS CRÉÉS (14)                                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+ 1. src/components/auth/smart-captcha.tsx (13 KB)
+    ── CAPTCHA anti-robot intelligent
+    - Défis mathématiques dynamiques (+, -, ×)
+    - Signaux comportementaux: temps de réponse, mouvements souris, frappes
+    - Champ honeypot CSS (piège invisible pour bots)
+    - Génération fingerprint navigateur (userAgent + screen + language + tz)
+    - Timer 30 secondes avec auto-refresh
+    - Maximum 3 tentatives, régénération automatique
+    - Interface multilingue (FR/EN/AR/ES)
+    - Animations Framer Motion, thème emerald
+    - Token format: btoa(JSON.stringify({ ts, a, fp }))
+
+ 2. src/lib/anti-bot.ts (16 KB)
+    ── Vérification anti-bot côté serveur
+    - Détection de 172 domaines email jetables (guerrillamail, etc.)
+    - Score réputation domaine email (100=majeur, 90=corporate, 0=jetable)
+    - Vélocité IP: max 3 inscriptions/IP/24h, max 5 tentatives/IP/1h
+    - Tracking fingerprint: max 2 comptes/fingerprint/24h
+    - Score comportemental avec seuils (<20 bloque, <40 flag)
+    - Scoring pondéré: captcha 25%, email 15%, IP 20%, fingerprint 15%,
+      behavior 15%, honeypot 10%
+    - Score minimum 40/100 pour passer
+    - Générateur Tracking ID unique: format HNV-XXXXXXX
+    - Journalisation des tentatives dans RegistrationAttempt
+
+ 3. src/lib/tracking.ts (5 KB)
+    ── Tracking client-side
+    - sendBeacon pour envoi non-bloquant
+    - Debounce et batching des événements
+    - 15 types d'événements (page_view, click, form_submit, etc.)
+    - Auto-détection trackingId depuis user profile
+
+ 4. src/app/api/track/route.ts (4 KB)
+    ── API tracking utilisateur
+    - Auth-gated (nécessite session utilisateur)
+    - Rate-limited: 100 événements/minute
+    - Auto-assigne trackingId si non existant
+
+ 5. src/app/api/auth/send-reset-code/route.ts (5.5 KB)
+    ── API envoi code de réinitialisation
+    - Code 6 chiffres aléatoire
+    - Stockage global: globalThis.__resetCodeStore
+    - Rate limiting: 5 tentatives/email/10 minutes
+    - Accès pour TOUS les utilisateurs (pas de restriction abonné)
+    - Vérifie existence de l'email dans la base
+
+ 6. src/app/api/auth/verify-reset-code/route.ts (3.6 KB)
+    ── API vérification code de réinitialisation
+    - Vérifie correspondance code 6 chiffres
+    - Vérifie expiration (5 minutes)
+    - Supprime le code après vérification réussie
+
+ 7. src/app/api/auth/reset-password/route.ts (3.6 KB)
+    ── API réinitialisation mot de passe
+    - Nouveau mot de passe avec confirmation
+    - Hash bcryptjs (12 rounds)
+    - Mise à jour directe en base de données
+
+ 8. src/components/providers.tsx (380 B)
+    ── Provider Theme pour Sonner
+    - ThemeProvider (next-themes) avec attribute="class"
+    - Support light/dark mode
+    - disableTransitionOnChange pour transitions propres
+
+ 9. src/components/admin/tracking-panel.tsx (13 KB)
+    ── Panel admin tracking
+    - Cartes résumé: total événements, utilisateurs tracés, tentatives bloquées
+    - Breakdown par type d'événement
+    - Table des tentatives bloquées (email, IP, raison)
+    - Filtres par période
+
+ 10. src/app/api/admin/tracking/route.ts (4.5 KB)
+     ── API admin tracking
+     - Stats globales
+     - Liste événements filtrables
+     - Tentatives bloquées avec détails
+
+ 11. mini-services/prod-keepalive.js (44 B)
+     ── Keepalive pour production standalone server
+
+ 12. mini-services/static-server.js (89 B)
+     ── Serveur statique proxy
+
+ 13. mini-services/dev-proxy.js (modifié)
+     ── Proxy keepalive dev server avec auto-restart
+
+ 14. start-server.sh (modifié)
+     ── Script démarrage avec while-loop + restart automatique
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ FICHIERS MODIFIÉS (9)                                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+ 1. src/app/layout.tsx
+     - Ajout import Providers + Toaster
+     - Wrapper children dans <Providers>
+     - <Toaster position="top-right" richColors closeButton />
+
+ 2. src/components/auth/auth-modal.tsx
+     - Nouveau mode 'register-captcha' (CAPTCHA avant formulaire inscription)
+     - Intégration flow "Mot de passe oublié" (3 étapes)
+     - Suppression texte "abonné" dans forgot password
+
+ 3. src/app/api/auth/register/route.ts
+     - Intégration pipeline anti-bot complet
+     - validateCaptchaToken()
+     - validateEmailDomain()
+     - checkIPVelocity()
+     - checkFingerprintVelocity()
+     - calculateVerificationScore()
+     - assignTrackingId()
+
+ 4. src/middleware.ts
+     - Headers no-cache pour toutes les routes
+     - Cache-Control: no-store, no-cache, must-revalidate
+
+ 5. next.config.ts
+     - Headers no-cache secondaires pour /_next/static/*
+     - Headers no-cache pour routes API
+
+ 6. prisma/schema.prisma
+     - Ajout champs anti-bot sur User:
+       trackingId, fingerprintHash, verificationScore,
+       verificationMethod, isVerifiedHuman, botFlags
+     - Nouveau modèle RegistrationAttempt
+     - Nouveau modèle UserTrackingEvent
+
+ 7. src/lib/i18n.ts
+     - ~130 nouvelles clés pour CAPTCHA (4 langues)
+     - ~40 nouvelles clés pour forgot password (4 langues)
+     - Clés pour tracking, admin, notifications toast
+
+ 8. src/components/cv/landing.tsx
+     - Intégration ProductDetailModal
+     - Grille 19 produits dynamique
+     - Tous les produits cliquables
+
+ 9. src/app/api/chatbot/route.ts
+     - Mise à jour knowledge base 19 produits écosystème
+     - Réponses en 4 langues (FR/EN/AR/ES)
+     - Patterns regex multilingues
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 5. FONCTIONNALITÉS ANTI-BOT - DÉTAIL TECHNIQUE
+════════════════════════════════════════════════════════════════════════════════
+
+COUCHE 1 - CAPTCHA Client (smart-captcha.tsx):
+────────────────────────────────────────────
+  Étapes:
+  1. Génération défi mathématique aléatoire (a op b = ?)
+  2. Opérations: addition (+), soustraction (-), multiplication (×)
+  3. Collection signaux comportementaux:
+     - Temps pour compléter le défi (timingScore)
+     - Mouvements de souris (mouseScore)
+     - Frappes clavier (keystrokeScore)
+  4. Champ honeypot invisible (piège CSS, pas display:none)
+  5. Timer 30 secondes, auto-régénération
+  6. Max 3 tentatives, blocage après échec
+  7. Génération token: btoa(JSON.stringify({
+       ts: Date.now(),
+       a: challenge.answer,
+       fp: generateFingerprint()
+     }))
+  8. Transmission signaux + token au serveur
+
+COUCHE 2 - Vérification Serveur (anti-bot.ts):
+─────────────────────────────────────────────
+  Checks séquentiels:
+  1. validateCaptchaToken(token)
+     - Décodage base64 JSON
+     - Vérification âge < 5 minutes
+     - Vérification réponse mathématique correcte
+
+  2. checkHoneypot(honeypotValue)
+     - Si rempli = bot direct → score 0
+
+  3. validateEmailDomain(email)
+     - 172 domaines jetables bloqués
+     - Score réputation: 100 (gmail/outlook), 90 (corporate), 0 (jetable)
+
+  4. checkIPVelocity(ip)
+     - Max 3 inscriptions/IP/24h
+     - Max 5 tentatives/IP/1h
+
+  5. checkFingerprintVelocity(fingerprint)
+     - Max 2 comptes/fingerprint/24h
+
+  6. calculateVerificationScore(signaux)
+     - Pondération finale:
+       captcha: 25%
+       email:   15%
+       ip:      20%
+       fingerprint: 15%
+       behavior: 15%
+       honeypot: 10%
+     - Score < 20: BLOQUÉ
+     - Score 20-39: FLAGGÉ (création avec alerte)
+     - Score >= 40: AUTORISÉ
+
+  7. assignTrackingId()
+     - Format: HNV-XXXXXXX (31 caractères alphanumériques)
+     - Identifiant unique pour chaque utilisateur
+
+FLOW COMPLET INSCRIPTION:
+──────────────────────────
+  [Page Landing] → Click "Connexion" → Click "Créer mon compte"
+    → [Smart CAPTCHA] Défi mathématique + signaux comportementaux
+    → Vérification réponse → Token généré
+    → [Formulaire] Nom, Email, Mot de passe
+    → Submit → Pipeline anti-bot serveur (7 checks)
+    → Score >= 40: Création compte + assignation trackingId
+    → Redirection dashboard
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 6. FLOW MOT DE PASSE OUBLIÉ
+════════════════════════════════════════════════════════════════════════════════
+
+Étape 1 - Envoi du code:
+  [Modal Connexion] → Click "Réinitialiser mon mot de passe"
+    → Input email → Click "Envoyer le code de vérification"
+    → API: POST /api/auth/send-reset-code
+    → Vérification email existe en base
+    → Génération code 6 chiffres
+    → Stockage: globalThis.__resetCodeStore[email] = { code, expires }
+    → Toast: "Code envoyé" ou "Aucun compte trouvé"
+
+Étape 2 - Vérification du code:
+  → Input code 6 chiffres → Click "Vérifier"
+  → API: POST /api/auth/verify-reset-code
+  → Vérification code correspond
+  → Vérification expiration (< 5 min)
+  → Passage à l'étape 3
+
+Étape 3 - Nouveau mot de passe:
+  → Input nouveau mot de passe
+  → Input confirmation mot de passe
+  → Click "Réinitialiser"
+  → API: POST /api/auth/reset-password
+  → Hash bcryptjs (12 rounds)
+  → Mise à jour en base
+  → Toast: "Mot de passe réinitialisé avec succès"
+  → Retour à la connexion
+
+Note: Ce flow est disponible pour TOUS les utilisateurs, sans restriction
+de plan (abonné/gratuit).
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 7. ÉCOSYSTÈME HIRENOVA - 19 AGENTS IA
+════════════════════════════════════════════════════════════════════════════════
+
+Catégorie Core (6 ACTIFS):
+  1. HireNova CV - Générateur de CV professionnel
+  2. HireNova Lettres - Générateur de lettres de motivation
+  3. HireNova ATS - Optimisation ATS
+  4. HireNova Préparation - Préparation entretien
+  5. HireNova Match - Matching candidat-poste
+  6. HireNova Recruteur - Assistant recruteur IA
+
+Catégorie AI Services (8 BIENTÔT):
+  7. HireNova Analytique - Analyse prédictive RH
+  8. HireNova Screening - Screening automatique
+  9. HireNova Video - Entretien vidéo IA
+  10. HireNova Onboarding - Onboarding automatisé
+  11. HireNova Skills - Cartographie compétences
+  12. HireNova Sourcing - Sourcing intelligent
+  13. HireNova Diversity - Diversité & inclusion
+  14. HireNova Compensation - Analyse salariale
+
+Catégorie Business (5 BIENTÔT):
+  15. HireNova Docs - Documentation automatique
+  16. HireNova Compliance - Conformité légale
+  17. HireNova Integration - Intégrations tiers
+  18. HireNova Analytics - Reporting avancé
+  19. HireNova Security - Sécurité données RH
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 8. CHATBOT IA AVANCÉ
+════════════════════════════════════════════════════════════════════════════════
+
+Architecture 3 vues:
+  1. Menu Principal: 3 boutons cards
+     - Conseil carrière (icône Lightbulb)
+     - Support (icône Headphones)
+     - Produits (badge "19")
+
+  2. Grille Produits: 19 agents avec:
+     - Icône, nom, description courte
+     - Badge ACTIF / BIENTÔT
+     - Click → envoie query à API chatbot
+
+  3. Chat: Conversation IA
+     - Tab bar: Conseil / Support / Produits
+     - Fallback LLM via z-ai-web-dev-sdk
+     - Support RTL (Arabe)
+     - 4 langues
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 9. PLANS TARIFICATION
+════════════════════════════════════════════════════════════════════════════════
+
+  Plan        | Prix     | CV/mois | Lettres/mois | ATS
+  ────────────┼──────────┼─────────┼──────────────┼────
+  Gratuit     | 0 MAD    | 3       | 2            | -
+  Starter     | 49 MAD   | 15      | 10           | 5
+  Pro         | 99 MAD   | Illimité| Illimité     | Illimité
+  Career+     | 149 MAD  | Illimité| Illimité     | Illimité + extras
+  Employer    | 299 MAD  | -       | -            | Postes illimités
+  Enterprise  | Sur devis| -       | -            | Tout illimité
+  Annuel      | 990 MAD/an (Pro)  | Illimité | Illimité | Illimité
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 10. API PORTAIL DÉVELOPPEURS
+════════════════════════════════════════════════════════════════════════════════
+
+Endpoints:
+  POST /api/v1/cv/generate    - Génération CV (1 crédit)
+  POST /api/v1/cl/generate    - Génération lettre motivation (1 crédit)
+  POST /api/v1/ats/analyze    - Analyse ATS (1 crédit)
+  GET  /api/v1/usage          - Utilisation crédits
+
+Authentification: API Key + Secret en header
+Rate limiting: 100 req/min par clé
+Plans: Starter (100 crédits/mois), Pro (500), Enterprise (illimité)
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 11. HISTORIQUE DES COMMITS (20 derniers)
+════════════════════════════════════════════════════════════════════════════════
+
+  c11ec68 - SAUVEGARDE FIN DE JOURNÉE (tag: save-20260729-2340)
+  8373698 - Server persistence + no-cache + production standalone
+  3dfc0ae - Anti-bot CAPTCHA + forgot password verification
+  a21058f - CAPTCHA anti-robot + forgot password
+  9c7e8e0 - Admin tracking + anti-bot database models
+  e84a97d - Server stability fix (production build approach)
+  2771018 - Two-layer anti-bot + tracking system
+  7350d9c - Advanced chatbot 3 buttons + 19 products
+  71cb9fa - Ecosystem 19 products + product detail modal
+  84ea0e8 - Strategy implementation + product rename
+  ... (+ 103 commits précédents)
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 12. DÉPENDANCES PRINCIPALES
+════════════════════════════════════════════════════════════════════════════════
+
+  Package              | Version  | Usage
+  ─────────────────────┼──────────┼────────────────────────────
+  next                 | 16.1.1   | Framework principal
+  react                | 19.0.0   | UI library
+  typescript           | 5.x      | Type safety
+  tailwindcss          | 4.x      | Styling
+  prisma               | 6.11.1   | ORM + database
+  next-auth            | 4.24.11  | Authentication
+  framer-motion        | 12.23.2  | Animations
+  recharts             | 2.15.4   | Charts
+  lucide-react         | 0.525.0  | Icons
+  zustand              | 5.0.6    | Client state
+  @tanstack/react-query| 5.82.0   | Server state
+  sonner               | 2.0.6    | Toast notifications
+  next-themes          | 0.4.6    | Dark/light mode
+  bcryptjs             | 3.0.3    | Password hashing
+  stripe               | 22.3.2   | Payments
+  z-ai-web-dev-sdk     | 0.0.18   | AI capabilities
+  pdf-lib              | 1.17.1   | PDF generation
+  nodemailer           | 9.0.3    | Email sending
+  zod                  | 4.0.2    | Validation
+  react-hook-form      | 7.60.0   | Form management
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 13. ÉTAT ACTUEL
+════════════════════════════════════════════════════════════════════════════════
+
+  ✅ Lint: 0 erreurs
+  ✅ Git: tout commité, working tree clean
+  ✅ Server: Next.js actif (next-server v16.1.3)
+  ✅ Base de données: Prisma + SQLite synchronisée
+  ✅ Fichiers anti-bot: présents et fonctionnels
+  ✅ Fichiers forgot password: présents et fonctionnels
+  ✅ Providers + Toaster: intégrés dans layout
+  ✅ 47 148 lignes de code source
+  ✅ 87 composants React
+  ✅ 65+ API routes
+  ✅ 24 modèles Prisma
+  ✅ 4 langues (FR/EN/AR/ES)
+
+  ⏳ Problème non résolu:
+  Les modifications anti-bot et forgot password ne sont pas visibles sur
+  le preview panel utilisateur. Le code est vérifié fonctionnel en local
+  via agent-browser, mais l'utilisateur ne voit pas les changements.
+
+  Pistes pour demain:
+  a) Revenir au lanceur `next dev` original dans dev-proxy.js
+  b) Tester un hard refresh navigateur (Ctrl+Shift+R)
+  c) Vérifier l'URL exacte du preview panel
+  d) Envisager déploiement production stable
+
+
+════════════════════════════════════════════════════════════════════════════════
+ 14. COMMANDES UTILES
+════════════════════════════════════════════════════════════════════════════════
+
+  bun run dev          # Démarrer le serveur (via dev-proxy.js)
+  bun run build        # Build production (max 2GB heap)
+  bun run start        # Serveur production standalone
+  bun run lint         # Vérification code quality
+  bun run db:push      # Synchroniser schéma Prisma
+  bun run db:generate  # Générer client Prisma
+  bun run db:migrate   # Migration Prisma
+
+  Architecture serveur:
+  dev-proxy.js (:3000) → next dev (:3001) → Caddy (:81) → Preview Panel
+  ou
+  start-server.sh → standalone server.js (:3000) → Caddy (:81)
+
+
+════════════════════════════════════════════════════════════════════════════════
+
+  SAUVEGARDE GÉNÉRÉE LE: 30 Juillet 2026 - 00:40
+  PAR: Z.ai Code (Assistant IA)
+  GIT COMMIT: c11ec68
+  GIT TAG: save-20260729-2340
+  PROJET: HireNova - Plateforme IA Recrutement
+  ENTREPRISE: E-Society 2050
+  CTO: (utilisateur)
+
+════════════════════════════════════════════════════════════════════════════════

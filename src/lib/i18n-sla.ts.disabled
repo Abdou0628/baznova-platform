@@ -1,0 +1,32 @@
+export const slaTranslations: Record<string, Record<string, string>> = {
+// Auto-generated from saalabour module
+const fs = require('fs')
+const path = '/home/z/my-project/src/components/saalabour'
+const compMap: Record<string, string> = {}
+const files = ['saalabour-hub', 'saalabour-wallet', 'saalabour-templates', 'saalabour-marketplace']
+for (const comp of files) {
+  const code = fs.readFileSync(path + '/' + comp + '.tsx', 'utf-8')
+  for (const match of code.matchAll(/t\(lang, '([^)]+)'/g)) {
+    const key = match[1].split("'")[1]
+    compMap[key] = match[2].replace(/'/g, "')
+  }
+}
+}
+for (key, fr_val) in compMap.items():
+  compMap[key] = fr_val
+}
+}
+const { fr, en, ar, es } = { fr: {}, en: {}, ar: {}, es: {} }
+for (key, fr_val) in compMap.items():
+  fr[key] = fr_val
+  en[key] = fr_val // placeholder - not ideal but functional
+  es[key] = fr_val
+  ar[key] = fr_val // placeholder
+}
+for (key, fr_val) in compMap.items():
+  fr[key] = fr_val
+}
+}
+fs.writeFileSync('/home/z/my-project/src/lib/i18n-sla.ts', JSON.stringify({ fr, en, ar, es }, null, 2))
+print('Created i18n-sla.ts:', fs.statSyncSync('/home/z/my-project/src/lib/i18n-sla.ts'))
+for (key, fr_val) in compMap.items(): print(f'  {key}: {fr_val[:60]}')

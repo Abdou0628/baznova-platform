@@ -1,0 +1,1554 @@
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Sparkles, Globe, Shield, PenLine, ArrowRight, FileText, Star, Languages, Check, X, Crown, Zap, Loader2, LayoutTemplate, Download, GraduationCap, Briefcase, Rocket, Plane, UserCheck, Award, Bot, MessageCircle, Linkedin, Search, Compass, BookOpen, Laptop, ChevronDown, HelpCircle, Users, ThumbsUp, Lock, Code2, BarChart3, PlusCircle, CheckCircle2, Copy, Gift, Building2, Mail, Brain } from 'lucide-react'
+import Image from 'next/image'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { useCVStore, type PersonaType, type AppStep } from '@/store/cv-store'
+import { t } from '@/lib/i18n'
+import type { CVLanguage, TranslationKey } from '@/lib/i18n'
+import ProfileButton from '@/components/auth/profile-button'
+import AuthModal from '@/components/auth/auth-modal'
+import EnterpriseContactForm from '@/components/enterprise/enterprise-contact-form'
+import { events } from '@/lib/analytics'
+import AdminDashboard from '@/components/admin/admin-dashboard'
+import ChatbotWidget from '@/components/chatbot/chatbot-widget'
+import { useSession } from 'next-auth/react'
+
+const flagEmoji: Record<CVLanguage, string> = {
+  fr: '🇫🇷',
+  en: '🇬🇧',
+  ar: '🇸🇦',
+  es: '🇪🇸',
+}
+
+const features = [
+  { icon: Sparkles, titleKey: 'feature1Title' as const, descKey: 'feature1Desc' as const },
+  { icon: Globe, titleKey: 'feature2Title' as const, descKey: 'feature2Desc' as const },
+  { icon: Shield, titleKey: 'feature3Title' as const, descKey: 'feature3Desc' as const },
+  { icon: PenLine, titleKey: 'clFeatureTitle' as const, descKey: 'clFeatureDesc' as const },
+]
+
+interface PublicStats {
+  documents: number
+  users: number
+  satisfiedUsers: number
+  avgRating: number
+}
+
+function usePublicStats() {
+  const [stats, setStats] = useState<PublicStats>({ documents: 0, users: 0, satisfiedUsers: 0, avgRating: 0 })
+  useEffect(() => {
+    fetch('/api/public-stats')
+      .then((r) => r.json())
+      .then((data) => setStats(data))
+      .catch(() => {})
+  }, [])
+  return stats
+}
+
+const staticStats = [
+  { value: '4', icon: Languages, label: { fr: 'Langues', en: 'Languages', ar: 'لغات', es: 'Idiomas' } },
+  { value: '3', icon: LayoutTemplate, label: { fr: 'Templates', en: 'Templates', ar: 'قوالب', es: 'Plantillas' } },
+  { value: '2', icon: Download, label: { fr: 'Formats (PDF, Word)', en: 'Formats (PDF, Word)', ar: 'صيغ (PDF, Word)', es: 'Formatos (PDF, Word)' } },
+]
+
+interface PricingFeature {
+  key: TranslationKey
+  pro: boolean | string
+  annual: boolean | string
+}
+
+// MAD prices for each plan (quick lookup for pricing cards)
+const MAD_PRICES: Record<string, string> = {
+  starter: '90 MAD',
+  pro: '190 MAD',
+  career_plus: '390 MAD',
+  employer: '490 MAD',
+  annual: '700 MAD',
+}
+const MAD_MONTHLY = { fr: '/mois', en: '/month', ar: '/شهر', es: '/mes' }
+
+const pricingFeatures: PricingFeature[] = [
+  { key: 'pricingCv', pro: '∞', annual: '∞' },
+  { key: 'pricingTemplates', pro: '3', annual: '3' },
+  { key: 'pricingPdf', pro: true, annual: true },
+  { key: 'pricingWord', pro: true, annual: true },
+  { key: 'pricingCoverLetter', pro: true, annual: true },
+  { key: 'pricingNoWatermark', pro: true, annual: true },
+  { key: 'pricingAtsScore', pro: true, annual: true },
+  { key: 'pricingPriority', pro: true, annual: true },
+]
+
+// FAQ Accordion Item Component
+function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-30px' }}
+      transition={{ duration: 0.3, delay: index * 0.05 }}
+    >
+      <Card className="border shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer group"
+          aria-expanded={isOpen}
+        >
+          <div className="flex items-start gap-3 min-w-0">
+            <span className="shrink-0 w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">
+              {index + 1}
+            </span>
+            <h3 className="font-semibold text-foreground text-sm sm:text-base leading-snug">{question}</h3>
+          </div>
+          <ChevronDown className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              <div className="px-5 pb-5 pt-0 ml-10">
+                <p className="text-sm text-muted-foreground leading-relaxed">{answer}</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Card>
+    </motion.div>
+  )
+}
+
+export default function Landing() {
+  const { setStep, language, setLanguage, setSelectedPersona } = useCVStore()
+  const liveStats = usePublicStats()
+  const personasRef = useRef<HTMLDivElement>(null)
+  const pricingRef = useRef<HTMLDivElement>(null)
+
+  function scrollToPersonas() {
+    personasRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+  function scrollToPricing() {
+    events.pricingViewed()
+    pricingRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+  const { data: session } = useSession()
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('register')
+  const [enterpriseFormOpen, setEnterpriseFormOpen] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
+  const [paymentSuccess, setPaymentSuccess] = useState<{
+    plan: string
+    amount: number
+    currency: string
+    invoice: { number: string; downloadUrl: string }
+    receipt: { number: string; downloadUrl: string }
+  } | null>(null)
+  const [currency, setCurrency] = useState<'eur' | 'usd' | 'gbp' | 'mad'>('eur')
+  const [pendingAction, setPendingAction] = useState<AppStep | null>(null)
+  const [adminEmail, setAdminEmail] = useState('')
+  const [isAdminOpen, setIsAdminOpen] = useState(false)
+
+  const isUsd = currency === 'usd'
+  const isGbp = currency === 'gbp'
+  const isMad = currency === 'mad'
+
+  const userPlan = (session?.user as { plan?: string } | undefined)?.plan ?? 'free'
+  const isLoggedIn = !!session?.user
+  const paidPlans = ['starter', 'pro', 'career_plus', 'employer', 'annual', 'lifetime']
+  const hasActivePlan = paidPlans.includes(userPlan)
+
+  function requireAuthAndPlan(step: AppStep) {
+    if (!isLoggedIn) {
+      setPendingAction(step)
+      setAuthMode('register')
+      setAuthModalOpen(true)
+      return
+    }
+    if (!hasActivePlan) {
+      toast.warning(t(language, 'subscriptionRequiredDesc'), { duration: 4000 })
+      scrollToPricing()
+      return
+    }
+    setStep(step)
+  }
+
+  function handleAuthSuccess() {
+    // After login/register, check plan and execute pending action
+    if (pendingAction && hasActivePlan) {
+      setStep(pendingAction)
+      setPendingAction(null)
+    } else if (pendingAction && !hasActivePlan) {
+      // User logged in but no paid plan yet
+      setTimeout(() => {
+        toast.warning(t(language, 'subscriptionRequiredDesc'), { duration: 4000 })
+        scrollToPricing()
+      }, 500)
+      setPendingAction(null)
+    }
+  }
+
+  // Listen for scroll-to-pricing custom event from profile button
+  useEffect(() => {
+    const handler = () => {
+      setStep('landing')
+      setTimeout(scrollToPricing, 100)
+    }
+    document.addEventListener('scroll-to-pricing', handler)
+    return () => document.removeEventListener('scroll-to-pricing', handler)
+  }, [setStep])
+
+  // Fetch admin email config
+  useEffect(() => {
+    fetch('/api/admin/config')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.adminEmail) setAdminEmail(data.adminEmail)
+      })
+      .catch(() => {})
+  }, [])
+
+  const isAdmin = !!adminEmail && session?.user?.email === adminEmail
+  const [paymobPolling, setPaymobPolling] = useState(false)
+
+  // Handle checkout success/cancel redirect from Stripe/LemonSqueezy/PayMob
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const checkoutStatus = params.get('checkout')
+    const provider = params.get('provider')
+
+    if (checkoutStatus === 'success') {
+      const plan = params.get('plan') || 'pro'
+      if (provider === 'paymob') {
+        // PayMob: poll status endpoint until payment is confirmed
+        setPaymobPolling(true)
+        toast.info('Vérification du paiement en cours...', { duration: 3000 })
+        let attempts = 0
+        const maxAttempts = 20
+        const interval = setInterval(async () => {
+          attempts++
+          try {
+            const res = await fetch('/api/paymob/status')
+            const data = await res.json()
+            if (data.status === 'paid') {
+              clearInterval(interval)
+              setPaymobPolling(false)
+              toast.success(`🎉 Paiement réussi ! Plan ${data.plan} activé. Bienvenue !`, { duration: 6000 })
+              if (data.invoice && data.receipt) {
+                setPaymentSuccess({
+                  plan: data.plan,
+                  amount: 0,
+                  currency: 'MAD',
+                  invoice: data.invoice,
+                  receipt: data.receipt,
+                })
+              }
+              window.history.replaceState({}, '', window.location.pathname)
+            } else if (data.status === 'expired') {
+              clearInterval(interval)
+              setPaymobPolling(false)
+              toast.error('La session de paiement a expiré. Veuillez réessayer.', { duration: 5000 })
+              window.history.replaceState({}, '', window.location.pathname)
+            } else if (attempts >= maxAttempts) {
+              clearInterval(interval)
+              setPaymobPolling(false)
+              toast.info('Le paiement est encore en cours de traitement. Actualisez la page dans quelques instants.', { duration: 6000 })
+            }
+          } catch {
+            // Silently retry
+          }
+        }, 3000) // poll every 3 seconds
+      } else {
+        toast.success(`🎉 Paiement réussi ! Plan ${plan} activé. Bienvenue !`, { duration: 5000 })
+        window.history.replaceState({}, '', window.location.pathname)
+      }
+    } else if (checkoutStatus === 'canceled') {
+      toast.info('Paiement annulé. Vous pouvez réessayer à tout moment.', { duration: 4000 })
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
+
+  async function handleCheckout(planType: 'starter' | 'pro' | 'career_plus' | 'employer' | 'annual') {
+    if (!session?.user) {
+      setAuthMode('register')
+      setAuthModalOpen(true)
+      return
+    }
+    setCheckoutLoading(planType)
+    events.checkoutStarted(planType, 0, currency)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planType, currency }),
+      })
+      const data = await res.json()
+
+      if (data.url) {
+        // Real payment provider (Stripe, LemonSqueezy, PayMob) → redirect
+        window.location.href = data.url
+      } else if (data.code === 'DEV_PAYMENT' && data.success) {
+        // Dev payment simulator — show success modal with invoice + receipt
+        setPaymentSuccess(data.data)
+        toast.success(`Paiement réussi — Plan ${planType} activé. Facture ${data.data.invoice.number} générée.`)
+      } else {
+        toast.error(data.error || 'Erreur lors du paiement')
+      }
+    } catch {
+      toast.error('Erreur de connexion au serveur de paiement')
+    } finally {
+      setCheckoutLoading(null)
+    }
+  }
+
+  // Download a document PDF (invoice/receipt) from the payment success modal
+  async function downloadDocument(downloadUrl: string, filename: string) {
+    try {
+      const res = await fetch(downloadUrl)
+      if (!res.ok) throw new Error('Download failed')
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch {
+      toast.error('Erreur lors du téléchargement')
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      <header className="w-full px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center">
+              <Image src="/hirenova-logo.png" alt="HireNova" width={36} height={36} className="rounded-lg" />
+              <span className="text-[9px] font-semibold text-emerald-600 tracking-wide">POWERED BY IA</span>
+            </div>
+            <span className="text-lg font-bold text-foreground">{t(language, 'siteTitle')}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+              {(Object.keys(flagEmoji) as CVLanguage[]).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => { events.languageChanged(language, lang); setLanguage(lang) }}
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                    language === lang
+                      ? 'bg-white shadow-sm text-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <span className="mr-1">{flagEmoji[lang]}</span>
+                  <span className="hidden sm:inline">{lang.toUpperCase()}</span>
+                </button>
+              ))}
+            </div>
+            {isAdmin && (
+              <Button
+                variant="outline"
+                size="icon"
+                className="border-emerald-600 text-emerald-700 hover:bg-emerald-50 rounded-lg cursor-pointer transition-all"
+                onClick={() => setIsAdminOpen(true)}
+                aria-label="Admin Dashboard"
+              >
+                <Shield className="w-4 h-4" />
+              </Button>
+            )}
+            <ProfileButton />
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <main className="flex-1">
+        <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-teal-50/30 to-amber-50/20">
+          {/* Background image + overlay */}
+          <div className="absolute inset-0 -z-10">
+            <Image src="/images/hero-career.jpg" alt="" fill className="object-cover opacity-[0.38]" priority />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-white/50" />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/15 to-white/45" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-to-br from-emerald-200/20 via-teal-100/15 to-transparent rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gradient-to-tl from-amber-200/15 to-transparent rounded-full blur-3xl" />
+          </div>
+
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-16">
+            <div className="text-center max-w-3xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4 border border-emerald-200">
+                  <Star className="w-4 h-4 fill-emerald-500 text-emerald-500" />
+                  <span>{t(language, 'freeNoSignup')}</span>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.05 }}
+                className="mb-6"
+              >
+                <div className="inline-flex items-center gap-2 bg-white text-muted-foreground px-4 py-1.5 rounded-full text-xs font-medium border border-emerald-200 shadow-sm">
+                  <Languages className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>🇫🇷 🇬🇧 🇪🇸 🇸🇦</span>
+                  <span className="text-emerald-700">{t(language, 'availableLangs')}</span>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+                className="mb-6"
+              >
+                <div className="flex flex-col items-center">
+                  <Image src="/hirenova-logo.png" alt="HireNova" width={80} height={80} className="rounded-2xl shadow-lg shadow-emerald-600/20 mx-auto" />
+                  <span className="text-[10px] font-semibold text-emerald-600 tracking-widest mt-1">POWERED BY IA</span>
+                </div>
+              </motion.div>
+
+              <motion.h1
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                {t(language, 'siteTitle')}
+                <span className="block text-emerald-600 mt-2">{t(language, 'siteSubtitle')}</span>
+              </motion.h1>
+
+              <motion.p
+                className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {t(language, 'siteDescription')}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              >
+                <Button
+                  size="lg"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/40 transition-all cursor-pointer"
+                  onClick={() => requireAuthAndPlan('form')}
+                >
+                  <FileText className="mr-2 w-5 h-5" />
+                  {t(language, 'ctaChooseProfile')}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-emerald-600 text-emerald-700 hover:bg-emerald-50 px-8 py-6 text-lg rounded-xl transition-all cursor-pointer"
+                  onClick={() => requireAuthAndPlan('clForm')}
+                >
+                  <PenLine className="mr-2 w-5 h-5" />
+                  {t(language, 'clCta')}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Stats */}
+            <motion.div
+              className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-emerald-600">{liveStats.documents}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{{ fr: 'Documents générés', en: 'Documents generated', ar: 'مستندات تم إنشاؤها', es: 'Documentos generados' }[language]}</div>
+              </div>
+              {staticStats.map((stat) => (
+                <div key={stat.value} className="text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-emerald-600">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground mt-1">{stat.label[language]}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Persona Selection Section */}
+        <section ref={personasRef} className="relative py-16 sm:py-20 bg-gradient-to-b from-white to-emerald-50/50">
+          <div className="absolute inset-0 -z-10">
+            <Image src="/images/hero-coaching.jpg" alt="" fill className="object-cover opacity-[0.22]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/75 to-emerald-50/50" />
+          </div>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="text-center mb-10"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Qui êtes-vous ?</h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">Sélectionnez votre profil pour un CV personnalisé</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {([{
+                type: 'student' as PersonaType,
+                emoji: '\uD83C\uDF93',
+                icon: GraduationCap,
+                nameKey: 'personaStudent' as TranslationKey,
+                descKey: 'personaStudentDesc' as TranslationKey,
+                color: 'emerald',
+              }, {
+                type: 'graduate' as PersonaType,
+                emoji: '\uD83C\uDF1F',
+                icon: Award,
+                nameKey: 'personaGraduate' as TranslationKey,
+                descKey: 'personaGraduateDesc' as TranslationKey,
+                color: 'blue',
+              }, {
+                type: 'professional' as PersonaType,
+                emoji: '\uD83D\uDCBC',
+                icon: Briefcase,
+                nameKey: 'personaProfessional' as TranslationKey,
+                descKey: 'personaProfessionalDesc' as TranslationKey,
+                color: 'violet',
+              }, {
+                type: 'executive' as PersonaType,
+                emoji: '\uD83D\uDC54',
+                icon: UserCheck,
+                nameKey: 'personaExecutive' as TranslationKey,
+                descKey: 'personaExecutiveDesc' as TranslationKey,
+                color: 'amber',
+              }, {
+                type: 'freelance' as PersonaType,
+                emoji: '\uD83D\uDE80',
+                icon: Rocket,
+                nameKey: 'personaFreelance' as TranslationKey,
+                descKey: 'personaFreelanceDesc' as TranslationKey,
+                color: 'rose',
+              }, {
+                type: 'expat' as PersonaType,
+                emoji: '\u2708\uFE0F',
+                icon: Plane,
+                nameKey: 'personaExpat' as TranslationKey,
+                descKey: 'personaExpatDesc' as TranslationKey,
+                color: 'sky',
+              }]).map((persona, index) => (
+                <motion.div
+                  key={persona.type}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                >
+                  <Card
+                    className="h-full cursor-pointer hover:shadow-lg transition-all border-2 hover:border-emerald-400 group min-w-0 overflow-hidden"
+                    onClick={() => {
+                      if (!isLoggedIn) {
+                        setPendingAction('form')
+                        setAuthMode('register')
+                        setAuthModalOpen(true)
+                        return
+                      }
+                      if (!hasActivePlan) {
+                        toast.warning(t(language, 'subscriptionRequiredDesc'), { duration: 4000 })
+                        scrollToPricing()
+                        return
+                      }
+                      setSelectedPersona(persona.type)
+                      events.personaSelected(persona.type)
+                      events.cvFormStarted(persona.type)
+                      setStep('form')
+                    }}
+                  >
+                    <CardContent className="p-4 sm:p-5">
+                      <div className="flex items-start gap-3">
+                        <div className={`w-10 h-10 rounded-xl bg-${persona.color}-100 flex items-center justify-center shrink-0`}
+                        >
+                          <span className="text-xl">{persona.emoji}</span>
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-foreground text-sm">{t(language, persona.nameKey)}</h3>
+                          <p className="text-xs text-muted-foreground mt-1 line-clamp-2"><span className="truncate block max-w-full">{t(language, persona.descKey)}</span></p>
+                        </div>
+                      </div>
+                      <div className="mt-3 flex items-center justify-end gap-1 text-xs text-emerald-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span>{t(language, 'personaChoose')}</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-16 sm:py-24 bg-muted/30">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={feature.titleKey}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                >
+                  <Card className="h-full border-0 shadow-sm hover:shadow-md transition-shadow bg-white">
+                    <CardContent className="p-6">
+                      <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
+                        <feature.icon className="w-6 h-6 text-emerald-600" />
+                      </div>
+                      <h3 className="font-semibold text-foreground mb-2">
+                        {t(language, feature.titleKey)}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {t(language, feature.descKey)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing Section */}
+        <section ref={pricingRef} className="relative py-16 sm:py-24 bg-gradient-to-br from-amber-50/50 via-white to-emerald-50/30">
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-tl from-emerald-200/20 to-transparent rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-amber-200/20 to-transparent rounded-full blur-3xl" />
+          </div>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+                {t(language, 'pricingTitle')}
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+                {t(language, 'pricingSubtitle')}
+              </p>
+              {/* Currency Toggle */}
+              <div className="flex items-center justify-center gap-2">
+                <button
+                  onClick={() => setCurrency('eur')}
+                  className={["px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer", currency === 'eur' ? "bg-emerald-600 text-white shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"].join(" ")}
+                >
+                  EUR €
+                </button>
+                <button
+                  onClick={() => setCurrency('usd')}
+                  className={["px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer", currency === 'usd' ? "bg-emerald-600 text-white shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"].join(" ")}
+                >
+                  USD $
+                </button>
+                <button
+                  onClick={() => setCurrency('gbp')}
+                  className={["px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer", currency === 'gbp' ? "bg-emerald-600 text-white shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"].join(" ")}
+                >
+                  GBP £
+                </button>
+                <button
+                  onClick={() => setCurrency('mad')}
+                  className={["px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer", currency === 'mad' ? "bg-emerald-600 text-white shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"].join(" ")}
+                >
+                  MAD 🇲🇦
+                </button>
+              </div>
+            </motion.div>
+
+            {/* 5-Tier Pricing Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 items-stretch max-w-6xl mx-auto mb-8">
+              {/* Free Plan */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4 }}
+              >
+                <Card className="relative h-full border border-muted bg-white">
+                  <CardContent className="p-5 sm:p-6 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <Gift className="w-4 h-4 text-slate-600" />
+                      </div>
+                      <h3 className="text-base font-bold text-foreground">{t(language, 'planFree')}</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-3xl font-extrabold text-foreground">{t(language, 'planFreePrice')}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-4">{t(language, 'planFreeDesc')}</p>
+                    <div className="space-y-2 mb-6 flex-grow">
+                      {['pricingCvLimit2', 'pricingClLimit1', 'pricingTemplate1', 'pricingWatermark', 'pricingAtsBasic'].map((k) => (
+                        <div key={k} className="flex items-start gap-2 text-xs">
+                          <Check className="w-3.5 h-3.5 text-slate-400 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      variant="outline"
+                      className="w-full rounded-xl py-3 text-sm font-semibold cursor-pointer border-slate-300 text-slate-700 hover:bg-slate-50"
+                      onClick={() => {
+                        if (!session?.user) { setAuthMode('register'); setAuthModalOpen(true) }
+                        else { setStep('form') }
+                      }}
+                    >
+                      {t(language, 'pricingStartFree')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Starter Plan */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+              >
+                <Card className="relative h-full border-2 border-emerald-300 bg-white">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-emerald-500 text-white px-2.5 py-0.5 text-[10px] font-semibold rounded-full shadow-sm">
+                      {t(language, 'planStarterBadge')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-5 sm:p-6 pt-7 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center">
+                        <Rocket className="w-4 h-4 text-emerald-600" />
+                      </div>
+                      <h3 className="text-base font-bold text-foreground">{t(language, 'planStarter')}</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-3xl font-extrabold text-foreground">{isMad ? MAD_PRICES.starter : isUsd ? t(language, 'pricingStarterPriceUsd') : isGbp ? t(language, 'pricingStarterPriceGbp') : t(language, 'planStarterPrice')}</span>
+                      <span className="text-muted-foreground text-xs">{isMad ? (MAD_MONTHLY[language] || '/mois') : isUsd ? t(language, 'pricingMonthlyUsd') : isGbp ? t(language, 'pricingMonthlyGbp') : t(language, 'pricingMonthly')}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-4">{t(language, 'planStarterDesc')}</p>
+                    <div className="space-y-2 mb-6 flex-grow">
+                      {['pricingCvLimit10', 'pricingClLimit5', 'pricingTemplate3', 'pricingPdf', 'pricingNoWatermark', 'pricingAtsDetailed'].map((k) => (
+                        <div key={k} className="flex items-start gap-2 text-xs">
+                          <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl py-3 text-sm font-semibold cursor-pointer transition-all"
+                      onClick={() => handleCheckout('starter')}
+                      disabled={checkoutLoading === 'starter'}
+                    >
+                      {checkoutLoading === 'starter' ? <Loader2 className="mr-2 w-4 h-4 animate-spin" /> : <Rocket className="mr-1.5 w-3.5 h-3.5" />}
+                      {t(language, 'planStarter')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Pro Plan — Popular */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="lg:-mt-2"
+              >
+                <Card className="relative h-full border-2 border-emerald-600 bg-white shadow-lg shadow-emerald-600/20">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-emerald-600 text-white px-3 py-0.5 text-[10px] font-semibold rounded-full shadow-sm">
+                      <Sparkles className="w-2.5 h-2.5 mr-1 inline" />
+                      {t(language, 'planProPopular')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-5 sm:p-6 pt-7 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center">
+                        <Crown className="w-4 h-4 text-white" />
+                      </div>
+                      <h3 className="text-base font-bold text-foreground">{t(language, 'planPro')}</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-3xl font-extrabold text-foreground">{isMad ? MAD_PRICES.pro : isUsd ? t(language, 'pricingProPriceUsd') : isGbp ? t(language, 'pricingProPriceGbp') : t(language, 'planProPrice')}</span>
+                      <span className="text-muted-foreground text-xs">{isMad ? (MAD_MONTHLY[language] || '/mois') : isUsd ? t(language, 'pricingMonthlyUsd') : isGbp ? t(language, 'pricingMonthlyGbp') : t(language, 'pricingMonthly')}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-4">{t(language, 'planProDesc')}</p>
+                    <div className="space-y-2 mb-6 flex-grow">
+                      {['pricingCvUnlimited', 'pricingClUnlimited', 'pricingTemplate3', 'pricingPdf', 'pricingWord', 'pricingAtsDetailed', 'pricingPriority', 'pricingNoWatermark'].map((k) => (
+                        <div key={k} className="flex items-start gap-2 text-xs">
+                          <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-3 text-sm font-semibold cursor-pointer transition-all shadow-md shadow-emerald-600/30"
+                      onClick={() => handleCheckout('pro')}
+                      disabled={checkoutLoading === 'pro'}
+                    >
+                      {checkoutLoading === 'pro' ? <Loader2 className="mr-2 w-4 h-4 animate-spin" /> : <Crown className="mr-1.5 w-3.5 h-3.5" />}
+                      {t(language, 'planPro')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Career+ Plan */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+              >
+                <Card className="relative h-full border-2 border-purple-500 bg-white shadow-md shadow-purple-500/15">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-purple-600 text-white px-2.5 py-0.5 text-[10px] font-semibold rounded-full shadow-sm">
+                      {t(language, 'planCareerBadge')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-5 sm:p-6 pt-7 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-purple-600" />
+                      </div>
+                      <h3 className="text-base font-bold text-foreground">{t(language, 'planCareer')}</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-3xl font-extrabold text-foreground">{isMad ? MAD_PRICES.career_plus : isUsd ? t(language, 'pricingCareerPriceUsd') : isGbp ? t(language, 'pricingCareerPriceGbp') : t(language, 'planCareerPrice')}</span>
+                      <span className="text-muted-foreground text-xs">{isMad ? (MAD_MONTHLY[language] || '/mois') : isUsd ? t(language, 'pricingMonthlyUsd') : isGbp ? t(language, 'pricingMonthlyGbp') : t(language, 'pricingMonthly')}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-4">{t(language, 'planCareerDesc')}</p>
+                    <div className="space-y-2 mb-6 flex-grow">
+                      {['pricingCvUnlimited', 'pricingTemplate5', 'pricingMobility', 'pricingGlobalJobs', 'pricingCoach', 'pricingPrioritySupport', 'pricingAtsDetailed'].map((k) => (
+                        <div key={k} className="flex items-start gap-2 text-xs">
+                          <Check className="w-3.5 h-3.5 text-purple-600 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-xl py-3 text-sm font-semibold cursor-pointer transition-all shadow-md shadow-purple-500/25"
+                      onClick={() => handleCheckout('career_plus')}
+                      disabled={checkoutLoading === 'career_plus'}
+                    >
+                      {checkoutLoading === 'career_plus' ? <Loader2 className="mr-2 w-4 h-4 animate-spin" /> : <Sparkles className="mr-1.5 w-3.5 h-3.5" />}
+                      {t(language, 'planCareer')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Employeur Plan */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <Card className="relative h-full border-2 border-amber-500 bg-white shadow-md shadow-amber-500/15">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-amber-500 text-white px-2.5 py-0.5 text-[10px] font-semibold rounded-full shadow-sm">
+                      {t(language, 'planEmployerBadge')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-5 sm:p-6 pt-7 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center">
+                        <Briefcase className="w-4 h-4 text-amber-600" />
+                      </div>
+                      <h3 className="text-base font-bold text-foreground">{t(language, 'planEmployer')}</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-3xl font-extrabold text-foreground">{isMad ? MAD_PRICES.employer : isUsd ? t(language, 'pricingEmployerPriceUsd') : isGbp ? t(language, 'pricingEmployerPriceGbp') : t(language, 'planEmployerPrice')}</span>
+                      <span className="text-muted-foreground text-xs">{isMad ? (MAD_MONTHLY[language] || '/mois') : isUsd ? t(language, 'pricingMonthlyUsd') : isGbp ? t(language, 'pricingMonthlyGbp') : t(language, 'pricingMonthly')}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-4">{t(language, 'planEmployerDesc')}</p>
+                    <div className="space-y-2 mb-6 flex-grow">
+                      {['pricingJobPostings', 'pricingRecruiterDashboard', 'pricingCandidateSearch', 'pricingMultiSeats', 'pricingCsvExport', 'pricingApiAccess'].map((k) => (
+                        <div key={k} className="flex items-start gap-2 text-xs">
+                          <Check className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full bg-amber-500 hover:bg-amber-600 text-white rounded-xl py-3 text-sm font-semibold cursor-pointer transition-all shadow-md shadow-amber-500/25"
+                      onClick={() => handleCheckout('employer')}
+                      disabled={checkoutLoading === 'employer'}
+                    >
+                      {checkoutLoading === 'employer' ? <Loader2 className="mr-2 w-4 h-4 animate-spin" /> : <Briefcase className="mr-1.5 w-3.5 h-3.5" />}
+                      {t(language, 'planEmployer')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Enterprise + API Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {/* Enterprise Plan */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: 0.25 }}
+              >
+                <Card className="relative h-full border-2 border-slate-400 bg-gradient-to-br from-slate-50 to-white shadow-md">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-slate-700 text-white px-3 py-0.5 text-[10px] font-semibold rounded-full shadow-sm">
+                      <Building2 className="w-2.5 h-2.5 mr-1 inline" />
+                      {t(language, 'planEnterpriseBadge')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-6 pt-7 flex flex-col sm:flex-row items-start gap-4">
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center">
+                          <Building2 className="w-5 h-5 text-white" />
+                        </div>
+                        <h3 className="text-lg font-bold text-foreground">{t(language, 'planEnterprise')}</h3>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-3">{t(language, 'planEnterpriseDesc')}</p>
+                      <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-4">
+                        {['pricingApiAccess', 'pricingSso', 'pricingDedicatedSupport', 'pricingSla', 'pricingTeamTraining', 'pricingCustomBilling'].map((k) => (
+                          <div key={k} className="flex items-start gap-1.5 text-xs">
+                            <Check className="w-3 h-3 text-slate-600 mt-0.5 shrink-0" />
+                            <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-start sm:items-end gap-2 sm:w-40 shrink-0">
+                      <span className="text-sm font-semibold text-slate-700">{t(language, 'planEnterpriseCta')}</span>
+                      <Button
+                        variant="outline"
+                        className="rounded-xl py-2.5 text-sm font-semibold cursor-pointer border-slate-400 text-slate-700 hover:bg-slate-100 w-full sm:w-auto"
+                        onClick={() => setEnterpriseFormOpen(true)}
+                      >
+                        <Mail className="mr-1.5 w-3.5 h-3.5" />
+                        {t(language, 'planEnterpriseCta')}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* API Plan */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <Card className="relative h-full border-2 border-sky-500 bg-gradient-to-br from-sky-50 to-white shadow-md">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-sky-600 text-white px-3 py-0.5 text-[10px] font-semibold rounded-full shadow-sm">
+                      <Code2 className="w-2.5 h-2.5 mr-1 inline" />
+                      {t(language, 'planApiBadge')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-6 pt-7 flex flex-col sm:flex-row items-start gap-4">
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-10 h-10 rounded-lg bg-sky-600 flex items-center justify-center">
+                          <Code2 className="w-5 h-5 text-white" />
+                        </div>
+                        <h3 className="text-lg font-bold text-foreground">{t(language, 'planApi')}</h3>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-3">{t(language, 'planApiDesc')}</p>
+                      <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-4">
+                        {['pricingApiRest', 'pricingApiEndpoints', 'pricingApiUsage', 'pricingApiDocs', 'pricingApiSecure'].map((k) => (
+                          <div key={k} className="flex items-start gap-1.5 text-xs">
+                            <Check className="w-3 h-3 text-sky-600 mt-0.5 shrink-0" />
+                            <span className="text-muted-foreground">{t(language, k as TranslationKey)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-start sm:items-end gap-2 sm:w-40 shrink-0">
+                      <span className="text-sm font-semibold text-sky-700">{t(language, 'planApiCta')}</span>
+                      <Button
+                        variant="outline"
+                        className="rounded-xl py-2.5 text-sm font-semibold cursor-pointer border-sky-500 text-sky-700 hover:bg-sky-100 w-full sm:w-auto"
+                        onClick={() => setStep('apiDocs')}
+                      >
+                        <Code2 className="mr-1.5 w-3.5 h-3.5" />
+                        {t(language, 'planApiCta')}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* HireNova Ecosystem — Future Products Roadmap */}
+        <section className="relative py-16 sm:py-24 bg-gradient-to-b from-teal-50/40 via-white to-emerald-50/30">
+          <div className="absolute inset-0 -z-10">
+            <Image src="/images/bg-pattern.jpg" alt="" fill className="object-cover opacity-8" />
+            <div className="absolute inset-0 bg-white/85" />
+          </div>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4 border border-emerald-200">
+                <Rocket className="w-4 h-4" />
+                <span>{t(language, 'roadmapTitle')}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t(language, 'ecosystemTitle')}</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t(language, 'ecosystemDesc')}</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              {[
+                { icon: FileText, name: 'HireNova CV', desc: t(language, 'ecosystemCv'), active: true, accent: 'emerald', step: 'form' as AppStep | null },
+                { icon: Search, name: 'HireNova ATS', desc: t(language, 'ecosystemAts'), active: true, accent: 'emerald', step: 'form' as AppStep | null },
+                { icon: Briefcase, name: 'HireNova Jobs', desc: 'Marketplace d\'emplois — publiez et postulez à des offres locales', active: true, accent: 'emerald', step: 'jobMarket' as AppStep | null },
+                { icon: Globe, name: 'HireNova Global', desc: 'Recrutement international — 40+ pays, visa & relocation', active: true, accent: 'teal', step: 'globalMarket' as AppStep | null },
+                { icon: Plane, name: 'HireNova Mobilité', desc: 'OCR + IA — adaptez votre CV aux standards de chaque pays', active: true, accent: 'purple', step: 'mobilityHome' as AppStep | null },
+                { icon: Code2, name: 'HireNova API', desc: 'API REST — intégrez CV, lettre & ATS dans vos apps', active: true, accent: 'sky', step: 'apiDocs' as AppStep | null },
+                { icon: Brain, name: 'HireNova Intelligence', desc: t(language, 'ecosystemIntelligence'), active: true, accent: 'emerald', step: 'careerIntel' as AppStep | null },
+                { icon: MessageCircle, name: 'HireNova Interview', desc: t(language, 'ecosystemInterview'), active: false, accent: 'violet', step: null },
+                { icon: Linkedin, name: 'HireNova LinkedIn', desc: t(language, 'ecosystemLinkedin'), active: false, accent: 'sky', step: null },
+                { icon: UserCheck, name: 'HireNova Recruiter', desc: t(language, 'ecosystemRecruiter'), active: false, accent: 'amber', step: null },
+                { icon: Compass, name: 'HireNova Career', desc: t(language, 'ecosystemCareer'), active: false, accent: 'rose', step: null },
+                { icon: Bot, name: 'HireNova Coach', desc: t(language, 'ecosystemCoach'), active: false, accent: 'indigo', step: null },
+                { icon: BookOpen, name: 'HireNova Formation', desc: t(language, 'ecosystemFormation'), active: false, accent: 'teal', step: null },
+                { icon: Laptop, name: 'HireNova Freelance', desc: t(language, 'ecosystemFreelance'), active: false, accent: 'orange', step: null },
+              ].map((product, index) => {
+                const isClickable = Boolean(product.active)
+                const handleNav = () => {
+                  if (!product.step) return
+                  // Track ecosystem card click
+                  events.ecosystemCardClicked(product.name)
+                  // CV, ATS and Career Intelligence require auth + active plan (premium features)
+                  if (product.step === 'form' || product.step === 'careerIntel') {
+                    requireAuthAndPlan(product.step)
+                  } else {
+                    setStep(product.step as AppStep)
+                  }
+                }
+                return (
+                <motion.div
+                  key={product.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.4, delay: index * 0.06 }}
+                >
+                  <Card
+                    onClick={isClickable ? handleNav : undefined}
+                    onKeyDown={isClickable ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleNav() } } : undefined}
+                    role={isClickable ? 'button' : undefined}
+                    tabIndex={isClickable ? 0 : undefined}
+                    className={`h-full relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${isClickable ? 'cursor-pointer' : ''} ${
+                      product.active
+                        ? product.accent === 'teal'
+                          ? 'border-teal-500 shadow-md bg-gradient-to-br from-teal-50/50 to-white'
+                          : product.accent === 'purple'
+                            ? 'border-purple-500 shadow-md bg-gradient-to-br from-purple-50/50 to-white'
+                            : product.accent === 'sky'
+                              ? 'border-sky-500 shadow-md bg-gradient-to-br from-sky-50/50 to-white'
+                              : 'border-emerald-500 shadow-md bg-gradient-to-br from-emerald-50/50 to-white'
+                        : 'border-muted/50 bg-white'
+                    }`}
+                  >
+                    {product.active && (
+                      <div className="absolute top-3 right-3">
+                        <Badge className={`px-2 py-0.5 text-[10px] font-semibold rounded-full text-white ${
+                          product.accent === 'teal' ? 'bg-teal-600'
+                            : product.accent === 'purple' ? 'bg-purple-600'
+                            : product.accent === 'sky' ? 'bg-sky-600'
+                            : 'bg-emerald-600'
+                        }`}>ACTIF</Badge>
+                      </div>
+                    )}
+                    {!product.active && (
+                      <div className="absolute top-3 right-3">
+                        <Badge className="bg-muted text-muted-foreground px-2 py-0.5 text-[10px] font-semibold rounded-full">BIENTÔT</Badge>
+                      </div>
+                    )}
+                    <CardContent className="p-5">
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-3 ${
+                        product.active
+                          ? product.accent === 'teal' ? 'bg-teal-100'
+                            : product.accent === 'purple' ? 'bg-purple-100'
+                            : product.accent === 'sky' ? 'bg-sky-100'
+                            : 'bg-emerald-100'
+                          : 'bg-muted'
+                      }`}>
+                        <product.icon className={`w-5 h-5 ${
+                          product.active
+                            ? product.accent === 'teal' ? 'text-teal-600'
+                              : product.accent === 'purple' ? 'text-purple-600'
+                              : product.accent === 'sky' ? 'text-sky-600'
+                              : 'text-emerald-600'
+                            : 'text-muted-foreground'
+                        }`} />
+                      </div>
+                      <h3 className={`font-semibold text-sm mb-1.5 ${product.active ? 'text-foreground' : 'text-foreground'}`}>{product.name}</h3>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{product.desc}</p>
+                      {isClickable && (
+                        <div className="mt-3 flex items-center gap-1 text-xs font-medium text-emerald-600">
+                          <span>{product.step ? 'Ouvrir' : 'Bientôt disponible'}</span>
+                          {product.step && <ArrowRight className="w-3 h-3" />}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section — SEO Rich Content */}
+        <section className="relative py-16 sm:py-24 bg-white" id="faq">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4 border border-emerald-200">
+                <HelpCircle className="w-4 h-4" />
+                <span>FAQ</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t(language, 'faqTitle')}</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t(language, 'faqSubtitle')}</p>
+            </motion.div>
+
+            <div className="space-y-4">
+              {([
+                { q: 'faqQ1' as const, a: 'faqA1' as const },
+                { q: 'faqQ2' as const, a: 'faqA2' as const },
+                { q: 'faqQ3' as const, a: 'faqA3' as const },
+                { q: 'faqQ4' as const, a: 'faqA4' as const },
+                { q: 'faqQ5' as const, a: 'faqA5' as const },
+                { q: 'faqQ6' as const, a: 'faqA6' as const },
+                { q: 'faqQ7' as const, a: 'faqA7' as const },
+                { q: 'faqQ8' as const, a: 'faqA8' as const },
+              ]).map((item, index) => (
+                <FAQItem key={item.q} question={t(language, item.q)} answer={t(language, item.a)} index={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Trust / Social Proof Section — SEO */}
+        <section className="relative py-16 sm:py-20 bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">{t(language, 'trustTitle')}</h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">{t(language, 'trustSubtitle')}</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+              {([
+                { icon: Users, value: liveStats.satisfiedUsers > 0 ? String(liveStats.satisfiedUsers) : '—', label: t(language, 'trustStats'), color: 'emerald' },
+                { icon: ThumbsUp, value: liveStats.avgRating > 0 ? `${liveStats.avgRating}/5` : '—', label: { fr: 'Note moyenne', en: 'Average rating', ar: 'متوسط التقييم', es: 'Puntuación media' }[language], color: 'amber' },
+                { icon: Lock, value: '100%', label: { fr: 'Données sécurisées', en: 'Data secured', ar: 'بيانات آمنة', es: 'Datos seguros' }[language], color: 'teal' },
+              ]).map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                >
+                  <Card className="border-0 shadow-sm bg-white text-center">
+                    <CardContent className="p-6">
+                      <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center mx-auto mb-3`}>
+                        <item.icon className={`w-6 h-6 text-${item.color}-600`} />
+                      </div>
+                      <div className="text-2xl font-extrabold text-foreground mb-1">{item.value}</div>
+                      <div className="text-sm text-muted-foreground">{item.label}</div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+            <motion.div
+              className="mt-8 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">{t(language, 'trustGuarantee')}</p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* HireNova Jobs Section */}
+        <section className="py-16 sm:py-20 bg-gradient-to-b from-emerald-50/50 to-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
+              <Badge className="mb-3 bg-emerald-100 text-emerald-700 hover:bg-emerald-100"><Briefcase className="w-3 h-3 mr-1" /> Marketplace</Badge>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">HireNova Jobs</h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">Connectez vos talents avec les meilleures opportunités</p>
+            </motion.div>
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+              <div className="text-center"><p className="text-2xl font-bold text-emerald-600">0</p><p className="text-xs text-muted-foreground">Offres actives</p></div>
+              <div className="w-px h-8 bg-border" />
+              <div className="text-center"><p className="text-2xl font-bold text-teal-600">0</p><p className="text-xs text-muted-foreground">Entreprises</p></div>
+              <div className="w-px h-8 bg-border" />
+              <div className="text-center"><p className="text-2xl font-bold text-amber-600">0</p><p className="text-xs text-muted-foreground">Candidatures</p></div>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-4">Bientôt des offres d&apos;emploi... Revenez vérifier !</p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Button onClick={() => setStep('jobMarket')} className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"><Briefcase className="w-4 h-4 mr-2" /> Voir toutes les offres</Button>
+                <Button variant="outline" onClick={() => setStep('employerPostJob')} className="cursor-pointer"><PlusCircle className="w-4 h-4 mr-2" /> Publier une offre</Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* HireNova API Section */}
+        <section className="py-16 sm:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
+              <Badge className="mb-3 bg-amber-100 text-amber-700 hover:bg-amber-100"><Code2 className="w-3 h-3 mr-1" /> API B2B</Badge>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">HireNova API</h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">Intégrez la génération de CV, lettres et analyse ATS dans votre plateforme</p>
+            </motion.div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+              {[
+                { icon: FileText, title: 'Génération CV', desc: 'CV professionnels' },
+                { icon: PenLine, title: 'Lettre', desc: 'Lettres personnalisées' },
+                { icon: Shield, title: 'Analyse ATS', desc: 'Score compatibilité' },
+                { icon: BarChart3, title: 'Suivi', desc: 'Dashboard temps réel' }
+              ].map((f, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                  <Card className="text-center p-4 hover:shadow-md transition-shadow"><f.icon className="w-8 h-8 mx-auto text-emerald-600 mb-2" /><h3 className="text-sm font-semibold">{f.title}</h3><p className="text-xs text-muted-foreground mt-1">{f.desc}</p></Card>
+                </motion.div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              {[
+                { name: 'Starter', price: '49€', credits: '100' },
+                { name: 'Business', price: '149€', credits: '500' },
+                { name: 'Enterprise', price: '399€', credits: '∞' }
+              ].map((p, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                  <Card className={`text-center p-6 ${i === 1 ? 'border-emerald-500 ring-2 ring-emerald-500/20' : ''}`}>
+                    <h3 className="font-bold text-lg">{p.name}</h3>
+                    <div className="text-3xl font-bold text-emerald-600 my-2">{p.price}<span className="text-sm font-normal text-muted-foreground">/mois</span></div>
+                    <p className="text-sm text-muted-foreground">{p.credits === '∞' ? 'Illimité' : `${p.credits} crédits`}/mois</p>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-center text-xs text-muted-foreground mb-6">🎓 Écoles &bull; 🏛️ Universités &bull; 📚 Formations &bull; 🏢 Entreprises &bull; 🏦 Banques &bull; 🌍 Organisations</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button onClick={() => setStep('apiDocs')} className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"><Code2 className="w-4 h-4 mr-2" /> Documentation API</Button>
+              <Button variant="outline" onClick={() => setStep('apiRegister')} className="cursor-pointer"><Rocket className="w-4 h-4 mr-2" /> Obtenir une clé API</Button>
+            </div>
+          </div>
+        </section>
+
+        {/* HireNova Global Section */}
+        <section className="py-16 sm:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
+              <Badge className="mb-3 bg-teal-100 text-teal-700 hover:bg-teal-100"><Globe className="w-3 h-3 mr-1" /> International</Badge>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">HireNova Global</h2>
+              <p className="text-muted-foreground mb-6 max-w-2xl">Recrutement international pour les entreprises qui recrutent à travers le monde. Visa sponsorship, relocation, multi-régions.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              {[
+                { icon: Globe, title: '40+ Pays', desc: 'Offres dans le monde entier' },
+                { icon: Shield, title: 'Visa Sponsorship', desc: 'Accompagnement pour les candidats internationaux' },
+                { icon: Plane, title: 'Relocation', desc: 'Packages de relocation intégrés' },
+              ].map((f, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                  <Card className="border-teal-100 hover:border-teal-200 transition-colors">
+                    <CardContent className="p-5 text-center">
+                      <f.icon className="w-8 h-8 mx-auto text-teal-600 mb-3" />
+                      <h3 className="font-semibold">{f.title}</h3>
+                      <p className="text-xs text-muted-foreground mt-1">{f.desc}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <Button onClick={() => setStep('globalMarket')} className="bg-teal-600 hover:bg-teal-700 cursor-pointer"><Globe className="w-4 h-4 mr-2" /> Explorer les offres internationales</Button>
+              <Button variant="outline" onClick={() => setStep('globalEmployerDashboard')} className="cursor-pointer"><PlusCircle className="w-4 h-4 mr-2" /> Dashboard Employeur</Button>
+            </div>
+          </div>
+        </section>
+
+        {/* HireNova Mobilité Section */}
+        <section className="py-16 sm:py-20 bg-gradient-to-b from-teal-50/30 to-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }}>
+              <Badge className="mb-3 bg-purple-100 text-purple-700 hover:bg-purple-100"><Plane className="w-3 h-3 mr-1" /> Mobilité</Badge>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">HireNova Mobilité</h2>
+              <p className="text-muted-foreground mb-6 max-w-2xl">OCR + IA : extrayez votre CV, analysez vos compétences, et reformatez vos documents selon les standards de chaque pays cible.</p>
+            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <Card className="h-full border-purple-100">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center"><Search className="w-5 h-5 text-purple-600" /></div>
+                      <h3 className="font-semibold">Étape 1 — OCR & Extraction</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Upload votre CV (PDF ou image). Notre OCR extrait automatiquement le texte brut, les informations personnelles, et les données structurées.</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <Card className="h-full border-purple-100">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center"><Bot className="w-5 h-5 text-purple-600" /></div>
+                      <h3 className="font-semibold">Étape 2 — IA & Reformulation</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Notre LLM analyse le contenu, normalise les compétences, détecte les lacunes, et reformate votre CV et lettre de motivation selon les standards du pays cible.</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              {['🇫🇷 France', '🇬🇧 UK', '🇺🇸 USA', '🇨🇦 Canada', '🇩🇪 Allemagne', '🇦🇪 UAE', '🇨🇭 Suisse', '🇧🇪 Belgique', '🇪🇸 Espagne', '🇮🇹 Italie', '🇯🇵 Japon', '🇦🇺 Australie'].map(c => (
+                <Badge key={c} variant="outline" className="text-xs px-3 py-1.5">{c}</Badge>
+              ))}
+            </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button onClick={() => setStep('mobilityHome')} className="bg-purple-600 hover:bg-purple-700 cursor-pointer"><Plane className="w-4 h-4 mr-2" /> Adapter mon CV pour l&apos;international</Button>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="relative py-16 sm:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="relative text-center bg-gradient-to-br from-emerald-600 via-teal-600 to-emerald-700 rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="absolute inset-0">
+                <Image src="/images/gradient-emerald.jpg" alt="" fill className="object-cover opacity-20" />
+              </div>
+              <div className="relative z-10">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
+                {t(language, 'ctaReadyTitle')}
+              </h2>
+              <p className="text-emerald-100 text-lg mb-8 max-w-xl mx-auto">
+                {t(language, 'ctaReadyDesc')}
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button
+                  size="lg"
+                  className="bg-white text-emerald-700 hover:bg-emerald-50 px-8 py-6 text-lg rounded-xl font-semibold shadow-lg transition-all cursor-pointer"
+                  onClick={() => requireAuthAndPlan('form')}
+                >
+                  <FileText className="mr-2 w-5 h-5" />
+                  {t(language, 'ctaChooseProfile')}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-xl font-semibold transition-all cursor-pointer"
+                  onClick={() => requireAuthAndPlan('clForm')}
+                >
+                  <PenLine className="mr-2 w-5 h-5" />
+                  {t(language, 'clCta')}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authMode}
+        onAuthSuccess={handleAuthSuccess}
+      />
+
+      {/* Enterprise Contact Form Modal */}
+      <EnterpriseContactForm
+        isOpen={enterpriseFormOpen}
+        onClose={() => setEnterpriseFormOpen(false)}
+      />
+
+      {/* Payment Success Modal — shows auto-generated invoice + receipt */}
+      <AnimatePresence>
+        {paymentSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => setPaymentSuccess(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-6 text-center">
+                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle2 className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white">Paiement réussi</h3>
+                <p className="text-emerald-100 text-sm mt-1">
+                  Plan {paymentSuccess.plan} activé — {paymentSuccess.amount.toFixed(2)} {paymentSuccess.currency}
+                </p>
+              </div>
+
+              {/* Body */}
+              <div className="p-6 space-y-4">
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Vos documents ont été générés automatiquement avec logo et signature électronique.
+                  </p>
+                </div>
+
+                {/* Invoice */}
+                <div className="flex items-center justify-between p-3 rounded-lg border bg-emerald-50/50">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-emerald-600" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Facture</p>
+                      <p className="text-sm font-semibold font-mono">{paymentSuccess.invoice.number}</p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="cursor-pointer"
+                    onClick={() => downloadDocument(paymentSuccess.invoice.downloadUrl, `facture-${paymentSuccess.invoice.number}.pdf`)}
+                  >
+                    <Download className="w-3.5 h-3.5 mr-1" />
+                    PDF
+                  </Button>
+                </div>
+
+                {/* Receipt */}
+                <div className="flex items-center justify-between p-3 rounded-lg border bg-amber-50/50">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-amber-600" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Reçu de paiement</p>
+                      <p className="text-sm font-semibold font-mono">{paymentSuccess.receipt.number}</p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="cursor-pointer"
+                    onClick={() => downloadDocument(paymentSuccess.receipt.downloadUrl, `recu-${paymentSuccess.receipt.number}.pdf`)}
+                  >
+                    <Download className="w-3.5 h-3.5 mr-1" />
+                    PDF
+                  </Button>
+                </div>
+
+                <div className="text-[10px] text-muted-foreground bg-slate-50 rounded-md p-2 border">
+                  Les documents portent le logo HireNova et une signature électronique SHA-256.
+                  Ils seront inclus dans votre prochain bilan comptable.
+                </div>
+
+                <Button
+                  className="w-full cursor-pointer bg-emerald-600 hover:bg-emerald-700"
+                  onClick={() => setPaymentSuccess(null)}
+                >
+                  Continuer
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AdminDashboard isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
+
+      {/* Chatbot Widget - always visible */}
+      <ChatbotWidget />
+
+      {/* Footer */}
+      <footer className="border-t bg-gradient-to-r from-emerald-50/50 via-white to-amber-50/30 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
+        <div className="max-w-6xl mx-auto flex flex-col items-center gap-3 text-sm text-muted-foreground">
+          <p>{t(language, 'footerText')} &copy; 2026 HireNova — <span className="font-medium text-foreground">E-Society 2050</span></p>
+          <div className="flex items-center flex-wrap justify-center gap-2 text-xs">
+            <span className="text-emerald-600 font-medium">Paiement sécurisé :</span>
+            <span>🇫🇷 FR</span><span>🇧🇪 BE</span><span>🇨🇭 CH</span><span>🇱🇺 LU</span><span>🇲🇨 MC</span><span>🇪🇸 ES</span><span>🇬🇧 UK</span><span>🇺🇸 US</span><span>🇨🇦 CA</span><span>🇦🇺 AU</span><span>🇸🇦 SA</span><span>🇦🇪 AE</span><span>🇶🇦 QA</span><span>🇰🇼 KW</span><span>🇧🇭 BH</span><span>🇴🇲 OM</span>
+          </div>
+          <div className="flex items-center flex-wrap justify-center gap-4 text-xs">
+            <button onClick={() => { document.dispatchEvent(new CustomEvent('open-legal')) }} className="text-emerald-600 hover:underline cursor-pointer">Mentions Légales</button>
+            <button onClick={() => setStep('campus')} className="text-emerald-600 hover:underline cursor-pointer flex items-center gap-1">
+              <GraduationCap className="w-3 h-3" />
+              HireNova Campus
+            </button>
+            <button onClick={() => setStep('referral')} className="text-emerald-600 hover:underline cursor-pointer flex items-center gap-1">
+              <Gift className="w-3 h-3" />
+              Parrainage
+            </button>
+            {isAdmin && (
+              <button onClick={() => setStep('admin')} className="text-emerald-700 hover:underline cursor-pointer flex items-center gap-1 font-semibold">
+                <Shield className="w-3 h-3" />
+                Dashboard Admin
+              </button>
+            )}
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}

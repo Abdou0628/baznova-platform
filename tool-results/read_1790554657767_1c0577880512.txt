@@ -1,0 +1,1544 @@
+     1→// This is your Prisma schema file,
+     2→// learn more about it in the docs: https://pris.ly/d/prisma-schema
+     3→
+     4→generator client {
+     5→  provider = "prisma-client-js"
+     6→}
+     7→
+     8→datasource db {
+     9→  provider = "sqlite"
+    10→  url      = env("DATABASE_URL")
+    11→}
+    12→
+    13→model User {
+    14→  id               String   @id @default(cuid())
+    15→  email            String   @unique
+    16→  name             String?
+    17→  password         String?
+    18→  image            String?
+    19→  plan             String   @default("free") // free | starter | pro | career_plus | employer | enterprise | annual | api
+    20→  role             String   @default("candidate") // candidate | employer
+    21→  companyName      String?
+    22→  industry         String?
+    23→  companyWebsite   String?
+    24→  cvCountThisMonth Int      @default(0)
+    25→  clCountThisMonth Int      @default(0)
+    26→  lastResetMonth   Int      @default(0)
+    27→  lsCustomerId     String?
+    28→  lsVariantId      String?
+    29→  lsSubId          String?
+    30→  paymobOrderId    String?
+    31→  paymobPaymentId  String?
+    32→  paymobProvider   String?
+    33→  stripeCustomerId String?
+    34→  resetCode        String?
+    35→  resetCodeExpires DateTime?
+    36→  emailVerified          Boolean   @default(false)
+    37→  verificationToken      String?
+    38→  verificationTokenExpires DateTime?
+    39→  sessionVersion   Int      @default(0)
+    40→  planExpiresAt    DateTime?
+    41→  gracePeriodUntil DateTime?
+    42→  mfaEnabled       Boolean  @default(false)
+    43→  mfaSecret        String?  // TOTP secret (encrypted at rest in production)
+    44→  createdAt        DateTime @default(now())
+    45→  updatedAt        DateTime @updatedAt
+    46→
+    47→  referralCode       String?  @unique
+    48→  referralsMade      Referral[]  @relation("ReferrerReferrals")
+    49→  referralReceived   Referral?  @relation("ReferredReferral")
+    50→  emailLogs          EmailLog[]  @relation("EmailLogs")
+    51→
+    52→  resumes      Resume[]
+    53→  coverLetters CoverLetter[]
+    54→  satisfactionRatings SatisfactionRating[]
+    55→  supportTickets      SupportTicket[]
+    56→  jobListings         JobListing[]
+    57→  applications        Application[]
+    58→  globalJobListings   GlobalJobListing[]  @relation("GlobalEmployer")
+    59→  globalApplications  GlobalApplication[]
+    60→  mobilityProfiles    MobilityProfile[]
+    61→  interviewSessions   InterviewSession[]
+    62→  linkedinAnalyses   LinkedInAnalysis[]
+    63→  recruiterJobs      RecruiterJob[]
+    64→  careerAssessments   CareerAssessment[]
+    65→  coachSessions       CoachSession[]
+    66→  coachGoals          CoachGoal[]
+    67→  enrollments         Enrollment[]
+    68→  certifications      Certification[]
+    69→  freelanceMissions  FreelanceMission[] @relation("FreelanceClient")
+    70→  freelanceProposals FreelanceProposal[]
+    71→  campusStudents      CampusStudent[]
+    72→  communityPosts      CommunityPost[]
+    73→  communityReplies    CommunityReply[]
+    74→  communityProfile    CommunityProfile?
+    75→  whiteLabelTenants   WhiteLabelTenant[]
+    76→  legalDocuments      LegalDocument[]
+    77→  complianceChecks    ComplianceCheck[]
+    78→  userConsents         UserConsent[]
+    79→  jobNotifications     JobNotification[]
+    80→  payments            Payment[]     @relation("UserPayments")
+    81→  paymentMethods      PaymentMethod[] @relation("UserPaymentMethods")
+    82→  invoices            Invoice[]    @relation("UserInvoices")
+    83→  missions           AgentMission[] @relation("UserMissions")
+    84→  betaFeedbacks      BetaFeedback[]
+    85→}
+    86→
+    87→// ===== HireNova Formation — Training & Certification =====
+    88→
+    89→model FormationCourse {
+    90→  id          String     @id @default(cuid())
+    91→  title       String
+    92→  description String
+    93→  category    String     @default("general") // tech, marketing, finance, design, soft-skills, languages
+    94→  level       String     @default("beginner") // beginner, intermediate, advanced
+    95→  duration    Int        @default(0) // hours
+    96→  language    String     @default("fr")
+    97→  modules     String     // JSON array of {title, type, content}
+    98→  rating      Float      @default(0)
+    99→  enrollCount Int        @default(0)
+   100→  featured    Boolean    @default(false)
+   101→  createdAt   DateTime   @default(now())
+   102→
+   103→  enrollments Enrollment[]
+   104→}
+   105→
+   106→model Enrollment {
+   107→  id          String          @id @default(cuid())
+   108→  userId      String?
+   109→  user        User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+   110→  courseId    String
+   111→  course      FormationCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+   112→  progress    Int             @default(0) // 0-100
+   113→  completed   Boolean         @default(false)
+   114→  startedAt   DateTime        @default(now())
+   115→  completedAt DateTime?
+   116→
+   117→  @@index([userId])
+   118→  @@index([courseId])
+   119→}
+   120→
+   121→model Certification {
+   122→  id          String   @id @default(cuid())
+   123→  userId      String?
+   124→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   125→  courseId    String
+   126→  courseTitle String
+   127→  score       Int      // exam score 0-100
+   128→  certId      String   @unique // unique certificate number
+   129→  issuedAt    DateTime @default(now())
+   130→
+   131→  @@index([userId])
+   132→  @@index([certId])
+   133→}
+   134→
+   135→model SatisfactionRating {
+   136→  id        String   @id @default(cuid())
+   137→  userId    String?
+   138→  type      String   // cv | cover_letter
+   139→  itemId    String?
+   140→  rating    Int      // 1-5
+   141→  comment   String?
+   142→  createdAt DateTime @default(now())
+   143→  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   144→}
+   145→
+   146→model SupportTicket {
+   147→  id        String   @id @default(cuid())
+   148→  userId    String?
+   149→  name      String
+   150→  email     String
+   151→  subject   String
+   152→  message   String
+   153→  status    String   @default("open") // open | resolved | closed
+   154→  createdAt DateTime @default(now())
+   155→  updatedAt DateTime @updatedAt
+   156→  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   157→}
+   158→
+   159→model Resume {
+   160→  id               String   @id @default(cuid())
+   161→  userId           String?
+   162→  fullName         String
+   163→  email            String
+   164→  phone            String?
+   165→  location         String?
+   166→  linkedin         String?
+   167→  website          String?
+   168→  targetJob        String
+   169→  industry         String?
+   170→  language         String   @default("fr")
+   171→  experience       String?
+   172→  education        String?
+   173→  skills           String?
+   174→  languages        String?
+   175→  summary          String?
+   176→  softSkills       String?
+   177→  dateOfBirth      String?
+   178→  birthPlace       String?
+   179→  birthCountry     String?
+   180→  templateStyle    String   @default("modern")
+   181→  generatedContent String?
+   182→  createdAt        DateTime @default(now())
+   183→  updatedAt        DateTime @updatedAt
+   184→  user             User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   185→}
+   186→
+   187→model SecurityLog {
+   188→  id        String   @id @default(cuid())
+   189→  type      String   // rate_limit | brute_force | suspicious_input | sql_injection_attempt | xss_attempt | invalid_auth | forbidden_access
+   190→  severity  String   // low | medium | high | critical
+   191→  ip        String
+   192→  path      String
+   193→  method    String
+   194→  userAgent String?
+   195→  email     String?
+   196→  details   String?
+   197→  createdAt DateTime @default(now())
+   198→}
+   199→
+   200→model CoverLetter {
+   201→  id               String   @id @default(cuid())
+   202→  userId           String?
+   203→  fullName         String
+   204→  email            String
+   205→  phone            String?
+   206→  location         String?
+   207→  companyName      String
+   208→  hiringManager    String?
+   209→  jobTitle         String
+   210→  jobReference     String?
+   211→  whyCompany       String?
+   212→  keyStrengths     String?
+   213→  tone             String   @default("semi-formal")
+   214→  additionalNotes  String?
+   215→  language         String   @default("fr")
+   216→  generatedContent String?
+   217→  createdAt        DateTime @default(now())
+   218→  updatedAt        DateTime @updatedAt
+   219→  user             User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   220→}
+   221→
+   222→model JobListing {
+   223→  id               String   @id @default(cuid())
+   224→  employerId       String?
+   225→  title            String
+   226→  company          String
+   227→  location         String
+   228→  country          String   @default("Maroc")
+   229→  type             String   @default("CDI")
+   230→  salaryMin        Int?
+   231→  salaryMax        Int?
+   232→  currency         String   @default("MAD")
+   233→  description      String
+   234→  requirements      String
+   235→  skills           String?
+   236→  language         String   @default("fr")
+   237→  isRemote         Boolean  @default(false)
+   238→  isPaid           Boolean  @default(false)
+   239→  status           String   @default("active")
+   240→  viewsCount       Int      @default(0)
+   241→  applicationsCount Int      @default(0)
+   242→  createdAt        DateTime @default(now())
+   243→  updatedAt        DateTime @updatedAt
+   244→  employer         User?       @relation(fields: [employerId], references: [id], onDelete: Cascade)
+   245→  applications     Application[]
+   246→}
+   247→
+   248→model Application {
+   249→  id            String   @id @default(cuid())
+   250→  jobId         String
+   251→  candidateId   String?
+   252→  candidateName String
+   253→  candidateEmail String
+   254→  coverNote     String?
+   255→  matchScore    Int?
+   256→  matchAnalysis String?
+   257→  status        String   @default("pending")
+   258→  createdAt     DateTime @default(now())
+   259→  updatedAt     DateTime @updatedAt
+   260→  job           JobListing @relation(fields: [jobId], references: [id], onDelete: Cascade)
+   261→  candidate     User?      @relation(fields: [candidateId], references: [id], onDelete: SetNull)
+   262→}
+   263→
+   264→model ApiSubscriber {
+   265→  id              String   @id @default(cuid())
+   266→  name            String
+   267→  email           String   @unique
+   268→  company         String
+   269→  website         String?
+   270→  industry        String?
+   271→  phone           String?
+   272→  apiKey          String   @unique
+   273→  apiSecretHash   String
+   274→  plan            String   @default("starter")
+   275→  status          String   @default("active")
+   276→  creditsUsed     Int      @default(0)
+   277→  creditsLimit    Int      @default(100)
+   278→  lastResetDate   String   @default("")
+   279→  webhookUrl      String?
+   280→  createdAt       DateTime @default(now())
+   281→  updatedAt       DateTime @updatedAt
+   282→  usageLogs       ApiUsageLog[]
+   283→}
+   284→
+   285→model ApiUsageLog {
+   286→  id            String   @id @default(cuid())
+   287→  subscriberId  String
+   288→  endpoint      String
+   289→  credits       Int      @default(1)
+   290→  status        String   @default("success")
+   291→  errorMessage  String?
+   292→  ip            String?
+   293→  createdAt     DateTime @default(now())
+   294→  subscriber    ApiSubscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+   295→}
+   296→
+   297→// ===== HireNova Global — International Recruitment =====
+   298→
+   299→model GlobalJobListing {
+   300→  id               String   @id @default(cuid())
+   301→  employerId       String?
+   302→  title            String
+   303→  company          String
+   304→  location         String
+   305→  country          String
+   306→  region           String   // Europe, Asia, Africa, Americas, MENA
+   307→  type             String   @default("CDI")
+   308→  salaryMin        Int?
+   309→  salaryMax        Int?
+   310→  currency         String   @default("EUR")
+   311→  description      String
+   312→  requirements      String
+   313→  skills           String?
+   314→  language         String   @default("en")
+   315→  visaSponsorship  Boolean  @default(false)
+   316→  relocationPackage Boolean  @default(false)
+   317→  isRemote         Boolean  @default(false)
+   318→  status           String   @default("active")
+   319→  viewsCount       Int      @default(0)
+   320→  applicationsCount Int      @default(0)
+   321→  createdAt        DateTime @default(now())
+   322→  updatedAt        DateTime @updatedAt
+   323→  employer         User?       @relation("GlobalEmployer", fields: [employerId], references: [id], onDelete: Cascade)
+   324→  applications     GlobalApplication[]
+   325→}
+   326→
+   327→model GlobalApplication {
+   328→  id            String   @id @default(cuid())
+   329→  jobId         String
+   330→  candidateId   String?
+   331→  candidateName String
+   332→  candidateEmail String
+   333→  coverNote     String?
+   334→  matchScore    Int?
+   335→  matchAnalysis String?
+   336→  status        String   @default("pending")
+   337→  createdAt     DateTime @default(now())
+   338→  updatedAt     DateTime @updatedAt
+   339→  job           GlobalJobListing @relation(fields: [jobId], references: [id], onDelete: Cascade)
+   340→  candidate     User?           @relation(fields: [candidateId], references: [id], onDelete: SetNull)
+   341→}
+   342→
+   343→// ===== HireNova Mobilité — Country-specific CV/CL formatting =====
+   344→
+   345→model MobilityProfile {
+   346→  id              String   @id @default(cuid())
+   347→  userId          String?
+   348→  fullName        String
+   349→  email           String
+   350→  originCountry   String
+   351→  targetCountry   String
+   352→  targetRole      String
+   353→  extractedText   String   // OCR raw text
+   354→  structuredData  String   // JSON: parsed profile
+   355→  skills          String   // JSON: normalized skills array
+   356→  matchScore      Int?
+   357→  formattedCV     String?  // country-specific CV content
+   358→  formattedCL     String?  // country-specific CL content
+   359→  status          String   @default("draft") // draft | processing | completed | error
+   360→  createdAt       DateTime @default(now())
+   361→  updatedAt       DateTime @updatedAt
+   362→  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   363→}
+   364→
+   365→// ===== HireNova LinkedIn — Profile Optimizer =====
+   366→
+   367→model LinkedInAnalysis {
+   368→  id          String   @id @default(cuid())
+   369→  userId      String?
+   370→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   371→  profileText String
+   372→  analysis    String   // JSON string with analysis results
+   373→  score       Int      // 0-100
+   374→  language    String   @default("fr")
+   375→  createdAt   DateTime @default(now())
+   376→}
+   377→
+   378→// ===== HireNova Referral — Programme Parrainage =====
+   379→
+   380→model Referral {
+   381→  id             String   @id @default(cuid())
+   382→  referrerId     String
+   383→  referralCode   String
+   384→  referredEmail  String
+   385→  referredUserId String? @unique
+   386→  status         String   @default("PENDING") // PENDING | COMPLETED | REWARDED
+   387→  rewardType     String   @default("FREE_MONTH") // FREE_MONTH | DISCOUNT
+   388→  rewardValue    String   @default("1")
+   389→  createdAt      DateTime @default(now())
+   390→  completedAt    DateTime?
+   391→
+   392→  referrer User @relation("ReferrerReferrals", fields: [referrerId], references: [id], onDelete: Cascade)
+   393→  referred User? @relation("ReferredReferral", fields: [referredUserId], references: [id])
+   394→
+   395→  @@unique([referrerId, referredEmail])
+   396→}
+   397→
+   398→// ===== Enterprise Inquiries — Demandes de devis sur mesure =====
+   399→
+   400→model EnterpriseInquiry {
+   401→  id              String   @id @default(cuid())
+   402→  // Contact
+   403→  contactName     String
+   404→  workEmail       String
+   405→  phone           String?
+   406→  // Company
+   407→  companyName     String
+   408→  jobTitle        String?
+   409→  industry        String?
+   410→  companySize     String?  // 1-10 | 11-50 | 51-200 | 201-1000 | 1000+
+   411→  country         String?
+   412→  website         String?
+   413→  // Needs
+   414→  usersCount      String?  // number of expected users
+   415→  useCase         String?  // CV generation | ATS | Recruiting | API | All
+   416→  message         String
+   417→  budget          String?  // <5k | 5k-20k | 20k-50k | 50k+ | unknown
+   418→  status          String   @default("new") // new | contacted | qualified | won | lost
+   419→  source          String   @default("pricing_page")
+   420→  createdAt       DateTime @default(now())
+   421→  updatedAt       DateTime @updatedAt
+   422→
+   423→  @@index([status])
+   424→  @@index([createdAt])
+   425→}
+   426→
+   427→// ===== Documents — Auto-generated PDF documents (invoices, quotes, agreements, receipts) =====
+   428→
+   429→model Document {
+   430→  id            String   @id @default(cuid())
+   431→  type          String   // invoice | quote | agreement | receipt | credit_note | accounting_statement
+   432→  number        String   @unique // human-readable: FAC-2026-001, DEV-2026-001, BIL-2026-001, etc.
+   433→  // Parties
+   434→  recipientName String
+   435→  recipientEmail String
+   436→  recipientCompany String?
+   437→  recipientAddress String?
+   438→  recipientCountry String?
+   439→  // Billing
+   440→  issuerName    String   @default("HireNova")
+   441→  issuerLegal   String   @default("E-Society 2050")
+   442→  issuerAddress String   @default("Casablanca, Maroc")
+   443→  issuerEmail   String   @default("hello@hirenova.com")
+   444→  issuerVAT     String?  @default("Non assujetti TVA — auto-entrepreneur")
+   445→  // Content
+   446→  subject       String
+   447→  items         String   // JSON array: [{ description, quantity, unitPrice, total }]
+   448→  currency      String   @default("EUR")
+   449→  subtotal      Float
+   450→  taxRate       Float    @default(0)
+   451→  taxAmount     Float    @default(0)
+   452→  total         Float
+   453→  // Status
+   454→  status        String   @default("draft") // draft | sent | paid | accepted | rejected | cancelled | expired
+   455→  issueDate     DateTime @default(now())
+   456→  dueDate       DateTime?
+   457→  paidAt        DateTime?
+   458→  // Relations
+   459→  userId        String?
+   460→  inquiryId     String?  // links to EnterpriseInquiry
+   461→  // ===== Electronic signature (all documents) =====
+   462→  signatureHash   String?  // SHA-256 hash of document fingerprint
+   463→  signatureDate   DateTime? // when the signature was applied
+   464→  signedBy        String?  @default("HireNova — E-Society 2050")
+   465→  signatureSerial String?  // unique signature serial: SIG-YYYY-NNNNNN
+   466→  // ===== Accounting statement (bilan) specific =====
+   467→  periodStart   DateTime? // period covered start
+   468→  periodEnd     DateTime? // period covered end
+   469→  linkedDocIds  String?  // JSON array of source invoice IDs aggregated in this bilan
+   470→  invoiceCount  Int      @default(0) // number of invoices aggregated
+   471→  platformFees  Float    @default(0) // payment processing + infra fees
+   472→  royaltyFees   Float    @default(0) // third-party royalties/redevances
+   473→  netProfit     Float    @default(0) // total - platformFees - royaltyFees
+   474→  totalCollected Float   @default(0) // total TTC encaissé
+   475→  // Storage
+   476→  pdfPath       String?  // stored on disk or in DB
+   477→  pdfBase64     String?  // base64-encoded PDF (for small docs)
+   478→  notes         String?
+   479→  createdAt     DateTime @default(now())
+   480→  updatedAt     DateTime @updatedAt
+   481→
+   482→  @@index([type])
+   483→  @@index([status])
+   484→  @@index([number])
+   485→  @@index([createdAt])
+   486→  @@index([paidAt])
+   487→}
+   488→
+   489→// ===== Email Onboarding — Suivi des emails envoyés =====
+   490→
+   491→model EmailLog {
+   492→  id        String   @id @default(cuid())
+   493→  userId    String?
+   494→  email     String
+   495→  template  String   // welcome | firstCV | atsTips | ecosystem | proOffer | custom
+   496→  step      String   @default("onboarding") // onboarding | referral | campus | transactional
+   497→  subject   String
+   498→  status    String   @default("sent") // sent | failed | bounced
+   499→  error     String?
+   500→  sentAt    DateTime @default(now())
+   501→
+   502→  user      User?    @relation("EmailLogs", fields: [userId], references: [id], onDelete: SetNull)
+   503→
+   504→  @@index([userId])
+   505→  @@index([email])
+   506→  @@index([template])
+   507→}
+   508→
+   509→// ===== HireNova Payment Orchestrator — Provider Registry =====
+   510→
+   511→model PaymentProvider {
+   512→  id                 String   @id @default(cuid())
+   513→  name               String   @unique // stripe | paymob | lemonsqueezy | payzone | naps | cmi
+   514→  displayName        String   @default("")
+   515→  country            String   @default("") // MA, FR, EU, US, INTL
+   516→  currencies         String   @default("[]") // JSON array: ["MAD", "EUR", "USD"]
+   517→  paymentMethods     String   @default("[]") // JSON array: ["card", "mobile", "bank_transfer"]
+   518→  supportsRecurring   Boolean  @default(false)
+   519→  supportsRefund     Boolean  @default(false)
+   520→  supportsTokenization Boolean @default(false)
+   521→  supportsWebhooks   Boolean  @default(false)
+   522→  priority           Int      @default(0) // lower = higher priority
+   523→  enabled            Boolean  @default(true)
+   524→  config             String   @default("{}") // JSON: provider-specific config (API keys stored in env, not here)
+   525→  createdAt          DateTime @default(now())
+   526→  updatedAt          DateTime @updatedAt
+   527→
+   528→  payments           Payment[]
+   529→
+   530→  @@index([enabled])
+   531→  @@index([country])
+   532→  @@index([priority])
+   533→}
+   534→
+   535→// ===== HireNova Payment — Immutable Financial Ledger =====
+   536→
+   537→model Payment {
+   538→  id                   String   @id @default(cuid())
+   539→  userId               String?
+   540→  user                 User?    @relation("UserPayments", fields: [userId], references: [id], onDelete: SetNull)
+   541→  subscriptionId       String?
+   542→  methodId             String?  // FK to PaymentMethod (optional)
+   543→  provider             String   // stripe | paymob | lemonsqueezy | payzone | naps | cmi
+   544→  providerPaymentId    String?  // external ID from the payment provider
+   545→  amount               Int      // stored in cents (smallest currency unit)
+   546→  currency             String   @default("EUR")
+   547→  status               String   @default("created") // created | pending | authorized | captured | succeeded | failed | cancelled | expired | refunded | partially_refunded
+   548→  description          String   @default("")
+   549→  metadata             String?  // JSON: additional context
+   550→  idempotencyKey       String   @unique
+   551→  expiresAt            DateTime?
+   552→  capturedAt           DateTime?
+   553→  refundedAt           DateTime?
+   554→  refundedAmount       Int      @default(0) // in cents
+   555→  providerData         String?  // JSON: raw response from provider
+   556→  createdAt            DateTime @default(now())
+   557→  updatedAt            DateTime @updatedAt
+   558→
+   559→  events               PaymentEvent[]
+   560→  invoice              Invoice?
+   561→  method               PaymentMethod? @relation(fields: [methodId], references: [id])
+   562→  providerConfig       PaymentProvider? @relation(fields: [provider], references: [name])
+   563→
+   564→  @@index([userId])
+   565→  @@index([provider])
+   566→  @@index([status])
+   567→  @@index([idempotencyKey])
+   568→  @@index([providerPaymentId])
+   569→  @@index([createdAt])
+   570→}
+   571→
+   572→// ===== Payment Events — Immutable State Machine Log =====
+   573→
+   574→model PaymentEvent {
+   575→  id          String   @id @default(cuid())
+   576→  paymentId   String
+   577→  payment     Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+   578→  eventType   String   // payment_created | payment_pending | payment_authorized | payment_captured | payment_succeeded | payment_failed | payment_refunded | payment_cancelled | payment_expired | payment_partially_refunded
+   579→  statusFrom  String?  // previous status
+   580→  statusTo    String   // new status
+   581→  providerEventId String? // event_id from webhook for idempotency
+   582→  data        String?  // JSON: event payload
+   583→  createdAt   DateTime @default(now())
+   584→
+   585→  @@index([paymentId])
+   586→  @@index([eventType])
+   587→  @@index([providerEventId])
+   588→  @@index([createdAt])
+   589→}
+   590→
+   591→// ===== Payment Methods — Tokenized Cards/Wallets =====
+   592→
+   593→model PaymentMethod {
+   594→  id               String   @id @default(cuid())
+   595→  userId           String
+   596→  user             User     @relation("UserPaymentMethods", fields: [userId], references: [id], onDelete: Cascade)
+   597→  provider         String   // stripe | paymob | payzone | naps | cmi
+   598→  providerTokenId  String?  // token from the provider (NEVER store full card number)
+   599→  type             String   @default("card") // card | mobile | bank_transfer | wallet
+   600→  last4            String?  // last 4 digits only
+   601→  brand            String?  // visa, mastercard, etc.
+   602→  expMonth         Int?
+   603→  expYear          Int?
+   604→  isDefault        Boolean  @default(false)
+   605→  enabled          Boolean  @default(true)
+   606→  metadata         String?  // JSON: additional non-sensitive data
+   607→  createdAt        DateTime @default(now())
+   608→  updatedAt        DateTime @updatedAt
+   609→
+   610→  payments         Payment[]
+   611→
+   612→  @@index([userId])
+   613→  @@index([provider])
+   614→  @@index([isDefault])
+   615→}
+   616→
+   617→// ===== Invoice — Billing Records =====
+   618→
+   619→model Invoice {
+   620→  id              String   @id @default(cuid())
+   621→  userId          String?
+   622→  user            User?    @relation("UserInvoices", fields: [userId], references: [id], onDelete: SetNull)
+   623→  paymentId       String?  @unique
+   624→  payment         Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+   625→  invoiceNumber   String   @unique
+   626→  amount          Int      // in cents
+   627→  currency        String   @default("EUR")
+   628→  status          String   @default("draft") // draft | pending | paid | failed | refunded | cancelled
+   629→  description     String   @default("")
+   630→  lineItems       String   @default("[]") // JSON: [{description, amount, quantity}]
+   631→  dueDate         DateTime?
+   632→  paidAt          DateTime?
+   633→  metadata        String?  // JSON
+   634→  createdAt       DateTime @default(now())
+   635→  updatedAt       DateTime @updatedAt
+   636→
+   637→  @@index([userId])
+   638→  @@index([status])
+   639→  @@index([createdAt])
+   640→}
+   641→
+   642→// ===== Accounting Entries — Financial tracking for all payments =====
+   643→
+   644→model AccountingEntry {
+   645→  id          String   @id @default(cuid())
+   646→  type        String   // income | expense | refund | platform_fee | royalty
+   647→  category    String   // subscription | enterprise | api_usage | infra | tax | payout
+   648→  description String
+   649→  amount      Float
+   650→  currency    String   @default("MAD")
+   651→  status      String   @default("pending") // pending | confirmed | reconciled
+   652→  userId      String?
+   653→  reference   String?  // external payment reference (PayMob tx ID, Stripe charge ID, etc.)
+   654→  metadata    String?  // JSON: additional details
+   655→  createdAt   DateTime @default(now())
+   656→  updatedAt   DateTime @updatedAt
+   657→
+   658→  @@index([type])
+   659→  @@index([category])
+   660→  @@index([status])
+   661→  @@index([createdAt])
+   662→  @@index([userId])
+   663→}
+   664→
+   665→// ===== HireNova Interview Simulator — AI Interview Practice =====
+   666→
+   667→model InterviewSession {
+   668→  id            String   @id @default(cuid())
+   669→  userId        String?
+   670→  jobTitle      String
+   671→  industry      String
+   672→  language      String   @default("fr")
+   673→  difficulty    String   @default("intermediate") // beginner | intermediate | advanced
+   674→  interviewType String   @default("behavioral") // behavioral | technical | mixed
+   675→  status        String   @default("in_progress") // in_progress | completed
+   676→  totalScore    Float?
+   677→  report        String?  // JSON: overall evaluation
+   678→  createdAt     DateTime @default(now())
+   679→  updatedAt     DateTime @updatedAt
+   680→  messages      InterviewMessage[]
+   681→  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+   682→
+   683→  @@index([userId])
+   684→  @@index([status])
+   685→}
+   686→
+   687→model InterviewMessage {
+   688→  id            String   @id @default(cuid())
+   689→  sessionId     String
+   690→  questionIndex Int
+   691→  question      String
+   692→  userAnswer    String?
+   693→  aiScore       Float?
+   694→  aiFeedback    String?
+   695→  aiTips        String?
+   696→  followUp      String?
+   697→  createdAt     DateTime @default(now())
+   698→
+   699→  session       InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+   700→
+   701→  @@index([sessionId])
+   702→}
+   703→
+   704→// ===== HireNova Recruiter — AI Recruitment Pipeline =====
+   705→
+   706→model RecruiterJob {
+   707→  id          String   @id @default(cuid())
+   708→  userId      String
+   709→  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+   710→  title       String
+   711→  description String
+   712→  department  String   @default("")
+   713→  location    String   @default("")
+   714→  type        String   @default("full-time") // full-time, part-time, contract, internship
+   715→  salaryMin   Int?
+   716→  salaryMax   Int?
+   717→  status      String   @default("open") // open, paused, closed, filled
+   718→  candidates  RecruiterCandidate[]
+   719→  createdAt   DateTime @default(now())
+   720→  updatedAt   DateTime @updatedAt
+   721→
+   722→  @@index([userId])
+   723→  @@index([status])
+   724→}
+   725→
+   726→model RecruiterCandidate {
+   727→  id          String   @id @default(cuid())
+   728→  jobId       String
+   729→  job         RecruiterJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+   730→  name        String
+   731→  email       String
+   732→  score       Int      @default(0) // AI match score 0-100
+   733→  stage       String   @default("new") // new, screening, interview, offer, hired, rejected
+   734→  notes       String   @default("")
+   735→  appliedAt   DateTime @default(now())
+   736→  updatedAt   DateTime @updatedAt
+   737→
+   738→  @@index([jobId])
+   739→  @@index([stage])
+   740→  @@index([score])
+   741→}
+   742→
+   743→// ===== HireNova Career — Career Roadmap & Skills Assessment =====
+   744→
+   745→model CareerAssessment {
+   746→  id          String   @id @default(cuid())
+   747→  userId      String?
+   748→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   749→  answers     String   // JSON string of quiz answers
+   750→  targetRole  String   @default("")
+   751→  currentLevel String  @default("")
+   752→  roadmap     String?  // JSON string of generated roadmap
+   753→  skillsGap   String?  // JSON string of skills analysis
+   754→  score       Int?     // overall career readiness score 0-100
+   755→  language    String   @default("fr")
+   756→  createdAt   DateTime @default(now())
+   757→
+   758→  @@index([userId])
+   759→  @@index([createdAt])
+   760→}
+   761→
+   762→// ===== HireNova Coach — AI Career Coach =====
+   763→
+   764→model CoachSession {
+   765→  id          String   @id @default(cuid())
+   766→  userId      String?
+   767→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   768→  topic       String   @default("")
+   769→  messages    String   // JSON array of {role, content, timestamp}
+   770→  summary     String?  // AI-generated session summary
+   771→  language    String   @default("fr")
+   772→  createdAt   DateTime @default(now())
+   773→
+   774→  @@index([userId])
+   775→  @@index([createdAt])
+   776→}
+   777→
+   778→model CoachGoal {
+   779→  id          String   @id @default(cuid())
+   780→  userId      String?
+   781→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   782→  title       String
+   783→  description String   @default("")
+   784→  category    String   @default("general") // career-transition, salary, leadership, skills, work-life
+   785→  priority    String   @default("medium") // low, medium, high
+   786→  deadline    DateTime?
+   787→  progress    Int      @default(0) // 0-100
+   788→  actionSteps String?  // JSON array of action steps
+   789→  completed   Boolean  @default(false)
+   790→  createdAt   DateTime @default(now())
+   791→  updatedAt   DateTime @updatedAt
+   792→
+   793→  @@index([userId])
+   794→  @@index([completed])
+   795→}
+   796→
+   797→// ===== HireNova Freelance — Freelance Marketplace =====
+   798→
+   799→model FreelanceMission {
+   800→  id          String   @id @default(cuid())
+   801→  userId      String
+   802→  user        User     @relation("FreelanceClient", fields: [userId], references: [id], onDelete: Cascade)
+   803→  title       String
+   804→  description String
+   805→  category    String   @default("tech") // tech, design, marketing, writing, translation, consulting, video, data
+   806→  budgetMin   Int
+   807→  budgetMax   Int
+   808→  currency    String   @default("EUR")
+   809→  duration    String   @default("") // e.g. "2 weeks", "1 month"
+   810→  skills      String   // JSON array of required skills
+   811→  status      String   @default("open") // open, in-progress, completed, cancelled
+   812→  proposals   FreelanceProposal[]
+   813→  createdAt   DateTime @default(now())
+   814→
+   815→  @@index([userId])
+   816→  @@index([category])
+   817→  @@index([status])
+   818→  @@index([createdAt])
+   819→}
+   820→
+   821→model FreelanceProposal {
+   822→  id          String   @id @default(cuid())
+   823→  missionId   String
+   824→  mission     FreelanceMission @relation(fields: [missionId], references: [id], onDelete: Cascade)
+   825→  userId      String?
+   826→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   827→  coverLetter String
+   828→  proposedRate Int
+   829→  estimatedDelivery String
+   830→  status      String   @default("pending") // pending, accepted, rejected, withdrawn
+   831→  rating      Int?     // client rates freelancer after completion
+   832→  review      String?
+   833→  createdAt   DateTime @default(now())
+   834→
+   835→  @@index([missionId])
+   836→  @@index([userId])
+   837→  @@index([status])
+   838→}
+   839→
+   840→// ===== HireNova Campus — University Partnership Platform =====
+   841→
+   842→model CampusUniversity {
+   843→  id               String    @id @default(cuid())
+   844→  name             String
+   845→  country          String    @default("")
+   846→  programs         String    @default("") // JSON array of program names
+   847→  studentCount     Int       @default(0)
+   848→  status           String    @default("active") // active, pending, inactive
+   849→  contactEmail     String    @default("")
+   850→  partnershipDate  DateTime? @default(now())
+   851→  createdAt        DateTime  @default(now())
+   852→
+   853→  students         CampusStudent[]
+   854→}
+   855→
+   856→model CampusWorkshop {
+   857→  id              String    @id @default(cuid())
+   858→  title           String
+   859→  description     String
+   860→  speaker         String    @default("")
+   861→  date            DateTime
+   862→  duration        Int       @default(60) // minutes
+   863→  capacity        Int       @default(100)
+   864→  registeredCount Int       @default(0)
+   865→  type            String    @default("workshop") // workshop, webinar, bootcamp
+   866→  language        String    @default("")
+   867→  status          String    @default("upcoming") // upcoming, ongoing, completed, cancelled
+   868→  createdAt       DateTime  @default(now())
+   869→}
+   870→
+   871→model CampusStudent {
+   872→  id                    String   @id @default(cuid())
+   873→  userId                String?
+   874→  user                  User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+   875→  universityId          String?
+   876→  university            CampusUniversity? @relation(fields: [universityId], references: [id], onDelete: SetNull)
+   877→  program               String   @default("")
+   878→  cvsCreated            Int      @default(0)
+   879→  atsAvgScore           Float    @default(0)
+   880→  interviewsCompleted   Int      @default(0)
+   881→  certificationsEarned  Int      @default(0)
+   882→  enrolledAt            DateTime @default(now())
+   883→
+   884→  @@index([userId])
+   885→  @@index([universityId])
+   886→}
+   887→
+   888→// ===== HireNova AI Marketplace & Community =====
+   889→
+   890→model CommunityPost {
+   891→  id          String   @id @default(cuid())
+   892→  userId      String?
+   893→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   894→  title       String
+   895→  body        String
+   896→  category    String   @default("career-advice")
+   897→  upvotes     Int      @default(0)
+   898→  replyCount  Int      @default(0)
+   899→  language    String   @default("fr")
+   900→  createdAt   DateTime @default(now())
+   901→
+   902→  replies     CommunityReply[]
+   903→
+   904→  @@index([category])
+   905→  @@index([language])
+   906→}
+   907→
+   908→model CommunityReply {
+   909→  id          String   @id @default(cuid())
+   910→  postId      String
+   911→  post        CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+   912→  userId      String?
+   913→  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+   914→  body        String
+   915→  upvotes     Int      @default(0)
+   916→  createdAt   DateTime @default(now())
+   917→
+   918→  @@index([postId])
+   919→}
+   920→
+   921→model CommunityEvent {
+   922→  id            String   @id @default(cuid())
+   923→  title         String
+   924→  description   String
+   925→  type          String   @default("webinar")
+   926→  date          DateTime
+   927→  duration      Int      @default(60)
+   928→  location      String   @default("")
+   929→  attendeeCount Int      @default(0)
+   930→  capacity      Int      @default(500)
+   931→  language      String   @default("fr")
+   932→  status        String   @default("upcoming")
+   933→  createdAt     DateTime @default(now())
+   934→
+   935→  @@index([type])
+   936→  @@index([status])
+   937→}
+   938→
+   939→model CommunityProfile {
+   940→  id              String   @id @default(cuid())
+   941→  userId          String   @unique
+   942→  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+   943→  bio             String   @default("")
+   944→  skills          String   @default("")
+   945→  reputation      Int      @default(0)
+   946→  postsCount      Int      @default(0)
+   947→  repliesCount    Int      @default(0)
+   948→  eventsAttended  Int      @default(0)
+   949→  badges          String   @default("")
+   950→  createdAt       DateTime @default(now())
+   951→  updatedAt       DateTime @updatedAt
+   952→}
+   953→
+   954→// ===== HireNova IA INTELLIGENCE — Market Intelligence =====
+   955→
+   956→model MarketTrend {
+   957→  id          String   @id @default(cuid())
+   958→  skill       String
+   959→  industry    String   @default("")
+   960→  growthRate  Float    @default(0)
+   961→  demand      String   @default("high") // high, medium, low
+   962→  region      String   @default("")
+   963→  updatedAt   DateTime @updatedAt
+   964→}
+   965→
+   966→model SalaryBenchmark {
+   967→  id          String   @id @default(cuid())
+   968→  jobTitle    String
+   969→  industry    String   @default("")
+   970→  location    String   @default("")
+   971→  salaryMin   Int      @default(0)
+   972→  salaryAvg   Int      @default(0)
+   973→  salaryMax   Int      @default(0)
+   974→  currency    String   @default("EUR")
+   975→  source      String   @default("")
+   976→  updatedAt   DateTime @updatedAt
+   977→}
+   978→
+   979→// ===== HireNova IA WHITE LABEL — White-Label SaaS =====
+   980→
+   981→model WhiteLabelTenant {
+   982→  id              String   @id @default(cuid())
+   983→  userId          String
+   984→  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+   985→  companyName     String
+   986→  domain          String   @default("")
+   987→  primaryColor    String   @default("#059669")
+   988→  logoUrl         String   @default("")
+   989→  enabledModules  String   @default("") // JSON array
+   990→  plan            String   @default("starter") // starter, business, enterprise
+   991→  apiCalls        Int      @default(0)
+   992→  usersCount      Int      @default(0)
+   993→  status          String   @default("active") // active, paused, suspended
+   994→  createdAt       DateTime @default(now())
+   995→  updatedAt       DateTime @updatedAt
+   996→
+   997→  @@index([userId])
+   998→  @@index([status])
+   999→}
+  1000→
+  1001→// ===== HireNova IA LEGAL — Legal Compliance Module =====
+  1002→
+  1003→model LegalDocument {
+  1004→  id        String   @id @default(cuid())
+  1005→  userId    String?
+  1006→  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  1007→  title     String
+  1008→  type      String   @default("employment") // employment, nda, service, non-compete, ip, privacy
+  1009→  content   String
+  1010→  language  String   @default("fr")
+  1011→  status    String   @default("draft") // draft, finalized, signed
+  1012→  createdAt DateTime @default(now())
+  1013→
+  1014→  @@index([userId])
+  1015→  @@index([type])
+  1016→}
+  1017→
+  1018→model ComplianceCheck {
+  1019→  id             String   @id @default(cuid())
+  1020→  userId         String?
+  1021→  user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  1022→  jurisdiction   String   @default("ma") // ma, fr, eu, sa, ae
+  1023→  score          Int      @default(0) // 0-100
+  1024→  checklist      String   // JSON array of {item, checked, required}
+  1025→  recommendations String  // JSON array
+  1026→  language       String   @default("fr")
+  1027→  createdAt      DateTime @default(now())
+  1028→
+  1029→  @@index([userId])
+  1030→  @@index([jurisdiction])
+  1031→}
+  1032→
+  1033→// ===== User Consent — Cookie & Newsletter =====
+  1034→
+  1035→model UserConsent {
+  1036→  id              String   @id @default(cuid())
+  1037→  userId          String?
+  1038→  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  1039→  // Cookie consent
+  1040→  analyticsCookies  Boolean  @default(false)
+  1041→  marketingCookies  Boolean  @default(false)
+  1042→  // Newsletter consent
+  1043→  newsletterConsent  Boolean  @default(false)
+  1044→  newsletterJobs     Boolean  @default(false) // receive job matches
+  1045→  newsletterProducts Boolean  @default(false) // receive new features/services
+  1046→  // Metadata
+  1047→  ipAddress        String?
+  1048→  userAgent        String?
+  1049→  consentVersion   String   @default("1.0")
+  1050→  createdAt        DateTime @default(now())
+  1051→  updatedAt        DateTime @updatedAt
+  1052→
+  1053→  @@index([userId])
+  1054→}
+  1055→
+  1056→// ===== Job Notification — Employer → Candidate Matching =====
+  1057→
+  1058→model JobNotification {
+  1059→  id            String   @id @default(cuid())
+  1060→  userId        String?
+  1061→  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  1062→  jobId         String?
+  1063→  jobTitle      String
+  1064→  jobCompany    String
+  1065→  jobLocation   String?
+  1066→  jobType       String?
+  1067→  salaryMin     Int?
+  1068→  salaryMax     Int?
+  1069→  currency      String   @default("MAD")
+  1070→  matchScore    Int      @default(0) // 0-100
+  1071→  matchReasons  String   // JSON array of matched criteria
+  1072→  isRead        Boolean  @default(false)
+  1073→  isDismissed   Boolean  @default(false)
+  1074→  createdAt     DateTime @default(now())
+  1075→
+  1076→  @@index([userId])
+  1077→  @@index([isRead])
+  1078→  @@index([createdAt])
+  1079→}
+  1080→
+  1081→// ===== HNSA — Immutable Audit Log =====
+  1082→model SecurityAudit {
+  1083→  id          String   @id @default(cuid())
+  1084→  actorId     String?  // User ID who performed the action (null for system/anonymous)
+  1085→  actorEmail  String?
+  1086→  actorRole   String?  // candidate | employer | admin | system
+  1087→  action      String   // LOGIN_SUCCESS | LOGIN_FAILURE | CV_CREATED | CV_DELETED | PAYMENT_INITIATED | ADMIN_USER_MODIFIED | etc.
+  1088→  resource    String   // user | resume | cover_letter | payment | job_listing | subscription | admin_config | etc.
+  1089→  resourceId  String?  // ID of the affected resource
+  1090→  outcome     String   @default("success") // success | failure | denied | error
+  1091→  ip          String   @default("unknown")
+  1092→  userAgent   String?
+  1093→  path        String?
+  1094→  method      String?
+  1095→  statusCode  Int?
+  1096→  details     String?  // JSON blob with extra context
+  1097→  sessionId   String?  // For session correlation
+  1098→  createdAt   DateTime @default(now())
+  1099→
+  1100→  @@index([actorId])
+  1101→  @@index([action])
+  1102→  @@index([resource, resourceId])
+  1103→  @@index([createdAt])
+  1104→  @@index([actorEmail])
+  1105→}
+  1106→
+  1107→// ===== HNSA — Account Lockout (Brute Force Protection) =====
+  1108→model AccountLockout {
+  1109→  id              String   @id @default(cuid())
+  1110→  userId          String   @unique
+  1111→  email           String?
+  1112→  failedAttempts  Int      @default(0)
+  1113→  lockedUntil     DateTime?
+  1114→  lastAttemptAt   DateTime @default(now())
+  1115→  lockLevel       Int      @default(0) // 0=none, 1=5min, 2=15min, 3=1h, 4=24h, 5=permanent
+  1116→  createdAt       DateTime @default(now())
+  1117→  updatedAt       DateTime @updatedAt
+  1118→
+  1119→  @@index([email])
+  1120→}
+  1121→
+  1122→// ===== HireNova IA PAYMENT — Subscription Plans =====
+  1123→
+  1124→model SubscriptionPlan {
+  1125→  id             String   @id @default(cuid())
+  1126→  name           String   // Pro | Elite
+  1127→  price          Float    // price in MAD (e.g. 149.00)
+  1128→  currency       String   @default("MAD")
+  1129→  interval       String   @default("monthly") // monthly | yearly
+  1130→  features       String   // JSON array of feature strings
+  1131→  stripePriceId  String?
+  1132→  active         Boolean  @default(true)
+  1133→  createdAt      DateTime @default(now())
+  1134→  updatedAt      DateTime @updatedAt
+  1135→
+  1136→  userSubscriptions UserSubscription[]
+  1137→}
+  1138→
+  1139→// ===== HireNova IA PAYMENT — User Subscriptions =====
+  1140→
+  1141→model UserSubscription {
+  1142→  id                    String    @id @default(cuid())
+  1143→  userId                String
+  1144→  planId                String
+  1145→  plan                  SubscriptionPlan @relation(fields: [planId], references: [id])
+  1146→  stripeSubscriptionId  String?
+  1147→  stripeCustomerId      String?
+  1148→  status                String    @default("active") // active | canceled | past_due
+  1149→  currentPeriodStart    DateTime  @default(now())
+  1150→  currentPeriodEnd      DateTime?
+  1151→  cancelAtPeriodEnd     Boolean   @default(false)
+  1152→  createdAt             DateTime  @default(now())
+  1153→  updatedAt             DateTime  @updatedAt
+  1154→
+  1155→  @@index([userId])
+  1156→  @@index([status])
+  1157→  @@index([stripeSubscriptionId])
+  1158→}
+  1159→
+  1160→// ===== HireNova IA PAYMENT — Tax Records =====
+  1161→
+  1162→model TaxRecord {
+  1163→  id               String   @id @default(cuid())
+  1164→  year             Int
+  1165→  month            Int
+  1166→  revenue          Float    @default(0)
+  1167→  expenses         Float    @default(0)
+  1168→  taxableRevenue   Float    @default(0)
+  1169→  isRate           Float    @default(0)    // IS rate applied
+  1170→  isAmount         Float    @default(0)    // IS tax amount
+  1171→  tvaCollected     Float    @default(0)
+  1172→  tvaDeductible    Float    @default(0)
+  1173→  tvaNet           Float    @default(0)
+  1174→  totalTax         Float    @default(0)
+  1175→  status           String   @default("calculated") // calculated | paid | filed
+  1176→  createdAt        DateTime @default(now())
+  1177→
+  1178→  @@unique([year, month])
+  1179→  @@index([year])
+  1180→  @@index([status])
+  1181→}
+  1182→
+  1183→// ===== Agent Bus — Inter-Agent Event System =====
+  1184→
+  1185→model AgentEvent {
+  1186→  id            String   @id @default(cuid())
+  1187→  agentId       String                    // source agent (e.g. "cv", "ats", "linkedin")
+  1188→  eventType     String                    // e.g. "cv_generated", "ats_scored", "linkedin_analyzed"
+  1189→  payload       String   @default("{}")  // JSON payload with event details
+  1190→  userId        String?                   // optional user context
+  1191→  targetAgentId String?                   // if routed to a specific agent
+  1192→  status        String   @default("processed") // processed | triggered | failed
+  1193→  reactionLog   String?                   // JSON log of agent reactions triggered
+  1194→  createdAt     DateTime @default(now())
+  1195→
+  1196→  @@index([agentId])
+  1197→  @@index([eventType])
+  1198→  @@index([userId])
+  1199→  @@index([targetAgentId])
+  1200→  @@index([createdAt])
+  1201→}
+  1202→
+  1203→model AgentHeartbeat {
+  1204→  id            String   @id @default(cuid())
+  1205→  agentId       String                    // unique agent identifier
+  1206→  agentName     String   @default("")    // display name
+  1207→  category      String   @default("platform") // candidate | employment | platform
+  1208→  status        String   @default("up")   // up | down | degraded
+  1209→  endpoint      String?                   // HTTP endpoint for inter-agent triggers
+  1210→  capabilities  String   @default("[]")  // JSON array of capability keys
+  1211→  metadata      String   @default("{}")  // arbitrary JSON metadata
+  1212→  lastHeartbeat DateTime @default(now())
+  1213→  registeredAt  DateTime @default(now())
+  1214→
+  1215→  @@unique([agentId])
+  1216→  @@index([status])
+  1217→  @@index([lastHeartbeat])
+  1218→}
+  1219→
+  1220→// ===== HNSA — AI Security Event =====
+  1221→model AISecurityEvent {
+  1222→  id              String   @id @default(cuid())
+  1223→  userId          String?
+  1224→  action          String   // ai_prompt_sent | ai_response_received | ai_abuse_blocked | ai_prompt_injection_detected | ai_data_leak_prevented
+  1225→  severity        String   @default("info") // info | warning | critical
+  1226→  inputHash       String?  // SHA-256 hash of input for deduplication (not storing raw prompts)
+  1227→  inputLength     Int?
+  1228→  outputLength    Int?
+  1229→  model           String?  // gpt-4, claude, etc.
+  1230→  tokensUsed      Int?
+  1231→  blocked         Boolean  @default(false)
+  1232→  blockReason     String?  // prompt_injection | pii_detected | rate_exceeded | content_policy
+  1233→  ip              String?
+  1234→  createdAt       DateTime @default(now())
+  1235→
+  1236→  @@index([userId])
+  1237→  @@index([action])
+  1238→  @@index([createdAt])
+  1239→  @@index([inputHash])
+  1240→}
+  1241→
+  1242→// ===== SaaLabour — Software-as-Labour Mission System =====
+  1243→
+  1244→model AgentMission {
+  1245→  id            String   @id @default(cuid())
+  1246→  userId        String
+  1247→  user          User     @relation("UserMissions", fields: [userId], references: [id])
+  1248→  
+  1249→  type          String   // cv_processing | candidate_sourcing | career_planning | interview_prep | marketing | job_analysis | linkedin_optimization | custom
+  1250→  title         String
+  1251→  description   String
+  1252→  objective     String   // What the user wants achieved (natural language)
+  1253→  parameters    String?  // JSON: mission-specific parameters
+  1254→  
+  1255→  // Agent chain configuration
+  1256→  agentChain    String   // JSON array of agent steps: [{"agentId":"cv","action":"generate"},{"agentId":"ats","action":"analyze"}]
+  1257→  
+  1258→  // Status tracking
+  1259→  status        String   @default("draft") // draft | queued | running | paused | completed | failed | cancelled
+  1260→  priority      String   @default("normal") // low | normal | high | urgent
+  1261→  
+  1262→  // Progress
+  1263→  totalSteps      Int      @default(0)
+  1264→  completedSteps  Int      @default(0)
+  1265→  progressPct     Int      @default(0)
+  1266→  currentStep     Int      @default(0)
+  1267→  
+  1268→  // Timing
+  1269→  startedAt       DateTime?
+  1270→  completedAt     DateTime?
+  1271→  deadlineAt      DateTime?
+  1272→  estimatedMin    Int?
+  1273→  
+  1274→  // Results
+  1275→  resultSummary   String?  // JSON: final results
+  1276→  error           String?  // Error message if failed
+  1277→  
+  1278→  // SaaLabour Billing
+  1279→  workUnits       Int      @default(0)  // Units of work completed
+  1280→  costPerUnit     Int      @default(0)  // Cost per unit in cents
+  1281→  totalCost       Int      @default(0)  // Total cost in cents
+  1282→  
+  1283→  createdAt      DateTime @default(now())
+  1284→  updatedAt      DateTime @updatedAt
+  1285→  
+  1286→  steps          MissionStep[]
+  1287→}
+  1288→
+  1289→model MissionStep {
+  1290→  id          String        @id @default(cuid())
+  1291→  missionId   String
+  1292→  mission     AgentMission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  1293→  
+  1294→  order       Int
+  1295→  agentId     String   // References agent-registry IDs: cv, ats, recruiter, etc.
+  1296→  agentName   String   // Human-readable agent name
+  1297→  action      String   // What this step does
+  1298→  input       String?  // JSON: input data
+  1299→  
+  1300→  status      String   @default("pending") // pending | running | completed | failed | skipped
+  1301→  output      String?  // JSON: step result
+  1302→  error       String?  // Error message if failed
+  1303→  
+  1304→  startedAt   DateTime?
+  1305→  completedAt DateTime?
+  1306→  durationMs  Int?
+  1307→  
+  1308→  createdAt   DateTime @default(now())
+  1309→  updatedAt   DateTime @updatedAt
+  1310→}
+  1311→<<<<<<< HEAD
+  1312→=======
+  1313→
+  1314→// ===== AI-OS — Agent Memory System =====
+  1315→
+  1316→model AgentMemory {
+  1317→  id          String   @id @default(cuid())
+  1318→  agentId     String                     // source agent (e.g. "cv", "ats", "cto")
+  1319→  category    String   @default("general") // general | business | user_preference | agent_experience | health
+  1320→  key         String                     // memory key / topic
+  1321→  value       String                     // JSON: memory content
+  1322→  importance  Int      @default(5)       // 1-10 relevance score
+  1323→  accessCount Int      @default(0)       // how often this memory is recalled
+  1324→  userId      String?                    // optional user context
+  1325→  expiresAt   DateTime?                  // optional TTL
+  1326→  createdAt   DateTime @default(now())
+  1327→  updatedAt   DateTime @updatedAt
+  1328→
+  1329→  @@index([agentId])
+  1330→  @@index([category])
+  1331→  @@index([key])
+  1332→  @@index([userId])
+  1333→  @@index([importance])
+  1334→  @@index([createdAt])
+  1335→}
+  1336→
+  1337→// ===== AI-OS — Agent Audit Log (immutable) =====
+  1338→
+  1339→model AgentAuditLog {
+  1340→  id          String   @id @default(cuid())
+  1341→  agentId     String                     // agent that performed the action
+  1342→  action      String                     // e.g. "decision_made", "task_completed", "memory_stored"
+  1343→  target      String?                    // what was affected (userId, missionId, etc.)
+  1344→  payload     String   @default("{}")   // JSON: action details
+  1345→  riskLevel   String   @default("low")  // low | medium | high | critical
+  1346→  userId      String?                    // optional user context
+  1347→  ip          String?                    // optional IP for security actions
+  1348→  createdAt   DateTime @default(now())
+  1349→
+  1350→  @@index([agentId])
+  1351→  @@index([action])
+  1352→  @@index([riskLevel])
+  1353→  @@index([userId])
+  1354→  @@index([createdAt])
+  1355→}
+  1356→
+  1357→// ===== AI-OS — Agent Learning Log =====
+  1358→
+  1359→model AgentLearningLog {
+  1360→  id              String   @id @default(cuid())
+  1361→  agentId         String                     // agent that learned
+  1362→  outcomeType     String                     // success | failure | partial | escalated
+  1363→  action          String                     // what was attempted
+  1364→  context         String   @default("{}")   // JSON: situation context
+  1365→  lesson          String                     // what was learned (natural language)
+  1366→  improvementSugg String?                    // suggested improvement
+  1367→  confidence      Int      @default(50)     // 0-100 confidence in this learning
+  1368→  userId          String?                    // optional user context
+  1369→  createdAt       DateTime @default(now())
+  1370→
+  1371→  @@index([agentId])
+  1372→  @@index([outcomeType])
+  1373→  @@index([createdAt])
+  1374→}
+  1375→
+  1376→// ===== AI-OS — Agent Policy & Budget =====
+  1377→
+  1378→model AgentPolicy {
+  1379→  id              String   @id @default(cuid())
+  1380→  agentId         String                     // agent this policy applies to
+  1381→  policyType      String                     // permission | budget | rate_limit | data_access | tool_access
+  1382→  policyKey       String                     // specific policy name
+  1383→  policyValue     String                     // JSON: policy configuration
+  1384→  isDefault       Boolean  @default(false)  // default policy for new agents
+  1385→  description     String?                    // human-readable description
+  1386→  createdAt       DateTime @default(now())
+  1387→  updatedAt       DateTime @updatedAt
+  1388→
+  1389→  @@unique([agentId, policyType, policyKey])
+  1390→  @@index([agentId])
+  1391→  @@index([policyType])
+  1392→}
+  1393→
+  1394→// ===== AI-OS — Tool Definitions (for Tool Gateway) =====
+  1395→
+  1396→model ToolDefinition {
+  1397→  id          String   @id @default(cuid())
+  1398→  name        String                     // tool name (e.g. "web_search", "cv_generate", "email_send")
+  1399→  category    String                     // search | generation | communication | analysis | payment
+  1400→  description String                     // what this tool does
+  1401→  parameters  String   @default("{}")   // JSON: expected parameters schema
+  1402→  requiredPermit String  @default("auto") // auto | admin | owner — who can grant access
+  1403→  isDangerous Boolean  @default(false)  // tools with side effects (payments, emails)
+  1404→  isEnabled   Boolean  @default(true)   // can be disabled without removing
+  1405→  createdAt   DateTime @default(now())
+  1406→  updatedAt   DateTime @updatedAt
+  1407→
+  1408→  @@unique([name])
+  1409→  @@index([category])
+  1410→  @@index([isDangerous])
+  1411→}
+  1412→
+  1413→// ===== AI-OS — Proactive Suggestions =====
+  1414→
+  1415→model ProactiveSuggestion {
+  1416→  id          String   @id @default(cuid())
+  1417→  userId      String                     // user this suggestion is for
+  1418→  agentId     String                     // agent that generated this suggestion
+  1419→  type        String                     // e.g. "cv_improvement", "job_match", "ats_optimization"
+  1420→  title       String                     // short title
+  1421→  description String                     // detailed description
+  1422→  actionUrl   String?                    // URL to take action
+  1423→  confidence  Int      @default(50)     // 0-100 confidence score
+  1424→  priority    Int      @default(5)      // display priority (1=highest)
+  1425→  category    String   @default("general") // general | urgent | promotional
+  1426→  status      String   @default("active") // active | dismissed | acted_upon | expired
+  1427→  dismissedAt DateTime?                  // when user dismissed it
+  1428→  actedAt     DateTime?                  // when user acted on it
+  1429→  expiresAt   DateTime?                  // optional expiration
+  1430→  createdAt   DateTime @default(now())
+  1431→  updatedAt   DateTime @updatedAt
+  1432→
+  1433→  @@index([userId])
+  1434→  @@index([agentId])
+  1435→  @@index([status])
+  1436→  @@index([priority])
+  1437→  @@index([createdAt])
+  1438→}
+  1439→
+  1440→// ===== AI-OS — Agent Task Queue (inter-agent communication) =====
+  1441→
+  1442→model AgentTask {
+  1443→  id           String   @id @default(cuid())
+  1444→  fromAgentId  String                     // sending agent
+  1445→  toAgentId    String                     // receiving agent
+  1446→  missionId    String?                    // optional parent mission
+  1447→  type         String                     // delegate | inform | request | respond
+  1448→  payload      String   @default("{}")   // JSON: task data
+  1449→  priority     Int      @default(5)      // 1=urgent, 10=low
+  1450→  status       String   @default("pending") // pending | in_progress | completed | failed | cancelled
+  1451→  result       String?                    // JSON: task result
+  1452→  error        String?                    // error message if failed
+  1453→  userId       String?                    // optional user context
+  1454→  dueAt        DateTime?                  // optional deadline
+  1455→  completedAt  DateTime?
+  1456→  createdAt    DateTime @default(now())
+  1457→  updatedAt    DateTime @updatedAt
+  1458→
+  1459→  @@index([fromAgentId])
+  1460→  @@index([toAgentId])
+  1461→  @@index([missionId])
+  1462→  @@index([status])
+  1463→  @@index([priority])
+  1464→  @@index([createdAt])
+  1465→}
+  1466→
+  1467→// ===== Payment Abstraction Layer — Unified Checkout Records =====
+  1468→
+  1469→model UnifiedPayment {
+  1470→  id                     String   @id @default(cuid())
+  1471→  checkoutId             String   @unique  // public-facing checkout ID
+  1472→  userId                 String
+  1473→  planId                 String   // starter | pro | career_plus | employer | enterprise | annual | api
+  1474→  amount                 Int      // in cents (smallest currency unit)
+  1475→  currency               String   @default("EUR")  // ISO 4217
+  1476→  country                String?  // ISO 3166-1 alpha-2
+  1477→  paymentMethod          String?  // card | mobile | bank_transfer
+  1478→  email                  String?
+  1479→  status                 String   @default("pending")  // pending | requires_action | processing | succeeded | failed | cancelled | refunded
+  1480→  provider               String   // stripe | paymob | lemonsqueezy | invoice | dev_simulator
+  1481→  providerTransactionId  String?  // external ID from the payment provider
+  1482→  region                 String   @default("international")  // international | morocco | africa | enterprise
+  1483→  routingReason          String?  // why this provider was chosen
+  1484→  redirectUrl            String?  // checkout redirect URL
+  1485→  clientSecret           String?  // for client-side confirmation
+  1486→  successUrl             String?
+  1487→  cancelUrl              String?
+  1488→  metadata               String?  // JSON: additional context
+  1489→  paidAt                 DateTime?
+  1490→  refundedAt             DateTime?
+  1491→  refundedAmount         Int      @default(0)  // in cents
+  1492→  idempotencyKey         String   @unique
+  1493→  createdAt              DateTime @default(now())
+  1494→  updatedAt              DateTime @updatedAt
+  1495→
+  1496→  @@index([userId])
+  1497→  @@index([provider])
+  1498→  @@index([region])
+  1499→  @@index([status])
+  1500→  @@index([planId])
+  1501→  @@index([checkoutId])
+  1502→  @@index([providerTransactionId])
+  1503→  @@index([idempotencyKey])
+  1504→  @@index([createdAt])
+  1505→}
+  1506→
+  1507→// ===== BazNova Early Access — 50 Beta-Testeurs =====
+  1508→
+  1509→model EarlyAccessSignup {
+  1510→  id        String   @id @default(cuid())
+  1511→  email     String   @unique
+  1512→  name      String?
+  1513→  language  String   @default("fr")
+  1514→  persona   String?  // student | graduate | professional | executive
+  1515→  source    String?  // landing | referral | direct
+  1516→  createdAt DateTime @default(now())
+  1517→
+  1518→  @@index([email])
+  1519→  @@index([createdAt])
+  1520→}
+  1521→
+  1522→// ===== BazNova Beta Feedback =====
+  1523→
+  1524→model BetaFeedback {
+  1525→  id        String   @id @default(cuid())
+  1526→  userId    String?
+  1527→  email     String?
+  1528→  category  String   // bug | feature | general | ux
+  1529→  message   String
+  1530→  rating    Int?     // 1-5
+  1531→  page      String?  // which page the feedback was given from
+  1532→  status    String   @default("new") // new | reviewed | resolved
+  1533→  createdAt DateTime @default(now())
+  1534→  updatedAt DateTime @updatedAt
+  1535→
+  1536→  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  1537→
+  1538→  @@index([userId])
+  1539→  @@index([category])
+  1540→  @@index([status])
+  1541→  @@index([createdAt])
+  1542→}
+  1543→>>>>>>> 18745976d93954e26ed792ff0ac464e388023010
+  1544→

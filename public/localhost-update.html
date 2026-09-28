@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireNova - Mise a jour Localhost</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 24px; }
+h1 { color: #10b981; margin-bottom: 8px; }
+.subtitle { color: #94a3b8; margin-bottom: 24px; }
+.step { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.step h2 { color: #10b981; font-size: 16px; margin-bottom: 12px; }
+.step p { color: #cbd5e1; font-size: 14px; margin-bottom: 12px; line-height: 1.5; }
+pre { background: #0f172a; border: 1px solid #475569; border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 13px; line-height: 1.6; position: relative; white-space: pre-wrap; word-break: break-all; }
+.copy-btn { position: absolute; top: 8px; right: 8px; background: #10b981; color: white; border: none; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
+.copy-btn:hover { background: #059669; }
+.copy-btn.copied { background: #22c55e; }
+.warn { background: #422006; border-color: #b45309; color: #fbbf24; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+.tag { display: inline-block; background: #10b981; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-right: 8px; }
+</style>
+</head>
+<body>
+<h1>HireNova - Script de Mise a jour Localhost</h1>
+<p class="subtitle">Copiez chaque commande et executez-la dans PowerShell (a la racine de votre projet HireNova)</p>
+
+<div class="warn">IMPORTANT : Executez les commandes UNE PAR UNE, dans l'ordre. Attendez que chaque commande finisse avant la suivante.</div>
+
+<div class="step">
+<h2><span class="tag">1/7</span> Fix package.json - enlever tee server.log</h2>
+<pre id="c1"><button class="copy-btn" onclick="copyCmd('c1')">Copier</button>(Get-Content "package.json") -replace ' 2>&1 \| tee server\.log', '' | Set-Content "package.json"
+Select-String -Path "package.json" -Pattern "tee"</pre>
+</div>
+
+<div class="step">
+<h2><span class="tag">2/7</span> Remplacer manifest.ts</h2>
+<pre id="c2"><button class="copy-btn" onclick="copyCmd('c2')">Copier</button>$manifest = @"
+import type { MetadataRoute } from 'next'
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'HireNova — Plateforme IA de Gestion de Carriere & Recrutement',
+    short_name: 'HireNova',
+    description: 'Plateforme IA complete de gestion de carriere et recrutement. CV, lettres de motivation, score ATS, coaching, marketplace d''emplois et recrutement international.',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#059669',
+    orientation: 'portrait-primary',
+    icons: [{ src: '/hirenova-logo.png', sizes: 'any', type: 'image/png', purpose: 'any maskable' }],
+    categories: ['business', 'productivity', 'utilities'],
+    lang: 'fr',
+  }
+}
+"@
+Set-Content -Path "src\app\manifest.ts" -Value $manifest -Encoding UTF8</pre>
+</div>
+
+<div class="step">
+<h2><span class="tag">3/7</span> Fix reset-password route (6 &#8594; 8 caracteres)</h2>
+<pre id="c3"><button class="copy-btn" onclick="copyCmd('c3')">Copier</button>(Get-Content "src\app\api\auth\reset-password\route.ts") -replace '< 6', '< 8' -replace '6 caract', '8 caract' -replace '6 characters', '8 characters' | Set-Content "src\app\api\auth\reset-password\route.ts"</pre>
+</div>
+
+<div class="step">
+<h2><span class="tag">4/7</span> Mettre a jour layout.tsx - titre et descriptions</h2>
+<pre id="c4"><button class="copy-btn" onclick="copyCmd('c4')">Copier</button>$f = 'src\app\layout.tsx'
+$c = [System.IO.File]::ReadAllText($f, [System.Text.Encoding]::UTF8)
+
+# Update title
+$c = $c -replace 'G.n.rateur de CV IA, Lettre de Motivation & Score ATS', 'Plateforme IA de Gestion de Carriere & Recrutement'
+$c = $c -replace 'G.n.rateur de CV IA & Score ATS', 'Plateforme IA de Gestion de Carriere & Recrutement'
+$c = $c -replace 'G.n.rateur de CV IA & Lettre de Motivation en 60 secondes', 'Plateforme IA de Gestion de Carriere & Recrutement'
+
+# Update description FR
+$c = $c.Replace(\"G.n.rez un CV professionnel optimis. ATS et une lettre de motivation en 60 secondes avec l'IA. Disponible en fran.ais, anglais, arabe et espagnol. Score ATS d.taill., templates premium, t.l.charquement PDF et Word.\", \"Plateforme IA de gestion de carriere et recrutement. CV, lettres de motivation, score ATS, coaching IA, preparation entretiens, marketplace d'emplois et recrutement international. Disponible en fran.ais, anglais, arabe et espagnol.\")
+
+# Update description EN  
+$c = $c.Replace('Generate an ATS-optimized professional resume and cover letter in 60 seconds with AI. Available in French, English, Arabic and Spanish. Detailed ATS score, premium templates, PDF and Word download.', 'AI career management and recruitment platform. Resumes, cover letters, ATS scoring, AI coaching, interview preparation, job marketplace, and international recruitment. Available in French, English, Arabic, and Spanish.')
+
+# Update OG image alt
+$c = $c.Replace("Cr.ez votre CV professionnel avec l'IA en 60 secondes", 'Plateforme IA de Gestion de Carriere & Recrutement')
+
+# Update featureList in JSON-LD
+$c = $c.Replace("'G.n.ration de CV par IA'", "'G.n.ration de CV et lettre de motivation par IA'")
+$c = $c.Replace("'G.n.ration de lettre de motivation par IA'", "'Score ATS d.taill. et optimisation'")
+$c = $c.Replace("'Score ATS d.taill.'", "'Coaching carri.re et pr.paration entretiens IA'")
+$c = $c.Replace("'4 langues (FR, EN, AR, ES)'", "'Marketplace d'emplois et recrutement international'")
+$c = $c.Replace("'3 templates professionnels'", "'4 langues (FR, EN, AR, ES)'")
+$c = $c.Replace("'Export PDF et Word'", "'Export PDF et Word'")
+$c = $c.Replace("'Optimisation pour syst.mes ATS'", "'Matching intelligent candidats-offres'")
+
+# Add trusted-types polyfill in body
+$c = $c.Replace('<body className="antialiased bg-background text-foreground">', '<body className="antialiased bg-background text-foreground">`n        <script`n          dangerouslySetInnerHTML={{`n            __html: `if(window.trustedTypes&&!window.__trustedTypesPolicyCreated){window.__trustedTypesPolicyCreated=true;window.trustedTypes.createPolicy(`"default`",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}`n          }}`n        />')
+
+[System.IO.File]::WriteAllText($f, $c, (New-Object System.Text.UTF8Encoding $false))
+Write-Host "layout.tsx updated" -ForegroundColor Green</pre>
+</div>
+
+<div class="step">
+<h2><span class="tag">5/7</span> Ajouter nouvelles cles i18n (FR + EN)</h2>
+<pre id="c5"><button class="copy-btn" onclick="copyCmd('c5')">Copier</button>$f = 'src\lib\i18n.ts'
+$c = [System.IO.File]::ReadAllText($f, [System.Text.Encoding]::UTF8)
+
+# Add new keys to TranslationKey type
+$c = $c.Replace("'matchNoCandidates' | 'matchScoreLabel',", "'matchNoCandidates' | 'matchScoreLabel',`n  // Auth enhancements`n  | 'passwordStrengthLabel' | 'passwordStrengthWeak' | 'passwordStrengthFair' | 'passwordStrengthGood' | 'passwordStrengthStrong'`n  | 'confirmPasswordLabel' | 'confirmPasswordPh' | 'passwordsMatch' | 'passwordsNoMatch'`n  | 'showPassword' | 'hidePassword'`n  | 'emailNotVerified' | 'emailNotVerifiedDesc' | 'verifyEmailResend' | 'verifyEmailSent',")
+
+# Add FR translations before EN section
+$c = $c.Replace("matchScoreLabel: 'Score',`n  },`n  en: {", "matchScoreLabel: 'Score',`n    passwordStrengthLabel: 'Force du mot de passe',`n    passwordStrengthWeak: 'Faible',`n    passwordStrengthFair: 'Moyen',`n    passwordStrengthGood: 'Bon',`n    passwordStrengthStrong: 'Fort',`n    confirmPasswordLabel: 'Confirmer le mot de passe',`n    confirmPasswordPh: 'Retapez le mot de passe',`n    passwordsMatch: 'Les mots de passe correspondent',`n    passwordsNoMatch: 'Les mots de passe ne correspondent pas',`n    showPassword: 'Afficher',`n    hidePassword: 'Masquer',`n    emailNotVerified: 'Email non verifie',`n    emailNotVerifiedDesc: 'Veuillez verifier votre adresse email.',`n    verifyEmailResend: 'Renvoyer l''email de verification',`n    verifyEmailSent: 'Email de verification envoye !',`n  },`n  en: {")
+
+# Add EN translations before AR section
+$c = $c.Replace("matchScoreLabel: 'Score',`n  },`n  ar: {", "matchScoreLabel: 'Score',`n    passwordStrengthLabel: 'Password strength',`n    passwordStrengthWeak: 'Weak',`n    passwordStrengthFair: 'Fair',`n    passwordStrengthGood: 'Good',`n    passwordStrengthStrong: 'Strong',`n    confirmPasswordLabel: 'Confirm password',`n    confirmPasswordPh: 'Re-type the password',`n    passwordsMatch: 'Passwords match',`n    passwordsNoMatch: 'Passwords do not match',`n    showPassword: 'Show',`n    hidePassword: 'Hide',`n    emailNotVerified: 'Email not verified',`n    emailNotVerifiedDesc: 'Please verify your email address.',`n    verifyEmailResend: 'Resend verification email',`n    verifyEmailSent: 'Verification email sent!',`n  },`n  ar: {")
+
+# Fix password length 6->8 in all languages
+$c = $c.Replace('Minimum 6 caract', 'Minimum 8 caract')
+$c = $c.Replace('Minimum 6 characters', 'Minimum 8 characters')
+$c = $c.Replace('6 .{0,10}.{0,10}.{0,5}.{0,10} .{0,10}', '8 ') 
+$c = $c.Replace('M.nimo 6 caracteres', 'Minimo 8 caracteres')
+
+[System.IO.File]::WriteAllText($f, $c, (New-Object System.Text.UTF8Encoding $false))
+Write-Host "i18n.ts FR+EN updated" -ForegroundColor Green</pre>
+</div>
+
+<div class="step">
+<h2><span class="tag">6/7</span> Ajouter nouvelles cles i18n (AR + ES)</h2>
+<pre id="c6"><button class="copy-btn" onclick="copyCmd('c6')">Copier</button>$f = 'src\lib\i18n.ts'
+$c = [System.IO.File]::ReadAllText($f, [System.Text.Encoding]::UTF8)
+
+# Add AR translations before ES section
+$c = $c.Replace("matchScoreLabel: '.{0,20}',`n  },`n  es: {", "matchScoreLabel: '.{0,20}',`n    passwordStrengthLabel: '.{0,30}',`n    passwordStrengthWeak: '.{0,10}',`n    passwordStrengthFair: '.{0,10}',`n    passwordStrengthGood: '.{0,10}',`n    passwordStrengthStrong: '.{0,10}',`n    confirmPasswordLabel: '.{0,30}',`n    confirmPasswordPh: '.{0,30}',`n    passwordsMatch: '.{0,30}',`n    passwordsNoMatch: '.{0,40}',`n    showPassword: '.{0,10}',`n    hidePassword: '.{0,10}',`n    emailNotVerified: '.{0,30}',`n    emailNotVerifiedDesc: '.{0,60}',`n    verifyEmailResend: '.{0,30}',`n    verifyEmailSent: '.{0,30}',`n  },`n  es: {")
+
+[System.IO.File]::WriteAllText($f, $c, (New-Object System.Text.UTF8Encoding $false))
+Write-Host "i18n.ts AR+ES updated" -ForegroundColor Green</pre>
+</div>
+
+</body>
+<script>
+function copyCmd(id) {
+  const pre = document.getElementById(id);
+  const btn = pre.querySelector('.copy-btn');
+  const text = pre.textContent.replace('Copier', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copie !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</html>

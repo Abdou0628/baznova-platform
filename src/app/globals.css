@@ -119,4 +119,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Arabic font fallback for proper glyph rendering */
+  [dir="rtl"] {
+    font-family: var(--font-noto-arabic), var(--font-geist-sans), system-ui, sans-serif;
+  }
 }

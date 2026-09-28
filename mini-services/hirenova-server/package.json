@@ -1,0 +1,7 @@
+{
+  "name": "hirenova-server",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node index.js"
+  }
+}

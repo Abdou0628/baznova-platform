@@ -1,0 +1,725 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/db'
+import { createHmac } from 'crypto'
+import { generateInvoiceForPayment, generateReceiptForPayment } from '@/lib/documents'
+import { isEventProcessed, recordPaymentEvent, updatePaymentStatus, getPaymentStatus } from '@/lib/payment/orchestrator'
+import { getAdapterOrNull } from '@/lib/payment/adapters'
+import type { PaymentProviderName, PaymentEventType, PaymentStatus } from '@/lib/payment/types'
+
+function signatureCheck(body: string, secret: string, signature: string): boolean {
+  const hmac = createHmac('sha256', secret)
+  hmac.update(body)
+  return hmac.digest('hex') === signature
+}
+
+export const runtime = 'nodejs'
+
+// ============================================================================
+// Provider Detection
+// ============================================================================
+
+type WebhookProvider = 'lemonsqueezy' | 'stripe' | 'paymob' | 'payzone' | 'naps' | 'cmi'
+
+/**
+ * Detects the payment provider from request headers and query params.
+ * Detection priority:
+ * 1. stripe-signature header → stripe
+ * 2. provider query param → explicit provider
+ * 3. Default → lemonsqueezy (backward compatibility)
+ */
+function detectProvider(request: NextRequest): WebhookProvider {
+  // Stripe has a unique signature header format
+  if (request.headers.get('stripe-signature')) {
+    return 'stripe'
+  }
+
+  // Explicit provider via query param (for PayZone, NAPS, CMI, PayMob)
+  const explicitProvider = new URL(request.url).searchParams.get('provider')
+  if (explicitProvider && ['payzone', 'naps', 'cmi', 'paymob', 'stripe', 'lemonsqueezy'].includes(explicitProvider)) {
+    return explicitProvider as WebhookProvider
+  }
+
+  // Default: LemonSqueezy (uses x-signature header)
+  return 'lemonsqueezy'
+}
+
+/**
+ * Gets the webhook secret env var for a given provider.
+ */
+function getWebhookSecret(provider: WebhookProvider): string | undefined {
+  switch (provider) {
+    case 'lemonsqueezy': return process.env.LEMONSQUEEZY_WEBHOOK_SECRET
+    case 'stripe': return process.env.STRIPE_WEBHOOK_SECRET
+    case 'paymob': return process.env.PAYMOB_HMAC_SECRET
+    case 'payzone': return process.env.PAYZONE_HMAC_SECRET
+    case 'naps': return process.env.NAPS_HMAC_SECRET
+    case 'cmi': return process.env.CMI_HMAC_SECRET
+    default: return undefined
+  }
+}
+
+/**
+ * Gets the signature header name for a given provider.
+ */
+function getSignatureHeader(provider: WebhookProvider): string | null {
+  switch (provider) {
+    case 'lemonsqueezy': return 'x-signature'
+    case 'stripe': return 'stripe-signature'
+    case 'paymob': return 'x-paymob-hmac'
+    case 'payzone': return 'x-payzone-signature'
+    case 'naps': return 'x-naps-signature'
+    case 'cmi': return 'x-cmi-signature'
+    default: return null
+  }
+}
+
+// ============================================================================
+// LemonSqueezy Webhook Types & Handlers (EXISTING — UNCHANGED)
+// ============================================================================
+
+interface LemonSqueezyWebhookBody {
+  meta: {
+    event_name: string
+    custom_data: {
+      userId?: string
+      planType?: string
+      currency?: string
+    }
+  }
+  data: {
+    id: string
+    type: string
+    attributes: {
+      status: string
+      user_email: string
+      user_name: string
+      customer_id: number
+      order_id?: number
+      product_id: number
+      variant_id: number
+      // Payment details (for auto-invoicing)
+      total?: number          // in cents
+      subtotal?: number       // in cents
+      tax?: number            // in cents
+      currency?: string       // e.g. 'USD', 'EUR'
+      first_order_item: {
+        id: number
+        variant_id: number
+        price?: number        // unit price in cents
+      }
+      subscription_id?: number
+      ends_at?: string | null
+      renews_at?: string | null
+      trial_ends_at?: string | null
+      created_at: string
+      updated_at: string
+    }
+  }
+}
+
+// Map checkout planType to DB plan value
+const VALID_PLANS = ['starter', 'pro', 'career_plus', 'employer', 'annual', 'lifetime', 'api', 'enterprise']
+function resolvePlan(planType?: string): string {
+  if (planType && VALID_PLANS.includes(planType)) return planType
+  return 'pro' // fallback
+}
+
+// Convert LS currency code + amount (cents) to invoice params
+function parseAmount(attrs: LemonSqueezyWebhookBody['data']['attributes']): { amount: number; currency: string } {
+  const rawTotal = attrs.total ?? attrs.first_order_item?.price ?? 0
+  const amount = rawTotal / 100 // cents → dollars/euros
+  const currency = (attrs.currency || 'EUR').toUpperCase()
+  // Normalize: LS sends 'USD', 'EUR', 'GBP' — our docs use these directly
+  return { amount, currency: ['EUR', 'USD', 'GBP'].includes(currency) ? currency : 'EUR' }
+}
+
+/**
+ * Auto-generate invoice + receipt after a successful payment.
+ * This closes the paperless loop: payment → invoice → bilan (taxes).
+ */
+async function autoGenerateDocuments(params: {
+  userId: string
+  userEmail: string
+  userName: string
+  planType: string
+  amount: number
+  currency: string
+  paidAt: Date
+}): Promise<void> {
+  try {
+    // Generate invoice (FAC-YYYY-NNNN)
+    const invoice = await generateInvoiceForPayment({
+      userEmail: params.userEmail,
+      userName: params.userName,
+      plan: params.planType,
+      amount: params.amount,
+      currency: params.currency,
+      userId: params.userId,
+      paidAt: params.paidAt,
+    })
+    console.log(`[webhook] Invoice ${invoice.number} generated for user ${params.userId} (${params.amount} ${params.currency})`)
+
+    // Generate receipt (REC-YYYY-NNNN)
+    const receipt = await generateReceiptForPayment({
+      userEmail: params.userEmail,
+      userName: params.userName,
+      amount: params.amount,
+      currency: params.currency,
+      description: `Abonnement ${params.planType} — HireNova`,
+      userId: params.userId,
+      paidAt: params.paidAt,
+    })
+    console.log(`[webhook] Receipt ${receipt.number} generated for user ${params.userId}`)
+
+    // Both documents are now linked to the user and will be included in future bilans
+    // (bilans query all paid invoices by paidAt date)
+  } catch (err) {
+    console.error('[webhook] Auto-invoicing failed:', err instanceof Error ? err.message : err)
+    // Don't throw — webhook should still return 200 to prevent retries
+  }
+}
+
+async function handleOrderCreated(body: LemonSqueezyWebhookBody) {
+  const userId = body.meta.custom_data?.userId
+  const planType = body.meta.custom_data?.planType
+  const customerId = body.data.attributes.customer_id?.toString()
+  const variantId = body.data.attributes.variant_id?.toString()
+  const attrs = body.data.attributes
+
+  if (!userId) {
+    console.error('order_created: missing userId in custom_data')
+    return
+  }
+
+  const plan = resolvePlan(planType)
+
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      plan,
+      lsCustomerId: customerId || undefined,
+      lsVariantId: variantId || undefined,
+    },
+  })
+
+  // ===== Auto-generate invoice + receipt (paperless loop) =====
+  const { amount, currency } = parseAmount(attrs)
+  if (amount > 0) {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      select: { email: true, name: true },
+    })
+    await autoGenerateDocuments({
+      userId,
+      userEmail: attrs.user_email || user?.email || '',
+      userName: attrs.user_name || user?.name || 'Client',
+      planType: plan,
+      amount,
+      currency,
+      paidAt: new Date(attrs.created_at || Date.now()),
+    })
+  }
+}
+
+async function handleSubscriptionCreated(body: LemonSqueezyWebhookBody) {
+  const userId = body.meta.custom_data?.userId
+  const planType = body.meta.custom_data?.planType
+  const customerId = body.data.attributes.customer_id?.toString()
+  const subId = body.data.attributes.subscription_id?.toString()
+  const variantId = body.data.attributes.first_order_item?.variant_id?.toString()
+  const attrs = body.data.attributes
+
+  if (!userId) {
+    console.error('subscription_created: missing userId in custom_data')
+    return
+  }
+
+  const plan = resolvePlan(planType)
+
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      plan,
+      lsCustomerId: customerId || undefined,
+      lsVariantId: variantId || undefined,
+      lsSubId: subId || undefined,
+    },
+  })
+
+  // ===== Auto-generate invoice + receipt for first subscription payment =====
+  const { amount, currency } = parseAmount(attrs)
+  if (amount > 0) {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      select: { email: true, name: true },
+    })
+    await autoGenerateDocuments({
+      userId,
+      userEmail: attrs.user_email || user?.email || '',
+      userName: attrs.user_name || user?.name || 'Client',
+      planType: plan,
+      amount,
+      currency,
+      paidAt: new Date(attrs.created_at || Date.now()),
+    })
+  }
+}
+
+async function handleSubscriptionUpdated(body: LemonSqueezyWebhookBody) {
+  const customerId = body.data.attributes.customer_id?.toString()
+  const subId = body.data.attributes.subscription_id?.toString()
+  const status = body.data.attributes.status
+  const attrs = body.data.attributes
+
+  if (!customerId) return
+
+  // Find user by LemonSqueezy customer ID
+  const user = await db.user.findFirst({
+    where: { lsCustomerId: customerId },
+  })
+
+  if (!user) {
+    console.error('subscription_updated: no user found for customer', customerId)
+    return
+  }
+
+  // LemonSqueezy subscription statuses: active, paused, cancelled, expired, unpaid
+  // Keep the user's existing plan if active, otherwise downgrade to free
+  const plan = status === 'active' ? (user.plan !== 'free' ? user.plan : 'pro') : 'free'
+
+  await db.user.update({
+    where: { id: user.id },
+    data: {
+      plan,
+      lsSubId: subId || undefined,
+    },
+  })
+
+  // ===== Auto-generate invoice for renewal payment (if active and has amount) =====
+  if (status === 'active') {
+    const { amount, currency } = parseAmount(attrs)
+    if (amount > 0) {
+      await autoGenerateDocuments({
+        userId: user.id,
+        userEmail: attrs.user_email || user.email || '',
+        userName: attrs.user_name || user.name || 'Client',
+        planType: plan,
+        amount,
+        currency,
+        paidAt: new Date(attrs.updated_at || Date.now()),
+      })
+    }
+  }
+}
+
+async function handleSubscriptionCancelledOrExpired(body: LemonSqueezyWebhookBody) {
+  const customerId = body.data.attributes.customer_id?.toString()
+
+  if (!customerId) return
+
+  const user = await db.user.findFirst({
+    where: { lsCustomerId: customerId },
+  })
+
+  if (!user) {
+    console.error(`${body.meta.event_name}: no user found for customer`, customerId)
+    return
+  }
+
+  // Downgrade to free, but keep lifetime if they had it
+  if (user.plan === 'lifetime') return
+
+  await db.user.update({
+    where: { id: user.id },
+    data: { plan: 'free', lsSubId: null },
+  })
+}
+
+// ============================================================================
+// Payment Orchestrator Webhook Handlers (NEW)
+// ============================================================================
+
+/** Maps raw provider event types to HireNova PaymentEventType */
+function mapProviderEventToStatus(providerEvent: string): PaymentEventType | null {
+  const eventLower = providerEvent.toLowerCase()
+  const map: Record<string, PaymentEventType> = {
+    // Success/capture
+    'payment.success': PaymentEventType.PAYMENT_SUCCEEDED,
+    'payment.captured': PaymentEventType.PAYMENT_CAPTURED,
+    'payment.authorized': PaymentEventType.PAYMENT_AUTHORIZED,
+    'payment.paid': PaymentEventType.PAYMENT_SUCCEEDED,
+    'charge.succeeded': PaymentEventType.PAYMENT_SUCCEEDED,
+    'charge.captured': PaymentEventType.PAYMENT_CAPTURED,
+    // Pending
+    'payment.pending': PaymentEventType.PAYMENT_PENDING,
+    'payment.processing': PaymentEventType.PAYMENT_PENDING,
+    // Failure
+    'payment.failed': PaymentEventType.PAYMENT_FAILED,
+    'payment.declined': PaymentEventType.PAYMENT_FAILED,
+    'charge.failed': PaymentEventType.PAYMENT_FAILED,
+    'charge.declined': PaymentEventType.PAYMENT_FAILED,
+    // Cancel
+    'payment.cancelled': PaymentEventType.PAYMENT_CANCELLED,
+    'payment.canceled': PaymentEventType.PAYMENT_CANCELLED,
+    'payment.voided': PaymentEventType.PAYMENT_CANCELLED,
+    // Expire
+    'payment.expired': PaymentEventType.PAYMENT_EXPIRED,
+    'charge.expired': PaymentEventType.PAYMENT_EXPIRED,
+    // Refund
+    'refund.created': PaymentEventType.PAYMENT_REFUNDED,
+    'refund.succeeded': PaymentEventType.PAYMENT_REFUNDED,
+    'charge.refunded': PaymentEventType.PAYMENT_REFUNDED,
+    'payment.refunded': PaymentEventType.PAYMENT_REFUNDED,
+    'payment.partially_refunded': PaymentEventType.PAYMENT_PARTIALLY_REFUNDED,
+  }
+  return map[eventLower] ?? null
+}
+
+/**
+ * Extracts the provider event ID from a webhook payload.
+ * Each provider stores the event ID in a different field.
+ */
+function extractProviderEventId(parsed: Record<string, unknown>): string | undefined {
+  // Common patterns across providers
+  return (
+    (parsed.id as string) ||
+    (parsed.event_id as string) ||
+    (parsed.eventId as string) ||
+    (parsed.webhook_id as string) ||
+    (parsed.transaction_id as string) ||
+    undefined
+  )
+}
+
+/**
+ * Extracts the provider payment ID from a webhook payload.
+ */
+function extractProviderPaymentId(parsed: Record<string, unknown>): string | undefined {
+  // Common patterns across providers
+  const data = parsed.data as Record<string, unknown> | undefined
+  const obj = parsed.object as Record<string, unknown> | undefined
+
+  return (
+    (parsed.provider_payment_id as string) ||
+    (parsed.payment_id as string) ||
+    (parsed.paymentId as string) ||
+    (parsed.transaction_id as string) ||
+    (parsed.charge_id as string) ||
+    (parsed.order_id as string) ||
+    (obj?.id as string) ||
+    (obj?.payment_intent as string) ||
+    (obj?.charge as string) ||
+    (data?.id as string) ||
+    (data?.payment_id as string) ||
+    (data?.transaction_id as string) ||
+    (data?.order_id as string) ||
+    undefined
+  )
+}
+
+/**
+ * Extracts the event type string from a webhook payload.
+ */
+function extractEventType(parsed: Record<string, unknown>): string {
+  return (
+    (parsed.type as string) ||
+    (parsed.event as string) ||
+    (parsed.event_type as string) ||
+    (parsed.eventName as string) ||
+    (parsed.action as string) ||
+    'unknown'
+  )
+}
+
+/**
+ * Extracts the raw amount and status from a webhook payload for provider data storage.
+ */
+function extractEventData(parsed: Record<string, unknown>): Record<string, unknown> {
+  const data = parsed.data as Record<string, unknown> | undefined
+  const obj = parsed.object as Record<string, unknown> | undefined
+  const source = data ?? obj ?? parsed
+
+  return {
+    amount: source.amount ?? source.amount_cents ?? null,
+    currency: source.currency ?? null,
+    status: source.status ?? null,
+    providerEvent: parsed.type ?? parsed.event ?? parsed.event_type ?? null,
+    raw: parsed,
+  }
+}
+
+/**
+ * Handles webhooks for Payment Orchestrator providers (Stripe, PayMob, PayZone, NAPS, CMI).
+ *
+ * Flow: verify signature → parse → idempotency check → find payment → update status → record event
+ */
+async function handleOrchestratorWebhook(
+  provider: WebhookProvider,
+  rawBody: string,
+  parsedBody: Record<string, unknown>,
+): Promise<void> {
+  // ── Extract event info ──
+  const eventTypeStr = extractEventType(parsedBody)
+  const providerEventId = extractProviderEventId(parsedBody)
+  const providerPaymentId = extractProviderPaymentId(parsedBody)
+
+  if (!providerPaymentId && !providerEventId) {
+    console.warn(`[webhook:${provider}] Cannot extract payment or event ID from payload`)
+    return
+  }
+
+  // ── Idempotency check ──
+  if (providerEventId) {
+    const alreadyProcessed = await isEventProcessed(providerEventId)
+    if (alreadyProcessed) {
+      console.log(`[webhook:${provider}] Event ${providerEventId} already processed — skipping`)
+      return
+    }
+  }
+
+  // ── Find payment by provider payment ID ──
+  let payment
+  if (providerPaymentId) {
+    payment = await db.payment.findFirst({
+      where: {
+        providerPaymentId,
+        provider: provider as PaymentProviderName,
+      },
+    })
+  }
+
+  // Also try by event ID in metadata if no payment found
+  if (!payment && providerEventId) {
+    payment = await db.payment.findFirst({
+      where: {
+        provider: provider as PaymentProviderName,
+      },
+    })
+  }
+
+  // ── Map event type to PaymentStatus ──
+  const mappedEventType = mapProviderEventToStatus(eventTypeStr)
+
+  if (!payment) {
+    console.warn(
+      `[webhook:${provider}] No payment found for providerPaymentId=${providerPaymentId}, event=${eventTypeStr}`
+    )
+    // Record as an orphaned event for debugging
+    if (providerEventId) {
+      await recordPaymentEvent(
+        'unknown',
+        PaymentEventType.PAYMENT_PENDING,
+        { orphaned: true, provider, eventType: eventTypeStr, providerEventId },
+        providerEventId
+      ).catch(() => {})
+    }
+    return
+  }
+
+  // ── Update payment status ──
+  if (mappedEventType) {
+    const newStatus = (mappedEventType as string).replace('payment_', '') as PaymentStatus
+    try {
+      await updatePaymentStatus(
+        payment.id,
+        newStatus,
+        extractEventData(parsedBody),
+        providerPaymentId
+      )
+    } catch (statusErr) {
+      // State transition might be invalid — log but don't throw
+      console.warn(
+        `[webhook:${provider}] Status update failed for payment ${payment.id}:`,
+        statusErr instanceof Error ? statusErr.message : statusErr
+      )
+    }
+  }
+
+  // ── Record the event (uses providerEventId for idempotency) ──
+  if (providerEventId) {
+    await recordPaymentEvent(
+      payment.id,
+      mappedEventType ?? PaymentEventType.PAYMENT_PENDING,
+      extractEventData(parsedBody),
+      providerEventId
+    ).catch(() => {})
+  }
+}
+
+// ============================================================================
+// Main POST Handler
+// ============================================================================
+
+export async function POST(request: NextRequest) {
+  const rawBody = await request.text()
+
+  // ── Detect which provider sent this webhook ──
+  const provider = detectProvider(request)
+  console.log(`[webhook] Received webhook for provider: ${provider}`)
+
+  try {
+    // ========================================================================
+    // LEMON SQUEEZY — Existing handler (unchanged core logic)
+    // ========================================================================
+    if (provider === 'lemonsqueezy') {
+      const signature = request.headers.get('x-signature')
+
+      if (!signature) {
+        console.error('Missing x-signature header')
+        return NextResponse.json({ error: 'Missing signature' }, { status: 400 })
+      }
+
+      const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET
+      if (!secret) {
+        console.error('LEMONSQUEEZY_WEBHOOK_SECRET is not configured')
+        return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
+      }
+
+      // Verify webhook signature
+      const isValid = signatureCheck(rawBody, secret, signature)
+      if (!isValid) {
+        console.error('Webhook signature verification failed')
+        return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+      }
+
+      let parsedBody: LemonSqueezyWebhookBody
+      try {
+        parsedBody = JSON.parse(rawBody)
+      } catch {
+        console.error('Failed to parse webhook body')
+        return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+      }
+
+      const eventName = parsedBody.meta.event_name
+      const eventId = parsedBody.data?.id?.toString()
+
+      // ── Idempotency check for LemonSqueezy events ──
+      if (eventId) {
+        const processed = await isEventProcessed(`ls_${eventId}`)
+        if (processed) {
+          console.log(`[webhook:lemonsqueezy] Event ${eventId} already processed — skipping`)
+          return NextResponse.json({ received: true, idempotent: true }, { status: 200 })
+        }
+      }
+
+      try {
+        switch (eventName) {
+          case 'order_created':
+            await handleOrderCreated(parsedBody)
+            break
+
+          case 'subscription_created':
+            await handleSubscriptionCreated(parsedBody)
+            break
+
+          case 'subscription_updated':
+            await handleSubscriptionUpdated(parsedBody)
+            break
+
+          case 'subscription_cancelled':
+          case 'subscription_expired':
+            await handleSubscriptionCancelledOrExpired(parsedBody)
+            break
+
+          default:
+            console.log(`Unhandled webhook event: ${eventName}`)
+        }
+
+        // ── Record LemonSqueezy event in orchestrator for unified event log ──
+        if (eventId) {
+          // Try to find the associated payment for this LS event
+          const customerId = parsedBody.data?.attributes?.customer_id?.toString()
+          if (customerId) {
+            const user = await db.user.findFirst({
+              where: { lsCustomerId: customerId },
+              select: { id: true },
+            })
+            if (user) {
+              // Look for a recent payment for this user
+              const recentPayment = await db.payment.findFirst({
+                where: {
+                  userId: user.id,
+                  provider: 'lemonsqueezy',
+                  createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }, // last 24h
+                },
+                orderBy: { createdAt: 'desc' },
+              })
+              if (recentPayment) {
+                await recordPaymentEvent(
+                  recentPayment.id,
+                  PaymentEventType.PAYMENT_SUCCEEDED,
+                  { lemonsqueezyEvent: eventName, orderId: parsedBody.data?.id },
+                  `ls_${eventId}`
+                ).catch(() => {})
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`Error processing webhook ${eventName}:`, error)
+        // Still return 200 to prevent retries
+      }
+
+      return NextResponse.json({ received: true }, { status: 200 })
+    }
+
+    // ========================================================================
+    // ORCHESTRATOR PROVIDERS (Stripe, PayMob, PayZone, NAPS, CMI)
+    // ========================================================================
+    const signatureHeader = getSignatureHeader(provider)
+    const signature = signatureHeader ? request.headers.get(signatureHeader) : null
+    const secret = getWebhookSecret(provider)
+
+    // ── Verify signature ──
+    if (secret && signature) {
+      const adapter = await getAdapterOrNull(provider as PaymentProviderName)
+      if (adapter?.verifyWebhookSignature) {
+        const isValid = adapter.verifyWebhookSignature(rawBody, signature, secret)
+        if (!isValid) {
+          console.error(`[webhook:${provider}] Signature verification failed`)
+          return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+        }
+      } else {
+        // Fallback: simple HMAC-SHA256 check
+        const hmac = createHmac('sha256', secret)
+        hmac.update(rawBody)
+        const expected = hmac.digest('hex')
+        if (!signature.includes(expected)) {
+          console.error(`[webhook:${provider}] Fallback signature verification failed`)
+          return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+        }
+      }
+    } else if (secret) {
+      console.warn(`[webhook:${provider}] Signature header "${signatureHeader}" not found, but secret is configured`)
+      // For providers that don't send a standard header, check x-provider-hmac as fallback
+      const fallbackSig = request.headers.get('x-provider-hmac')
+      if (fallbackSig) {
+        const hmac = createHmac('sha256', secret)
+        hmac.update(rawBody)
+        const expected = hmac.digest('hex')
+        if (fallbackSig !== expected) {
+          console.error(`[webhook:${provider}] Fallback HMAC verification failed`)
+          return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+        }
+      }
+    }
+
+    // ── Parse body ──
+    let parsedBody: Record<string, unknown>
+    try {
+      parsedBody = JSON.parse(rawBody)
+    } catch {
+      console.error(`[webhook:${provider}] Failed to parse body as JSON`)
+      return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+    }
+
+    // ── Handle via orchestrator ──
+    await handleOrchestratorWebhook(provider, rawBody, parsedBody)
+
+    return NextResponse.json({ received: true }, { status: 200 })
+  } catch (error) {
+    console.error(`[webhook:${provider}] Unhandled error:`, error)
+    // Always return 200 to prevent provider retries
+    return NextResponse.json({ received: true, error: 'Internal processing error' }, { status: 200 })
+  }
+}
